@@ -5,7 +5,6 @@
   <groupId>aeroport</groupId>
   <artifactId>sgbag</artifactId>
   <version>0.0.1-SNAPSHOT</version>
-  <packaging>jar</packaging>
 
   <name>sgbag</name>
   <url>http://maven.apache.org</url>
@@ -30,6 +29,16 @@
     	<groupId>log4j</groupId>
     	<artifactId>log4j</artifactId>
     	<version>1.2.16</version>
+    </dependency>
+    <dependency>
+    	<groupId>swt</groupId>
+    	<artifactId>jface</artifactId>
+    	<version>3.0.1</version>
+    </dependency>
+    <dependency>
+    	<groupId>org.eclipse.swt.gtk.linux</groupId>
+    	<artifactId>x86</artifactId>
+    	<version>3.3.0-v3346</version>
     </dependency>
   </dependencies>
 </project>

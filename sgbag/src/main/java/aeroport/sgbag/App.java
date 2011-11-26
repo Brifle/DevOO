@@ -1,20 +1,27 @@
 package aeroport.sgbag;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.ToString;
+
+
 
 /**
  * Hello world!
  * 
  */
-public class App {
-
+@ToString
+@AllArgsConstructor
+public  class App {
+	
 	@Getter
-	@Setter
 	private String exemple;
 
 	public static void main(String[] args) {
-		System.out.println("Hello World! This is a test.");
+		App app = new App("Hello World! This is a test");
+		
+		System.out.println(app);
 
+		app.getExemple();
 	}
 }
