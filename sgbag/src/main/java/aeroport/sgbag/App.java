@@ -1,16 +1,21 @@
 package aeroport.sgbag;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
 
 /**
  * Hello world!
  * 
  */
-public class App {
-
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+public  class App {
+	
 	@Getter
-	@Setter
 	private String exemple;
 
 	public static void main(String[] args) {
