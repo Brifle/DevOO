@@ -28,7 +28,15 @@ public class AppTest extends TestCase {
 	/**
 	 * Rigourous Test :-)
 	 */
-	public void testApp() {
-		assertTrue(true);
+	public void testApp1() {
+		App app = new App("hey");
+				
+		assertEquals(app.getExemple(), "hey");
+	}
+	
+	public void testApp2() {
+		App app = new App();
+				
+		assertEquals(app.getExemple(), null);
 	}
 }
