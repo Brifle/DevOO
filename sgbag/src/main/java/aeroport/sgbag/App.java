@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-
 /**
  * Hello world!
  * 
@@ -13,13 +12,12 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public  class App {
-	
+public class App {
+
 	@Getter
 	private String exemple;
 
 	public static void main(String[] args) {
-		System.out.println("Hello World! This is a test.");
-
+		System.out.println("Hello World! This is a test. Ok.");
 	}
 }
