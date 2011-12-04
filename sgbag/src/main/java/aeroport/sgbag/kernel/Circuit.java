@@ -28,12 +28,67 @@ public class Circuit {
 
 	/**
 	 * Renvoie un chemin entre le noeud depart et le noeud arrivee.
+	 * Le premier élément de la liste renvoyée est le noeud depart.
+	 * Le dernier élément de la liste renvoyée est le noeud arrivee.
 	 * @param depart Le noeud duquel on part.
 	 * @param arrivee Le noeud auquel on souhaite arriver.
-	 * @return Renvoie le chemin 
+	 * @return Renvoie le chemin calculé. Si le noeud de départ est le même que
+	 * le noeud d'arrivée, alors la méthode renvoie null.
 	 */
-	public ArrayList<ElementCircuit> calculChemin(Noeud depart, Noeud arrivee) {
-		return null;
+	public LinkedList<ElementCircuit> calculChemin(Noeud depart, Noeud arrivee) {
+		
+		if(depart.equals(arrivee)) {
+			return null;
+		}
+		
+		//On récupère uniquement les noeuds du Circuit
+		ArrayList<Noeud> noeuds = new ArrayList<Noeud>();
+		for (int i = 0; i < elements.size(); i++) {
+			if(elements.get(i) instanceof Noeud) {
+				noeuds.add((Noeud)elements.get(i));
+			}
+		}
+		
+		//Queue de traitement
+		LinkedList<Noeud> queue = new LinkedList<Noeud>();
+		//Liste des noeuds visités associés à leur noeud antécédant
+		HashMap<Noeud, Noeud> noeudEtPrecedent = new HashMap<Noeud, Noeud>();
+		
+		//algorithme de parcours en profondeur (=Dijkstra?)
+		queue.add(depart);
+		noeudEtPrecedent.put(depart, null);
+		while(queue.size() != 0) {
+			Noeud n = queue.pop();
+			if(n.equals(arrivee)) { //On arrête le parcours en profondeur
+				break;
+			}
+			for (int i = 0; i < n.getRailsSortie().size(); i++) {
+				Noeud voisin = n.getRailsSortie().get(i).getNoeudSuivant();
+				if(!noeudEtPrecedent.containsKey(voisin)) {
+					queue.add(voisin);
+					noeudEtPrecedent.put(voisin, n);
+				}
+			}
+		}
+		
+		//Reconstruction du chemin
+		LinkedList<ElementCircuit> chemin = new LinkedList<ElementCircuit>();
+		Noeud courant = arrivee;
+		while(courant != depart) {
+			chemin.add(courant);
+			Noeud noeudPrecedent = noeudEtPrecedent.get(courant);
+			Rail railPrecedent = null;
+			for(int i=0; i<noeudPrecedent.getRailsSortie().size() && railPrecedent == null; i++) {
+				if(noeudPrecedent.getRailsSortie().get(i).getNoeudSuivant().equals(courant)) {
+					railPrecedent = noeudPrecedent.getRailsSortie().get(i);
+				}
+			}
+			chemin.add(railPrecedent);
+			courant = noeudPrecedent;
+		}
+		chemin.add(courant); //On ajoute le départ à la liste
+		
+		return chemin;
 	}
 
 }
