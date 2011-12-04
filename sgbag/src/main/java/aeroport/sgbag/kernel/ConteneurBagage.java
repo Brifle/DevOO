@@ -1,3 +1,4 @@
+package aeroport.sgbag.kernel;
 import java.util.Vector;
 
 public abstract class ConteneurBagage {

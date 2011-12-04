@@ -1,3 +1,5 @@
+package aeroport.sgbag.kernel;
+
 /*
  */
 public abstract class FileBagage extends ConteneurBagage {
