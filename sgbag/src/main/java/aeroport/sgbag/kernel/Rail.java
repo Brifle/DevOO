@@ -10,4 +10,12 @@ public class Rail extends ElementCircuit {
 	@Setter
 	private Noeud noeudSuivant;
 
+	@Getter
+	@Setter
+	private Noeud noeudPrecedent;
+
+	public Boolean update() {
+		//TODO
+		return null;
+	}
 }

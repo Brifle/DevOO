@@ -8,8 +8,15 @@ import lombok.*;
 @EqualsAndHashCode(callSuper=false) //Utilise par la classe Circuit
 public class Noeud extends ElementCircuit {
 
-	@Getter
 	@Setter
-	private ArrayList<Rail>  railsSortie;
+	@Getter
+	private LinkedList<Rail> railsSortie;
 
+	@Setter
+	@Getter
+	private LinkedList<Rail> railsEntree;
+	
+	public Boolean update(){
+		return null;
+	}
 }
