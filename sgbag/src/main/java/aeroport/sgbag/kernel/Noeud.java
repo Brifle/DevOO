@@ -7,10 +7,15 @@ import lombok.*;
 @NoArgsConstructor
 public class Noeud extends ElementCircuit {
 
+	@Setter
+	@Getter
+	private LinkedList<Rail> railsSortie;
 
 	@Setter
-	private LinkedList<Rail> railsSortie;
-	
-	@Setter
+	@Getter
 	private LinkedList<Rail> railsEntree;
+	
+	public Boolean update(){
+		return null;
+	}
 }

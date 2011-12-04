@@ -18,6 +18,4 @@ public class Rail extends ElementCircuit {
 		//TODO
 		return null;
 	}
-
-
 }
