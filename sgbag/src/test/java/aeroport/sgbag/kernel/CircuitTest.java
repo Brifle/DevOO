@@ -24,18 +24,18 @@ public class CircuitTest {
 		Rail r4 = new Rail();
 
 		Noeud n1 = new Noeud();
-		ArrayList<Rail> n1sortie = new ArrayList<>();
+		ArrayList<Rail> n1sortie = new ArrayList<Rail>();
 		n1sortie.add(r1);
 		n1sortie.add(r2);
 		n1.setRailsSortie(n1sortie);
 
 		Noeud n2 = new Noeud();
-		ArrayList<Rail> n2sortie = new ArrayList<>();
+		ArrayList<Rail> n2sortie = new ArrayList<Rail>();
 		n2sortie.add(r3);
 		n2.setRailsSortie(n2sortie);
 
 		Noeud n3 = new Noeud();
-		ArrayList<Rail> n3sortie = new ArrayList<>();
+		ArrayList<Rail> n3sortie = new ArrayList<Rail>();
 		n3sortie.add(r4);
 		n3.setRailsSortie(n3sortie);
 
@@ -46,7 +46,7 @@ public class CircuitTest {
 		r3.setNoeudSuivant(n4);
 		r4.setNoeudSuivant(n4);
 
-		simpleList = new ArrayList<>();
+		simpleList = new ArrayList<ElementCircuit>();
 		simpleList.add(r1);
 		simpleList.add(r2);
 		simpleList.add(r3);
@@ -63,7 +63,7 @@ public class CircuitTest {
 	 */
 	@Test
 	public void testUpdate() {
-		ArrayList<ElementCircuit> updateList = new ArrayList<>();
+		ArrayList<ElementCircuit> updateList = new ArrayList<ElementCircuit>();
 		updateList.add(new ElementCircuit() {
 			public Boolean update() {
 				return true;
