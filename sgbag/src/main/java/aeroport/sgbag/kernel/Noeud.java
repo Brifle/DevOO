@@ -1,14 +1,19 @@
 package aeroport.sgbag.kernel;
 
-import java.util.*;
-import lombok.*;
+import java.util.Vector;
 
-@AllArgsConstructor
-@NoArgsConstructor
+/*
+ */
 public class Noeud extends ElementCircuit {
 
-	@Getter
-	@Setter
-	private ArrayList<Rail>  railsSortie;
-
+    /**
+   * 
+   * @element-type Rail
+   */
+  private Vector  railsSortie;
+    /**
+   * 
+   * @element-type Rail
+   */
+  
 }
