@@ -1,16 +1,36 @@
 package aeroport.sgbag.kernel;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+/**
+ * Kernel class representing a bagage
+ * 
+ * @author mathieu
+ * 
+ */
+@NoArgsConstructor
 public class Bagage {
 
-	private ConteneurBagage contenuDansElem;
-	private Noeud destination;
-
-	public void setDestination(Noeud destination) {
+	public Bagage(Noeud destination) {
+		this.destination = destination;
+		position = 0;
 	}
 
-	public Integer moveTo(Integer distance) {
-		return null;
+	@Getter
+	@Setter
+	private ConteneurBagage conteneur;
+
+	@Setter
+	@Getter
+	private Noeud destination;
+
+	@Getter
+	private int position;
+
+	public void moveBy(Integer distance) {
+		position = distance;
 	}
 
 }
