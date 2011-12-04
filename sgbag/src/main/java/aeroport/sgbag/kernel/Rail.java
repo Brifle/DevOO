@@ -1,8 +1,9 @@
 package aeroport.sgbag.kernel;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rail extends ElementCircuit {
 
 	@Getter
@@ -17,5 +18,6 @@ public class Rail extends ElementCircuit {
 		//TODO
 		return null;
 	}
+
 
 }
