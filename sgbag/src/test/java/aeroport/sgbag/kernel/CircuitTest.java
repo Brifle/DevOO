@@ -2,10 +2,9 @@ package aeroport.sgbag.kernel;
 
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * Test de la classe Circuit
@@ -24,18 +23,18 @@ public class CircuitTest {
 		Rail r4 = new Rail();
 
 		Noeud n1 = new Noeud();
-		ArrayList<Rail> n1sortie = new ArrayList<Rail>();
+		LinkedList<Rail> n1sortie = new LinkedList<Rail>();
 		n1sortie.add(r1);
 		n1sortie.add(r2);
 		n1.setRailsSortie(n1sortie);
 
 		Noeud n2 = new Noeud();
-		ArrayList<Rail> n2sortie = new ArrayList<Rail>();
+		LinkedList<Rail> n2sortie = new LinkedList<Rail>();
 		n2sortie.add(r3);
 		n2.setRailsSortie(n2sortie);
 
 		Noeud n3 = new Noeud();
-		ArrayList<Rail> n3sortie = new ArrayList<Rail>();
+		LinkedList<Rail> n3sortie = new LinkedList<Rail>();
 		n3sortie.add(r4);
 		n3.setRailsSortie(n3sortie);
 
