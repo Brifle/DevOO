@@ -1,7 +1,13 @@
 package aeroport.sgbag.kernel;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class Rail extends ElementCircuit {
 
-      private Noeud noeudSuivant;
+	@Getter
+	@Setter
+	private Noeud noeudSuivant;
 
 }
