@@ -7,7 +7,8 @@ public class VueHall extends Canvas implements Viewable {
 
 	private HashMap<Integer, LinkedList<VueElem>> calques;
 
-	public VueHall() {
+	public VueHall(Composite parent, int style) {
+		super(parent, style);
 		calques = new HashMap<Integer, LinkedList<VueElem>>();
 	}
 
