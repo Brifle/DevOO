@@ -101,4 +101,8 @@ public class Chariot {
 	public void setLength(int len){
 		halfLength = len/2;
 	}
+	
+	public int getRearPosition(){
+		return (position - halfLength);
+	}
 }
