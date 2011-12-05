@@ -19,28 +19,28 @@ public abstract class VueElem implements Viewable {
 
 	@Getter
 	@Setter
-	private Canvas parent;
-	
-	@Getter
-	@Setter
-	private int x;
-
-	@Getter
-	@Setter
-	private int y;
-
-	@Getter
-	@Setter
-	private int width;
-
-	@Getter
-	@Setter
-	private int height;
-	
-	@Getter
-	@Setter
 	@NonNull
-	private Image image;
+	protected Canvas parent;
+	
+	@Getter
+	@Setter
+	protected int x;
+
+	@Getter
+	@Setter
+	protected int y;
+
+	@Getter
+	@Setter
+	protected int width;
+
+	@Getter
+	@Setter
+	protected int height;
+	
+	@Getter
+	@Setter
+	protected Image image;
 
 	/**
 	 * @see aeroport.sgbag.views.Viewable#updateView()
