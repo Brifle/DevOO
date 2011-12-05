@@ -17,18 +17,18 @@ public class ConnexionCircuit extends Noeud {
     			if(this.fileBagage instanceof TapisRoulant){
     				if(((TapisRoulant)fileBagage).hasReadyBagage()){
     					this.getListeChariot().getFirst().setBagage(((TapisRoulant)fileBagage).getBagageIfReady());
-    					//TODO moveToNextRail();
+    					moveToNextRail();
     				}   				
     			}
     			else{//Type toboggan
     				this.getListeChariot().getFirst().moveBagageToFile(fileBagage);
-    				//TODO moveToNextRail();
+    				moveToNextRail();
     			}
     		}else{
-    			//TODO moveToNextRail();
+    			moveToNextRail();
     		}  			
     	}
-    	return null;
+    	return true;
     }
 
 }
