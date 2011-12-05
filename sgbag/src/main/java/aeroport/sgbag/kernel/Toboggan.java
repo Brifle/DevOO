@@ -2,6 +2,8 @@ package aeroport.sgbag.kernel;
 
 import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 public class Toboggan extends FileBagage {
 
 	@Getter
