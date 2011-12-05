@@ -4,7 +4,6 @@ import java.util.*;
 import lombok.*;
 
 @AllArgsConstructor
-@NoArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 // Utilise par la classe Circuit
 public class Noeud extends ElementCircuit {
@@ -17,9 +16,23 @@ public class Noeud extends ElementCircuit {
 	@Getter
 	private LinkedList<Rail> railsEntree;
 
+	private int ticksToUpdate = 0;
+
+	public Noeud() {
+		super();
+		railsEntree = new LinkedList<Rail>();
+		railsSortie = new LinkedList<Rail>();
+	}
+
 	public Boolean update() {
-		// TODO
-		return null;
+		if (++ticksToUpdate >= 10) {
+			ticksToUpdate = 0;
+			if (hasChariot()) {
+				return moveToNextRail();
+			}
+		}
+
+		return true;
 	}
 
 	public Boolean moveToNextRail() {
@@ -40,10 +53,19 @@ public class Noeud extends ElementCircuit {
 	}
 
 	public Boolean registerChariot(Chariot c) {
-		if (!hasChariot()){
+		if (!hasChariot()) { // S'il n'y a pas de chariot sur le noeud on peut
+								// l'ajouter
 			return super.registerChariot(c);
 		}
 
 		return false;
+	}
+
+	public void addRailEntree(Rail r) {
+		railsEntree.add(r);
+	}
+
+	public void addRailSortie(Rail r) {
+		railsSortie.add(r);
 	}
 }
