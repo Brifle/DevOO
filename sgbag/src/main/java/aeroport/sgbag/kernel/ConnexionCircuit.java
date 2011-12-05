@@ -28,7 +28,7 @@ public class ConnexionCircuit extends Noeud {
     			//TODO moveToNextRail();
     		}  			
     	}
-    	return null;
+    	return true;
     }
 
 }
