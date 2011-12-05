@@ -75,7 +75,7 @@ public class Circuit {
 		LinkedList<ElementCircuit> chemin = new LinkedList<ElementCircuit>();
 		Noeud courant = arrivee;
 		while(courant != depart) {
-			chemin.add(courant);
+			chemin.addFirst(courant);
 			Noeud noeudPrecedent = noeudEtPrecedent.get(courant);
 			Rail railPrecedent = null;
 			for(int i=0; i<noeudPrecedent.getRailsSortie().size() && railPrecedent == null; i++) {
@@ -83,10 +83,10 @@ public class Circuit {
 					railPrecedent = noeudPrecedent.getRailsSortie().get(i);
 				}
 			}
-			chemin.add(railPrecedent);
+			chemin.addFirst(railPrecedent);
 			courant = noeudPrecedent;
 		}
-		chemin.add(courant); //On ajoute le départ à la liste
+		chemin.addFirst(courant); //On ajoute le départ à la liste
 		
 		return chemin;
 	}
