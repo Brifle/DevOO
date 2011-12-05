@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-public class Chariot extends ConteneurBagage {
+public class Chariot{
 
 	@Getter
 	@Setter
@@ -27,6 +27,8 @@ public class Chariot extends ConteneurBagage {
 	@Setter
 	private Noeud destination;
 
+	@Getter
+	@Setter
 	private Bagage bagage;
 
 	@Getter
