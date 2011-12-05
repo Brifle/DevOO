@@ -1,10 +1,7 @@
 package aeroport.sgbag.kernel;
 
-import java.util.ArrayList;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.*;
+import lombok.*;
 
 
 @NoArgsConstructor
@@ -14,18 +11,22 @@ public abstract class FileBagage {
 	@Setter
 	private ConnexionCircuit connexionCircuit;
 	
-    protected ArrayList<Bagage> listBagages = new ArrayList<Bagage>();
+    protected LinkedList<Bagage> listBagages = new LinkedList<Bagage>();
     
     public void addBagage(Bagage b){
-    	this.listBagages.add(b);
+    	listBagages.add(b);
+    }
+    
+    public Bagage popBagage() {
+    	return listBagages.pop();
     }
     
     public boolean removeBagage(Bagage b){
-    	return this.listBagages.remove(b);
+    	return listBagages.remove(b);
     }
     
     public Bagage removeBagage(int indice){
-    	return this.listBagages.remove(indice);
+    	return listBagages.remove(indice);
     }
   
 }

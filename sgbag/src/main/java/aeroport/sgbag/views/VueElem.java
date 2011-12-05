@@ -4,8 +4,6 @@
 package aeroport.sgbag.views;
 
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.widgets.Canvas;
-
 import lombok.*;
 
 /**

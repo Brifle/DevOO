@@ -16,6 +16,7 @@ public class Noeud extends ElementCircuit {
 	@Getter
 	private LinkedList<Rail> railsEntree;
 
+	private final int tickThresholdToUpdate = 10;
 	private int ticksToUpdate = 0;
 
 	public Noeud() {
@@ -25,7 +26,7 @@ public class Noeud extends ElementCircuit {
 	}
 
 	public Boolean update() {
-		if (++ticksToUpdate >= 10) {
+		if (++ticksToUpdate >= tickThresholdToUpdate) {
 			ticksToUpdate = 0;
 			if (hasChariot()) {
 				return moveToNextRail();
@@ -41,11 +42,13 @@ public class Noeud extends ElementCircuit {
 
 		Rail prochainRail = chariot.getNextRail();
 
-		if (!railsSortie.contains(prochainRail))
+		if (!railsSortie.contains(prochainRail)) {
 			return false;
+		}
 
-		if (!prochainRail.registerChariot(chariot))
+		if (!prochainRail.registerChariot(chariot)) {
 			return false;
+		}
 
 		unregisterChariot();
 
