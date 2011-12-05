@@ -18,10 +18,6 @@ public class Bagage {
 		position = 0;
 	}
 
-	@Getter
-	@Setter
-	private ConteneurBagage conteneur;
-
 	@Setter
 	@Getter
 	private Noeud destination;
