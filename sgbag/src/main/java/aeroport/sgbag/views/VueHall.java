@@ -1,5 +1,7 @@
 package aeroport.sgbag.views;
 
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.*;
 import java.util.*;
 
@@ -7,6 +9,12 @@ import lombok.*;
 
 public class VueHall extends Canvas implements Viewable {
 
+	private Image buffer;
+	
+	@Getter
+	@Setter
+	private GC gcBuffer;
+	
 	@Getter
 	private HashMap<Integer, LinkedList<VueElem>> calques;
 
@@ -47,8 +55,22 @@ public class VueHall extends Canvas implements Viewable {
 	}
 
 	public void draw() {
-		// TODO Auto-generated method stub
-
+		buffer = new Image(this.getDisplay(), this.getBounds());
+		gcBuffer = new GC(buffer);
+		
+		// Draw all the views ordered by the layers :
+		for (Iterator<Integer> iterator = calques.keySet().iterator(); iterator.hasNext();) {
+			LinkedList<VueElem> vues = calques.get(iterator.next());
+			for (int j = 0; j < vues.size(); j++) {
+				vues.get(j).draw();
+			}
+		}
+		
+		// Draw the resulting image :
+		this.setBackgroundImage(buffer);
+		
+		gcBuffer.dispose();
+		buffer.dispose();
 	}
 	
 	public boolean isClicked() {
