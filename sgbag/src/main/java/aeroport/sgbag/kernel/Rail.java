@@ -4,7 +4,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper = false)
 public class Rail extends ElementCircuit {
 
 	@Getter
@@ -15,8 +15,12 @@ public class Rail extends ElementCircuit {
 	@Setter
 	private Noeud noeudPrecedent;
 
+	@Getter
+	@Setter
+	private int length;
+
 	public Boolean update() {
-		//TODO
+		// TODO
 		return null;
 	}
 }

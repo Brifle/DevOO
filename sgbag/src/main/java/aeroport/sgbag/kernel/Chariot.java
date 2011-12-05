@@ -82,15 +82,6 @@ public class Chariot extends ConteneurBagage {
 		return false;
 	}
 
-	public Boolean moveBy(Integer distance) {
-		// TODO:
-		return null;
-	}
-
-	public Boolean moveTo(Integer distance) {
-		// TODO:
-		return null;
-	}
 
 	public Boolean update() {
 		// TODO:
