@@ -1,14 +1,19 @@
 package aeroport.sgbag.kernel;
 
-import java.util.Vector;
+import java.util.*;
 
+import lombok.*;
+
+@AllArgsConstructor
+@NoArgsConstructor
 public class Hall {
 
-    private Circuit circuit;
-    /**
-   * 
-   * @element-type Bagage
-   */
-  private Vector  bagagesList;
+	@Getter
+	@Setter
+	private Circuit circuit;
+
+	@Getter
+	@Setter
+	private ArrayList<Bagage>  bagagesList;
 
 }
