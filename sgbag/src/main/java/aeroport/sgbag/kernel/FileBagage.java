@@ -2,12 +2,18 @@ package aeroport.sgbag.kernel;
 
 import java.util.ArrayList;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 @NoArgsConstructor
 public abstract class FileBagage {
     
+	@Getter
+	@Setter
+	private ConnexionCircuit connexionCircuit;
+	
     protected ArrayList<Bagage> listBagages = new ArrayList<Bagage>();
     
     public void addBagage(Bagage b){
