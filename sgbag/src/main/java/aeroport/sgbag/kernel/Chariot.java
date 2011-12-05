@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
-public class Chariot{
+public class Chariot {
 
 	@Getter
 	@Setter
@@ -17,7 +17,7 @@ public class Chariot{
 	@Setter
 	private int maxMoveDistance;
 
-	private int length;
+	private int halfLength;
 
 	@Getter
 	@Setter
@@ -37,7 +37,8 @@ public class Chariot{
 
 	public Chariot(ElementCircuit parent, int maxMoveDistance,
 			Noeud destination, LinkedList<ElementCircuit> cheminPrevu) {
-		this(parent, maxMoveDistance, 50, maxMoveDistance, destination, null, cheminPrevu);
+		this(parent, maxMoveDistance, 50, maxMoveDistance, destination, null,
+				cheminPrevu);
 	}
 
 	public Chariot(ElementCircuit parent, int maxMoveDistance, int length,
@@ -46,7 +47,7 @@ public class Chariot{
 		super();
 		this.parent = parent;
 		this.maxMoveDistance = maxMoveDistance;
-		this.length = length;
+		this.halfLength = length;
 		this.position = position;
 		this.destination = destination;
 		this.bagage = bagage;
@@ -78,16 +79,22 @@ public class Chariot{
 	}
 
 	public Boolean isColliding(Chariot chariotSuivant) {
-		if (position + length > chariotSuivant.position - chariotSuivant.length)
+		if (position + halfLength > chariotSuivant.position
+				- chariotSuivant.halfLength)
 			return true;
 
 		return false;
 	}
 
+	public Boolean willCollide(int newPosition, Chariot chariotSuivant) {
+		if (newPosition + halfLength > chariotSuivant.position
+				- chariotSuivant.halfLength)
+			return true;
 
-	public Boolean update() {
-		// TODO:
-		return null;
+		return false;
 	}
 
+	public int getLength() {
+		return halfLength * 2;
+	}
 }

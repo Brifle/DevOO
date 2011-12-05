@@ -3,8 +3,11 @@ package aeroport.sgbag.views;
 import org.eclipse.swt.widgets.*;
 import java.util.*;
 
+import lombok.*;
+
 public class VueHall extends Canvas implements Viewable {
 
+	@Getter
 	private HashMap<Integer, LinkedList<VueElem>> calques;
 
 	public VueHall(Composite parent, int style) {
@@ -21,6 +24,9 @@ public class VueHall extends Canvas implements Viewable {
 			elementOfLayer = calques.get(layer);
 		}
 		elementOfLayer.add(vue);
+		if(vue.getParent() == null) {
+			vue.setParent(this);
+		}
 	}
 
 	public void retirerVue(VueElem vue) {

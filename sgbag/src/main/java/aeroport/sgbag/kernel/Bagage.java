@@ -15,7 +15,6 @@ public class Bagage {
 
 	public Bagage(Noeud destination) {
 		this.destination = destination;
-		position = 0;
 	}
 
 	@Setter
@@ -23,10 +22,10 @@ public class Bagage {
 	private Noeud destination;
 
 	@Getter
-	private int position;
+	private int position = 0;
 
 	public void moveBy(Integer distance) {
-		position = distance;
+		position += distance;
 	}
 
 }
