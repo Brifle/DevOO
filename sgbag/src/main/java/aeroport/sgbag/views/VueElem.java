@@ -3,6 +3,8 @@
  */
 package aeroport.sgbag.views;
 
+import org.eclipse.swt.widgets.Canvas;
+
 import lombok.*;
 
 /**
@@ -11,6 +13,10 @@ import lombok.*;
  */
 public abstract class VueElem implements Viewable {
 
+	@Getter
+	@Setter
+	private Canvas parent;
+	
 	@Getter
 	@Setter
 	private int x;
@@ -28,9 +34,9 @@ public abstract class VueElem implements Viewable {
 	private int height;
 
 	/**
-	 * @see aeroport.sgbag.views.Viewable#update()
+	 * @see aeroport.sgbag.views.Viewable#updateView()
 	 */
-	public abstract void update();
+	public abstract void updateView();
 
 	/**
 	 * @see aeroport.sgbag.views.Viewable#draw()

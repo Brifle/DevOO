@@ -2,12 +2,14 @@ package aeroport.sgbag.kernel;
 
 import java.util.LinkedList;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
+@EqualsAndHashCode
 public abstract class ElementCircuit {
 
 	@Getter
-	private LinkedList<Chariot> listeChariot;
+	protected LinkedList<Chariot> listeChariot;
 
 	public abstract Boolean update();
 
