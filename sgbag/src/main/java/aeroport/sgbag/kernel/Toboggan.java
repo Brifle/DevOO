@@ -1,7 +1,6 @@
 package aeroport.sgbag.kernel;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 public class Toboggan extends FileBagage {
 
@@ -16,21 +15,16 @@ public class Toboggan extends FileBagage {
 	private boolean autoDeleteBagages = true;
 
 	public boolean update() {
-		if (autoDeleteBagages) {
-			if (!this.listBagages.isEmpty()) {
-				if (remainingNbTics > 0)
-					remainingNbTics--;
-
-				if (remainingNbTics == 0) {
-					this.listBagages.remove(0);
-					remainingNbTics = nbTicsBagagesRemains;
-				}
+		if (autoDeleteBagages && !this.listBagages.isEmpty()) {
+			if (remainingNbTics > 0) {
+				remainingNbTics--;
 			}
 
-			return true;
-		} else {
-			return false;
+			if (remainingNbTics == 0) {
+				this.listBagages.remove(0);
+				remainingNbTics = nbTicsBagagesRemains;
+			}
 		}
-
+		return autoDeleteBagages;
 	}
 }
