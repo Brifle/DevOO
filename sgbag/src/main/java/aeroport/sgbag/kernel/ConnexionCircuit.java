@@ -15,10 +15,10 @@ public class ConnexionCircuit extends Noeud {
     	if( this.hasChariot() ){
     		if( this.getListeChariot().getFirst().getDestination() == this){
     			if(this.fileBagage instanceof TapisRoulant){
-    				//if((TapisRoulant)fileBagage.hasReadyBagage()){ TODO
-    					this.getListeChariot().getFirst().addBagage(null);//(TapisRoulant)fileBagage.getBagageIfReady() TOChange
+    				if(((TapisRoulant)fileBagage).hasReadyBagage()){
+    					this.getListeChariot().getFirst().setBagage(((TapisRoulant)fileBagage).getBagageIfReady());
     					//TODO moveToNextRail();
-    				//}   				
+    				}   				
     			}
     			else{//Type toboggan
     				this.getListeChariot().getFirst().moveBagageToFile(fileBagage);
