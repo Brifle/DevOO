@@ -20,7 +20,7 @@ public abstract class VueElem implements Viewable {
 	@Getter
 	@Setter
 	@NonNull
-	protected Canvas parent;
+	protected VueHall parent;
 	
 	@Getter
 	@Setter
