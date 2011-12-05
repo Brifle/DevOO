@@ -1,10 +1,7 @@
 package aeroport.sgbag.kernel;
 
-import java.util.LinkedList;
-
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import java.util.*;
+import lombok.*;
 
 @EqualsAndHashCode
 public abstract class ElementCircuit {
