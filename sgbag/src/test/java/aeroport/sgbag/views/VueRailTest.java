@@ -5,6 +5,8 @@ package aeroport.sgbag.views;
 
 import static org.junit.Assert.*;
 
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -14,12 +16,17 @@ import org.junit.Test;
  *
  */
 public class VueRailTest {
+	
+	private VueRail vueRail;
+	private VueHall vueHall;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
+		vueHall = new VueHall(new Shell(new Display()), 0);
+		vueRail = new VueRail(vueHall);
 	}
 
 	/**
@@ -27,6 +34,8 @@ public class VueRailTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
+		vueRail = null;
+		vueHall = null;
 	}
 
 	/**
