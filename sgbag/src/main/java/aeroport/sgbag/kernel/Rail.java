@@ -1,6 +1,5 @@
 package aeroport.sgbag.kernel;
 
-import java.util.Collections;
 import java.util.Iterator;
 
 import lombok.*;
