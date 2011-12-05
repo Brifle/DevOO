@@ -9,7 +9,7 @@ public interface Viewable {
 	/**
 	 * Updates the view regarding to the kernel object properties.
 	 */
-	public void update();
+	public void updateView();
 
 	/**
 	 * Draws the object on the screen.

@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * @author arnaud
+ * @author Arnaud Lahache
  *
  */
 public class VueRailTest {
@@ -30,10 +30,10 @@ public class VueRailTest {
 	}
 
 	/**
-	 * Test method for {@link aeroport.sgbag.views.VueRail#update()}.
+	 * Test method for {@link aeroport.sgbag.views.VueRail#updateView()}.
 	 */
 	@Test
-	public void testUpdate() {
+	public void testUpdateView() {
 		fail("Not yet implemented");
 	}
 

@@ -10,10 +10,10 @@ package aeroport.sgbag.views;
 public class VueRail extends VueElem {
 
 	/**
-	 * @see aeroport.sgbag.views.VueElem#update()
+	 * @see aeroport.sgbag.views.VueElem#updateView()
 	 */
 	@Override
-	public void update() {
+	public void updateView() {
 		// TODO implémentation méthode update
 
 	}

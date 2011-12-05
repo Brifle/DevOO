@@ -28,9 +28,9 @@ public abstract class VueElem implements Viewable {
 	private int height;
 
 	/**
-	 * @see aeroport.sgbag.views.Viewable#update()
+	 * @see aeroport.sgbag.views.Viewable#updateView()
 	 */
-	public abstract void update();
+	public abstract void updateView();
 
 	/**
 	 * @see aeroport.sgbag.views.Viewable#draw()

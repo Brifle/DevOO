@@ -36,19 +36,15 @@ public class VueHall extends Canvas implements Viewable {
 		}
 	}
 
-	@Override
-	public void update() {
+	public void updateView() {
 		// TODO Auto-generated method stub
-
 	}
 
-	@Override
 	public void draw() {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
+	
 	public boolean isClicked() {
 		// TODO Auto-generated method stub
 		return false;
