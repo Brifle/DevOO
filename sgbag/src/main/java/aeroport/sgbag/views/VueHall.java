@@ -24,7 +24,9 @@ public class VueHall extends Canvas implements Viewable {
 			elementOfLayer = calques.get(layer);
 		}
 		elementOfLayer.add(vue);
-		vue.setParent(this);
+		if(vue.getParent() == null) {
+			vue.setParent(this);
+		}
 	}
 
 	public void retirerVue(VueElem vue) {

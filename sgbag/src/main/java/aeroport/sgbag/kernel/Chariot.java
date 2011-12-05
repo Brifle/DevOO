@@ -97,4 +97,8 @@ public class Chariot {
 	public int getLength() {
 		return halfLength * 2;
 	}
+	
+	public void setLength(int len){
+		halfLength = len/2;
+	}
 }
