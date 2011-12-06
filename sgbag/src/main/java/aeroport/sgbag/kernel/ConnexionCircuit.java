@@ -10,9 +10,9 @@ public class ConnexionCircuit extends Noeud {
 	@Getter
 	@Setter
 	private FileBagage fileBagage;
-
+	
 	public Boolean update() {
-		if(hasChariot()) {
+		if(hasChariot() && ++ticksToUpdate >= tickThresholdToUpdate) {
 			if(getListeChariot().getFirst().getDestination() == this) { //Chariot arrivé à destination
 				if(fileBagage instanceof TapisRoulant) {
 					if(((TapisRoulant)fileBagage).hasReadyBagage()) {
@@ -27,6 +27,8 @@ public class ConnexionCircuit extends Noeud {
 			} else {
 				moveToNextRail();
 			}  			
+		} else if(!hasChariot()){
+			ticksToUpdate = 0;
 		}
 		return true;
 	}

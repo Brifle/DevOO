@@ -16,8 +16,8 @@ public class Noeud extends ElementCircuit {
 	@Getter
 	private LinkedList<Rail> railsSortie;
 
-	private final int tickThresholdToUpdate = 10;
-	private int ticksToUpdate = 0;
+	protected final int tickThresholdToUpdate = 10;
+	protected int ticksToUpdate = 0;
 
 	public Noeud() {
 		super();
