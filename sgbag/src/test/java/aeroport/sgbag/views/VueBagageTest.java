@@ -35,7 +35,7 @@ public class VueBagageTest {
 		shell = new Shell(display);
 		shell.setText("VueRailTest");
 		shell.setLayout(new FillLayout());
-		shell.setSize(300, 300);
+		shell.setSize(400, 400);
 		vueHall = new VueHall(shell, SWT.NONE);
 		vueHall.setSize(300, 300);
 		vueBagage = new VueBagage(vueHall);
@@ -67,9 +67,9 @@ public class VueBagageTest {
 	public void testDraw() throws InterruptedException {
 		Bagage bagage = new Bagage();
 		vueBagage.setBagage(bagage);
-		vueBagage.setAngle(90);
-		vueBagage.setX(30);
-		vueBagage.setY(30);
+		vueBagage.setAngle(-45);
+		vueBagage.setX(150);
+		vueBagage.setY(150);
 		vueHall.ajouterVue(vueBagage, 0);
 
 		shell.open();
