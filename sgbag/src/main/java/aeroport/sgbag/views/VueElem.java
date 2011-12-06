@@ -38,7 +38,7 @@ public abstract class VueElem implements Viewable {
 
 	@Getter
 	@Setter
-	private float angle = 0;
+	protected float angle = 0;
 	
 	@Getter
 	@Setter

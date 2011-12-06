@@ -12,16 +12,11 @@ public class Noeud extends ElementCircuit {
 	@Getter
 	private LinkedList<Rail> railsSortie;
 
-	@Setter
-	@Getter
-	private LinkedList<Rail> railsEntree;
-
 	private final int tickThresholdToUpdate = 10;
 	private int ticksToUpdate = 0;
 
 	public Noeud() {
 		super();
-		railsEntree = new LinkedList<Rail>();
 		railsSortie = new LinkedList<Rail>();
 	}
 
@@ -62,10 +57,6 @@ public class Noeud extends ElementCircuit {
 		}
 
 		return false;
-	}
-
-	public void addRailEntree(Rail r) {
-		railsEntree.add(r);
 	}
 
 	public void addRailSortie(Rail r) {
