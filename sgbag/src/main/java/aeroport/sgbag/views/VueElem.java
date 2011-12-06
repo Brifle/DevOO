@@ -35,6 +35,10 @@ public abstract class VueElem implements Viewable {
 	@Getter
 	@Setter
 	protected int height;
+
+	@Getter
+	@Setter
+	private float angle = 0;
 	
 	@Getter
 	@Setter
