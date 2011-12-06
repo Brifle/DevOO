@@ -1,18 +1,13 @@
 package aeroport.sgbag.kernel;
 
 import java.util.*;
-import org.apache.log4j.*;
 import lombok.*;
+import lombok.extern.log4j.*;
 
 @NoArgsConstructor
-@ToString
+@ToString(exclude={"maxMoveDistance","halfLength", "cheminPrevu"})
+@Log4j
 public class Chariot {
-	
-	static Logger log = Logger.getLogger(Chariot.class);
-
-	@Getter
-	@Setter
-	private ElementCircuit parent;
 
 	@Getter
 	@Setter
@@ -36,33 +31,33 @@ public class Chariot {
 	@Setter
 	private LinkedList<ElementCircuit> cheminPrevu;
 
-	public Chariot(ElementCircuit parent, int maxMoveDistance,
+	public Chariot(int maxMoveDistance,
 			Noeud destination, LinkedList<ElementCircuit> cheminPrevu) {
-		this(parent, maxMoveDistance, 50, maxMoveDistance, destination, null,
+		this(maxMoveDistance, 50, maxMoveDistance, destination, null,
 				cheminPrevu);
 	}
 
-	public Chariot(ElementCircuit parent, int maxMoveDistance, int length,
+	public Chariot(int maxMoveDistance, int length,
 			int position, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
 		super();
-		this.parent = parent;
 		this.maxMoveDistance = maxMoveDistance;
 		this.halfLength = length;
 		this.position = position;
 		this.destination = destination;
 		this.bagage = bagage;
 		this.cheminPrevu = cheminPrevu;
-		log.trace("Création du chariot " + this);
+		log.debug("Création du chariot " + this);
 	}
 
 	public Rail getNextRail() {
+		log.trace("recherche du prochain rail " + cheminPrevu);
 		if(cheminPrevu == null 
-				|| cheminPrevu.size() == 0
-				|| cheminPrevu.getFirst().equals(parent)) {
+				|| cheminPrevu.size() == 0) {
 			return null;
 		}
-		ElementCircuit nextElemC = cheminPrevu.getFirst();
+		
+		ElementCircuit nextElemC = cheminPrevu.pop();
 
 		if (nextElemC instanceof Rail)
 			return (Rail) nextElemC;
