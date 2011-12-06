@@ -35,7 +35,7 @@ public class VueRailTest {
 		shell = new Shell(display);
 		shell.setText("VueRailTest");
 		shell.setLayout(new FillLayout());
-		shell.setSize(300, 300);
+		shell.setSize(400, 400);
 		vueHall = new VueHall(shell, SWT.NONE);
 		vueHall.setSize(300, 300);
 		vueRail = new VueRail(vueHall);
@@ -66,11 +66,11 @@ public class VueRailTest {
 	@Test
 	public void testDraw() throws InterruptedException {
 		Rail rail = new Rail();
-		rail.setLength(150);
 		vueRail.setRail(rail);
-		vueRail.setAngle(0);
-		vueRail.setX(30);
-		vueRail.setY(30);
+		vueRail.setAngle(-45);
+		vueRail.setX(150);
+		vueRail.setY(150);
+		vueRail.setWidth(100);
 		vueHall.ajouterVue(vueRail, 0);
 
 		shell.open();
