@@ -51,7 +51,13 @@ public class VueHall extends Canvas implements Viewable {
 	}
 
 	public void updateView() {
-		// TODO Auto-generated method stub
+		// Update all the views, ordered by the layers
+		for (Iterator<Integer> iterator = calques.keySet().iterator(); iterator.hasNext();) {
+			LinkedList<VueElem> vues = calques.get(iterator.next());
+			for (int j = 0; j < vues.size(); j++) {
+				vues.get(j).updateView();
+			}
+		}
 	}
 
 	public void draw() {
