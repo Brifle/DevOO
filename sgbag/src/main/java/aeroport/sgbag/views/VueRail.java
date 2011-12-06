@@ -24,10 +24,6 @@ public class VueRail extends VueElem {
 	@Getter
 	@Setter
 	private Rail rail;
-	
-	@Getter
-	@Setter
-	private float angle = 0;
 
 	public VueRail(VueHall parent) {
 		super(parent);
@@ -57,7 +53,7 @@ public class VueRail extends VueElem {
 		
 		// We create a transform in order to rotate the image :
 		Transform trImage = new Transform(parent.getDisplay());
-		trImage.rotate(angle);
+		trImage.rotate(getAngle());
 		gcImage.setTransform(trImage);
 		
 		// Now we're going to draw the expanded image :
