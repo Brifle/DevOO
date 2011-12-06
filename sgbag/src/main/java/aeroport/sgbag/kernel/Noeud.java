@@ -1,16 +1,12 @@
 package aeroport.sgbag.kernel;
 
 import java.util.*;
-import org.apache.log4j.*;
 import lombok.*;
+import lombok.extern.log4j.*;
 
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-// Utilise par la classe Circuit
-@ToString
+@Log4j
 public class Noeud extends ElementCircuit {
-	
-	static Logger log = Logger.getLogger(Noeud.class);
 
 	@Setter
 	@Getter
@@ -25,6 +21,7 @@ public class Noeud extends ElementCircuit {
 	}
 
 	public Boolean update() {
+		log.trace("Update du noeud " + this + " temps restant : " + (tickThresholdToUpdate-ticksToUpdate));
 		if (hasChariot() && ++ticksToUpdate >= tickThresholdToUpdate) {
 			ticksToUpdate = 0;
 			return moveToNextRail();
@@ -36,7 +33,6 @@ public class Noeud extends ElementCircuit {
 	}
 
 	public Boolean moveToNextRail() {
-
 		Chariot chariot = listeChariot.getLast();
 
 		Rail prochainRail = chariot.getNextRail();
@@ -51,7 +47,7 @@ public class Noeud extends ElementCircuit {
 				return false;
 			}
 
-			log.debug("Le chariot " + chariot + " sort du noeud " + this);
+			log.debug("Le chariot sort du noeud " + this + " par le rail " + prochainRail);
 			unregisterChariot();
 		}
 
@@ -61,7 +57,7 @@ public class Noeud extends ElementCircuit {
 	public Boolean registerChariot(Chariot c) {
 		if (!hasChariot()) { // S'il n'y a pas de chariot sur le noeud on peut
 								// l'ajouter
-			log.debug("Le chariot " + c + " arrive dans le noeud " + this);
+			log.debug("Entrée dans le noeud " + this + " du chariot " + c);
 			return super.registerChariot(c);
 		}
 
