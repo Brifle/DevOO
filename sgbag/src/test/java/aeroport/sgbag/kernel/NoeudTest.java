@@ -10,7 +10,6 @@ public class NoeudTest {
 
 	@Test
 	public void testMoveToNextRail() {
-		Rail r1 = new Rail();
 		Rail r2 = new Rail();
 		Rail r3 = new Rail();
 		Noeud n = new Noeud();
@@ -20,8 +19,6 @@ public class NoeudTest {
 		cheminPrevu.add(r3);
 		c.setCheminPrevu(cheminPrevu);
 
-		// Entrée
-		n.addRailEntree(r1);
 		// Sortie
 		n.addRailSortie(r2);
 		n.addRailSortie(r3);
@@ -36,7 +33,6 @@ public class NoeudTest {
 
 	@Test
 	public void testUpdate() {
-		Rail r1 = new Rail();
 		Rail r2 = new Rail();
 		Rail r3 = new Rail();
 		Noeud n = new Noeud();
@@ -46,8 +42,6 @@ public class NoeudTest {
 		cheminPrevu.add(r3);
 		c.setCheminPrevu(cheminPrevu);
 
-		// Entrée
-		n.addRailEntree(r1);
 		// Sortie
 		n.addRailSortie(r2);
 		n.addRailSortie(r3);
