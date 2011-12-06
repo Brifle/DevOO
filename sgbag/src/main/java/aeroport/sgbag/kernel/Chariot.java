@@ -1,12 +1,10 @@
 package aeroport.sgbag.kernel;
 
-import java.util.LinkedList;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.*;
+import lombok.*;
 
 @NoArgsConstructor
+@ToString
 public class Chariot {
 
 	@Getter
@@ -55,6 +53,11 @@ public class Chariot {
 	}
 
 	public Rail getNextRail() {
+		if(cheminPrevu == null 
+				|| cheminPrevu.size() == 0
+				|| cheminPrevu.getFirst().equals(parent)) {
+			return null;
+		}
 		ElementCircuit nextElemC = cheminPrevu.getFirst();
 
 		if (nextElemC instanceof Rail)
