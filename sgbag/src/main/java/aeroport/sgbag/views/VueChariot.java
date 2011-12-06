@@ -37,7 +37,7 @@ public class VueChariot extends VueElem {
 
 		// draw the chariot on the rail
 		gc.drawImage(this.image, 0, 0, rect.width, rect.height, 0,
-				chariot.getLength(), chariot.getLength(),
+				chariot.getPosition(), chariot.getLength(),
 				rect.height * chariot.getLength() / rect.width);
 
 		if (!chariot.isEmpty()) {
