@@ -23,7 +23,7 @@ public class TapisRoulant extends FileBagage {
 	@Setter
 	private boolean autoBagageGeneration = true;
 
-	public Boolean hasReadyBagage() {
+	public boolean hasReadyBagage() {
 		for (Bagage b : this.listBagages) {
 			if (b.getPosition() == this.length) {
 				return true;
@@ -33,7 +33,7 @@ public class TapisRoulant extends FileBagage {
 		return false;
 	}
 
-	public Boolean update() {
+	public boolean update() {
 		if (!hasReadyBagage()) {
 			if (!this.listBagages.isEmpty()) {
 				int delta = this.length - this.listBagages.get(0).getPosition();
