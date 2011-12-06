@@ -1,12 +1,10 @@
 package aeroport.sgbag.kernel;
 
-import java.util.LinkedList;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import java.util.*;
+import lombok.*;
 
 @NoArgsConstructor
+@ToString
 public class Chariot {
 
 	@Getter

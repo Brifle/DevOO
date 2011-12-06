@@ -6,6 +6,7 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 // Utilise par la classe Circuit
+@ToString
 public class Noeud extends ElementCircuit {
 
 	@Setter
