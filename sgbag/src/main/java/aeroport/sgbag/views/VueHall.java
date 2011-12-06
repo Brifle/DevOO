@@ -70,7 +70,6 @@ public class VueHall extends Canvas implements Viewable {
 		this.setBackgroundImage(buffer);
 		
 		gcBuffer.dispose();
-		buffer.dispose();
 	}
 	
 	public boolean isClicked() {
