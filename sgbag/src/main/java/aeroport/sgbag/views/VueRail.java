@@ -16,15 +16,15 @@ import aeroport.sgbag.kernel.Rail;
 
 /**
  * @author Arnaud Lahache
- *
+ * 
  */
 @NoArgsConstructor
 public class VueRail extends VueElem {
-	
+
 	@Getter
 	@Setter
 	private Rail rail;
-	
+
 	@Getter
 	@Setter
 	private float angle = 0;
@@ -33,7 +33,7 @@ public class VueRail extends VueElem {
 		super(parent);
 		this.image = new Image(parent.getDisplay(), "data/img/rail.png");
 	}
-	
+
 	/**
 	 * @see aeroport.sgbag.views.VueElem#updateView()
 	 */
@@ -49,29 +49,23 @@ public class VueRail extends VueElem {
 	@Override
 	public void draw() {
 		GC gc = this.parent.getGcBuffer();
-		
-		// Create a working copy of the original image :
+
+		// We get the size of the original image :
 		Rectangle rect = image.getBounds();
-		Image imageCpy = new Image(parent.getDisplay(), rect);
-		GC gcImage = new GC(imageCpy);
-		
-		// We create a transform in order to rotate the image :
+
+		// We create a transform in order to rotate and translate the image :
 		Transform trImage = new Transform(parent.getDisplay());
-		trImage.rotate(angle);
-		gcImage.setTransform(trImage);
-		
-		// Now we're going to draw the expanded image :
-		gcImage.drawImage(this.image, 0, 0, rect.width, rect.height, 0, 0, rail.getLength(), rect.height);
-		
-		// We no longer need the GC for imageCpy :
+		trImage.translate(this.x, this.y);
+		trImage.rotate(this.angle);
+		gc.setTransform(trImage);
+
+		// Then we just draw the image on the GC :
+		gc.drawImage(this.image, 0, 0, rect.width, rect.height, 0,
+				-rect.height / 2, rail.getLength(), rect.height);
+
+		// We no longer need the transform :
+		gc.setTransform(null);
 		trImage.dispose();
-		gcImage.dispose();
-		
-		// We will add this imageCpy into the main GC :
-		gc.drawImage(imageCpy, this.x, this.y);
-		
-		// We no longer need imageCpy :
-		imageCpy.dispose();
 	}
 
 }

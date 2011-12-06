@@ -17,24 +17,27 @@ import aeroport.sgbag.kernel.Rail;
 
 /**
  * @author Arnaud Lahache
- *
+ * 
  */
 public class VueRailTest {
-	
+
 	private VueRail vueRail;
 	private VueHall vueHall;
 	private Shell shell;
+	private Display display;
 
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
-		shell = new Shell(new Display());
+		display = new Display();
+		shell = new Shell(display);
 		shell.setText("VueRailTest");
-	    shell.setLayout(new FillLayout());
-		shell.setSize(300,300);
+		shell.setLayout(new FillLayout());
+		shell.setSize(300, 300);
 		vueHall = new VueHall(shell, SWT.NONE);
+		vueHall.setSize(300, 300);
 		vueRail = new VueRail(vueHall);
 	}
 
@@ -43,9 +46,9 @@ public class VueRailTest {
 	 */
 	@After
 	public void tearDown() throws Exception {
-		vueRail = null;
-		vueHall = null;
-		shell = null;
+		vueHall.dispose();
+		shell.dispose();
+		display.dispose();
 	}
 
 	/**
@@ -58,19 +61,25 @@ public class VueRailTest {
 
 	/**
 	 * Test method for {@link aeroport.sgbag.views.VueRail#draw()}.
+	 * @throws InterruptedException 
 	 */
 	@Test
-	public void testDraw() {
+	public void testDraw() throws InterruptedException {
 		Rail rail = new Rail();
-		rail.setLength(100);
+		rail.setLength(150);
 		vueRail.setRail(rail);
 		vueRail.setAngle(0);
 		vueRail.setX(30);
 		vueRail.setY(30);
 		vueHall.ajouterVue(vueRail, 0);
+
+		shell.open();
 		vueHall.draw();
 		
-		shell.open();
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
 	}
 
 	/**
