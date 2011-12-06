@@ -1,11 +1,14 @@
 package aeroport.sgbag.kernel;
 
 import java.util.*;
+import org.apache.log4j.*;
 import lombok.*;
 
 @NoArgsConstructor
 @ToString
 public class Chariot {
+	
+	static Logger log = Logger.getLogger(Chariot.class);
 
 	@Getter
 	@Setter
@@ -50,6 +53,7 @@ public class Chariot {
 		this.destination = destination;
 		this.bagage = bagage;
 		this.cheminPrevu = cheminPrevu;
+		log.trace("Création du chariot " + this);
 	}
 
 	public Rail getNextRail() {
@@ -77,6 +81,8 @@ public class Chariot {
 
 	public Boolean removeBagage() {
 		bagage = null;
+		
+		log.debug("Vidage du chariot " + this);
 
 		return this.isEmpty();
 	}

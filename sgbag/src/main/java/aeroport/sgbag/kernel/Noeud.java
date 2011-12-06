@@ -1,6 +1,7 @@
 package aeroport.sgbag.kernel;
 
 import java.util.*;
+import org.apache.log4j.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -8,6 +9,8 @@ import lombok.*;
 // Utilise par la classe Circuit
 @ToString
 public class Noeud extends ElementCircuit {
+	
+	static Logger log = Logger.getLogger(Noeud.class);
 
 	@Setter
 	@Getter
@@ -22,11 +25,11 @@ public class Noeud extends ElementCircuit {
 	}
 
 	public Boolean update() {
-		if (++ticksToUpdate >= tickThresholdToUpdate) {
+		if (hasChariot() && ++ticksToUpdate >= tickThresholdToUpdate) {
 			ticksToUpdate = 0;
-			if (hasChariot()) {
-				return moveToNextRail();
-			}
+			return moveToNextRail();
+		} else if(!hasChariot()){
+			ticksToUpdate = 0;
 		}
 
 		return true;
@@ -48,6 +51,7 @@ public class Noeud extends ElementCircuit {
 				return false;
 			}
 
+			log.debug("Le chariot " + chariot + " sort du noeud " + this);
 			unregisterChariot();
 		}
 
@@ -57,6 +61,7 @@ public class Noeud extends ElementCircuit {
 	public Boolean registerChariot(Chariot c) {
 		if (!hasChariot()) { // S'il n'y a pas de chariot sur le noeud on peut
 								// l'ajouter
+			log.debug("Le chariot " + c + " arrive dans le noeud " + this);
 			return super.registerChariot(c);
 		}
 

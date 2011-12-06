@@ -1,7 +1,7 @@
 package aeroport.sgbag.kernel;
 
-import java.util.Iterator;
-
+import java.util.*;
+import org.apache.log4j.*;
 import lombok.*;
 
 @AllArgsConstructor
@@ -9,6 +9,8 @@ import lombok.*;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public class Rail extends ElementCircuit {
+	
+	static Logger log = Logger.getLogger(Rail.class);
 
 	@Getter
 	@Setter
@@ -41,14 +43,17 @@ public class Rail extends ElementCircuit {
 			if (chariotSuivant != null
 					&& c.willCollide(newPosition, chariotSuivant)) {
 				c.setPosition(chariotSuivant.getRearPosition() - 3);
+				log.debug("Collision entre deux chariots : " + c + " et " + chariotSuivant);
 			} else {
 				if (newPosition >= length) { // Le Chariot sort
+					log.debug("Le chariot " + c + " sort du rail " + this);
 					if (noeudSuivant.registerChariot(c)) {
 						ite.remove();
 					} else {
 						c.setPosition(length - c.getLength() / 2);
 					}
 				} else { // Cas nominal
+					log.info("Le chariot " + c + " avance sur le rail " + this);
 					if (newPosition > (length - c.getLength() / 2))
 						newPosition = length - c.getLength() / 2;
 						
