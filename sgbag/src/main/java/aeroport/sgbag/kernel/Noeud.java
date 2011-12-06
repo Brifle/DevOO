@@ -37,17 +37,20 @@ public class Noeud extends ElementCircuit {
 
 		Rail prochainRail = chariot.getNextRail();
 
-		if (!railsSortie.contains(prochainRail)) {
-			return false;
+		if (prochainRail != null) {
+
+			if (!railsSortie.contains(prochainRail)) {
+				return false;
+			}
+
+			if (!prochainRail.registerChariot(chariot)) {
+				return false;
+			}
+
+			unregisterChariot();
 		}
 
-		if (!prochainRail.registerChariot(chariot)) {
-			return false;
-		}
-
-		unregisterChariot();
-
-		return true;
+		return (prochainRail != null);
 	}
 
 	public Boolean registerChariot(Chariot c) {
