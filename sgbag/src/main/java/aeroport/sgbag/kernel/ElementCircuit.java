@@ -33,6 +33,8 @@ public abstract class ElementCircuit {
 
 	public Boolean unregisterChariot() {
 		int oldSize = listeChariot.size();
+		
+		listeChariot.getLast().setPosition(0); //Et oui
 
 		listeChariot.removeLast();
 
