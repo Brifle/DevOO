@@ -54,6 +54,11 @@ public class Chariot {
 		log.trace("recherche du prochain rail " + cheminPrevu);
 		if(cheminPrevu == null 
 				|| cheminPrevu.size() == 0) {
+			
+			// Le chariot n'a pas de chemin : on recalcule un chemin.
+			
+			// TODO amener chariot vers tapis roulant
+			
 			return null;
 		}
 		
@@ -108,5 +113,9 @@ public class Chariot {
 	
 	public int getRearPosition(){
 		return (position - halfLength);
+	}
+	
+	public boolean hasBagage() {
+		return bagage != null;
 	}
 }

@@ -3,15 +3,17 @@ package aeroport.sgbag.kernel;
 import java.util.*;
 import lombok.*;
 
-
-@NoArgsConstructor
 public abstract class FileBagage {
     
 	@Getter
 	@Setter
 	private ConnexionCircuit connexionCircuit;
 	
-    protected LinkedList<Bagage> listBagages = new LinkedList<Bagage>();
+    protected LinkedList<Bagage> listBagages;
+    
+    public FileBagage() {
+    	listBagages = new LinkedList<Bagage>();
+    }
     
     public void addBagage(Bagage b){
     	listBagages.add(b);

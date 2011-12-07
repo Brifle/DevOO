@@ -1,35 +1,36 @@
 package aeroport.sgbag.views;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 
-import lombok.Getter;
-import lombok.Setter;
-import aeroport.sgbag.kernel.TapisRoulant;
+import aeroport.sgbag.kernel.Toboggan;
 
-public class VueTapisRoulant extends VueElem {
+public class VueToboggan extends VueElem {
 
 	@Getter
 	@Setter
-	private TapisRoulant tapisRoulant;
+	private Toboggan toboggan;
 
-	public VueTapisRoulant(Canvas parent, TapisRoulant tapisRoulant) {
+	public VueToboggan(Canvas parent, Toboggan toboggan) {
 		super((VueHall) parent);
 		
-		this.tapisRoulant = tapisRoulant;
+		this.toboggan = toboggan;
 		
-		this.image = new Image(parent.getDisplay(), "data/img/tapis.png");
+		this.image = new Image(parent.getDisplay(), "data/img/toboggan.png");
 		
 		Rectangle rect = image.getBounds();
 		this.width = rect.width;
 		this.height = rect.height;
 	}
-
+	
 	@Override
 	public void updateView() {
 		// TODO Auto-generated method stub
-
+		
 	}
-
+	
 }

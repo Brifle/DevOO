@@ -5,14 +5,20 @@ import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueTapisRoulant;
+
 import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
 import org.eclipse.jface.fieldassist.ControlDecoration;
 import org.eclipse.jface.action.Action;
@@ -96,7 +102,7 @@ public class MainWindow extends ApplicationWindow {
 					.add(0))
 		);
 		container.setLayout(gl_container);
-
+		
 		return container;
 	}
 

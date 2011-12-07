@@ -5,8 +5,11 @@ package aeroport.sgbag.views;
 
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
+
+import aeroport.sgbag.utils.*;
 
 import lombok.*;
 
@@ -23,7 +26,7 @@ public abstract class VueElem implements Viewable {
 	@Setter
 	@NonNull
 	protected VueHall parent;
-	
+
 	@Getter
 	@Setter
 	protected int x;
@@ -43,10 +46,21 @@ public abstract class VueElem implements Viewable {
 	@Getter
 	@Setter
 	protected float angle = 0;
-	
+
 	@Getter
 	@Setter
 	protected Image image;
+
+	public Rectangle2D getRectangle2D() {
+		Point p1 = new Point(x - width / 2, y - height / 2);
+		Point p2 = new Point(x + width / 2, y - height / 2);
+		Point p3 = new Point(x - width / 2, y + height / 2);
+		Point p4 = new Point(x + width / 2, y + height / 2);
+		return new Rectangle2D(Geom.getRotatedPoint(p1, angle),
+				Geom.getRotatedPoint(p2, angle),
+				Geom.getRotatedPoint(p3, angle),
+				Geom.getRotatedPoint(p4, angle));
+	}
 
 	/**
 	 * @see aeroport.sgbag.views.Viewable#updateView()
@@ -69,8 +83,8 @@ public abstract class VueElem implements Viewable {
 		gc.setTransform(trImage);
 
 		// Then we just draw the image on the GC :
-		gc.drawImage(this.image, 0, 0, rect.width, rect.height, -this.width / 2,
-				-this.height / 2, this.width, this.height);
+		gc.drawImage(this.image, 0, 0, rect.width, rect.height,
+				-this.width / 2, -this.height / 2, this.width, this.height);
 
 		// We no longer need the transform :
 		gc.setTransform(null);
