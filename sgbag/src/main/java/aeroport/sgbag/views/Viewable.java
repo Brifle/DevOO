@@ -1,5 +1,7 @@
 package aeroport.sgbag.views;
 
+import org.eclipse.swt.graphics.Point;
+
 /**
  * @author Arnaud Lahache
  * 
@@ -22,6 +24,6 @@ public interface Viewable {
 	 * 
 	 * @return True if the view is clicked.
 	 */
-	public boolean isClicked();
+	public boolean isClicked(Point p);
 
 }

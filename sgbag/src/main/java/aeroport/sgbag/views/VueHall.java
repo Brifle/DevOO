@@ -2,6 +2,7 @@ package aeroport.sgbag.views;
 
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 import java.util.*;
 
@@ -78,9 +79,8 @@ public class VueHall extends Canvas implements Viewable {
 		gcBuffer.dispose();
 	}
 	
-	public boolean isClicked() {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isClicked(Point p) {
+		return true;
 	}
 
 }

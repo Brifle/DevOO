@@ -94,18 +94,11 @@ public abstract class VueElem implements Viewable {
 		gc.setTransform(null);
 		trImage.dispose();
 	}
-
-	/**
-	 * @see aeroport.sgbag.views.Viewable#isClicked()
-	 */
-	public boolean isClicked() {
-		// TODO calcul en fonction de la position de la souris et de des
-		// propriétés x, y, width, height.
-		
-		return false;
-	}
 	
-	public boolean isContening(Point point){
+	/**
+	 * @see aeroport.sgbag.views.Viewable#isClicked(Point p)
+	 */
+	public boolean isClicked(Point point){
 		Point centre = new Point(x, y);
 		Point rotatedPoint = Geom.getRotatedPoint(point, centre, angle);
 		

@@ -109,10 +109,10 @@ public class VueRailTest {
 	}
 
 	/**
-	 * Test method for {@link aeroport.sgbag.views.VueElem#isContening()}.
+	 * Test method for {@link aeroport.sgbag.views.VueElem#isClicked()}.
 	 */
 	@Test
-	public void testIsContening() {
+	public void testIsClicked() {
 		Rail rail = new Rail();
 		vueRail.setRail(rail);
 		vueRail.setAngle(-90);
@@ -129,19 +129,10 @@ public class VueRailTest {
 		Point p3 = new Point(50,50);
 		Point p4 = new Point(220,150);
 
-		assertTrue(vueRail.isContening(p1));
-		assertTrue(vueRail.isContening(p2));
-		assertFalse(vueRail.isContening(p3));
-		assertFalse(vueRail.isContening(p4));
-		
-	}
-	
-	/**
-	 * Test method for {@link aeroport.sgbag.views.VueElem#isClicked()}.
-	 */
-	@Test
-	public void testIsClicked() {
-		fail("Not yet implemented");
+		assertTrue(vueRail.isClicked(p1));
+		assertTrue(vueRail.isClicked(p2));
+		assertFalse(vueRail.isClicked(p3));
+		assertFalse(vueRail.isClicked(p4));		
 	}
 
 }
