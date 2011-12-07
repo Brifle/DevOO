@@ -46,6 +46,8 @@ public class Noeud extends ElementCircuit {
 			if (!prochainRail.registerChariot(chariot)) {
 				return false;
 			}
+			
+			chariot.setParent(prochainRail);
 
 			log.debug("Le chariot sort du noeud " + this + " par le rail " + prochainRail);
 			unregisterChariot();
