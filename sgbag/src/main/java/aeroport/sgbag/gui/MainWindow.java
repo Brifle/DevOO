@@ -5,14 +5,20 @@ import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.GC;
+import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Canvas;
 
+import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueTapisRoulant;
+
 import org.eclipse.wb.swt.SWTResourceManager;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.layout.FormLayout;
@@ -44,7 +50,7 @@ public class MainWindow extends ApplicationWindow {
 		VueHall vueHall = new VueHall(container, SWT.NONE);
 		vueHall.setBounds(0, 0, 640, 287);
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-
+		
 		return container;
 	}
 
