@@ -1,14 +1,14 @@
 package aeroport.sgbag.kernel;
 
-import java.util.Iterator;
-
+import java.util.*;
 import lombok.*;
+import lombok.extern.log4j.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = false)
+@Log4j
 public class Rail extends ElementCircuit {
-
+	
 	@Getter
 	@Setter
 	private Noeud noeudSuivant;
@@ -20,8 +20,13 @@ public class Rail extends ElementCircuit {
 	@Getter
 	@Setter
 	private int length;
+	
+	public Rail(int length) {
+		this.length = length;
+	}
 
 	public Boolean update() {
+		log.trace("Update du rail " + this);
 
 		Iterator<Chariot> ite = listeChariot.descendingIterator();
 
@@ -40,8 +45,10 @@ public class Rail extends ElementCircuit {
 			if (chariotSuivant != null
 					&& c.willCollide(newPosition, chariotSuivant)) {
 				c.setPosition(chariotSuivant.getRearPosition() - 3);
+				log.debug("Collision entre deux chariots : " + c + " et " + chariotSuivant);
 			} else {
 				if (newPosition >= length) { // Le Chariot sort
+					log.debug("Sortie du rail " + this + "du chariot " + c);
 					if (noeudSuivant.registerChariot(c)) {
 						ite.remove();
 					} else {
@@ -52,6 +59,7 @@ public class Rail extends ElementCircuit {
 						newPosition = length - c.getLength() / 2;
 						
 					c.setPosition(newPosition);
+					log.debug("Rail : " + this + " le chariot suivant avance à " + newPosition + " : " + c);
 				}
 			}
 		}

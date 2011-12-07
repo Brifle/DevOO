@@ -28,5 +28,7 @@ public abstract class FileBagage {
     public Bagage removeBagage(int indice){
     	return listBagages.remove(indice);
     }
+    
+    public abstract boolean update();
   
 }
