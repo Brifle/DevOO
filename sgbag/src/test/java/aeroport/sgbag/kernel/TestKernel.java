@@ -21,7 +21,7 @@ public class TestKernel {
 	public static void setUpBeforeClass() throws Exception {
 		PropertyConfigurator.configure("log4j.properties");
 	}
-
+/*
 	@Before
 	// Cette méthode s'exécute avant chaque test mais ne sert que pour le test
 	// simple
@@ -89,10 +89,11 @@ public class TestKernel {
 		}
 
 	}
-/*
-	@Test
-	public void testComplique() {
+	
+*/
 
+	@Before
+	public void setUpBefore() throws Exception {
 		// Tapis roulants
 		TapisRoulant tapis1 = new TapisRoulant(200, 5, 30, true);
 		TapisRoulant tapis2 = new TapisRoulant(200, 5, 30, true);
@@ -100,12 +101,12 @@ public class TestKernel {
 		// Toboggans
 		Toboggan toboggan1 = new Toboggan();
 		toboggan1.setAutoDeleteBagages(true);
+		
 		Toboggan toboggan2 = new Toboggan(20, 0, true);
 		toboggan2.setAutoDeleteBagages(true);
 		
 		// Circuit
-
-		final int longeurRails = 200;
+		final int longeurRails = 100;
 		Rail r1 = new Rail(longeurRails);
 		Rail r2 = new Rail(longeurRails);
 		Rail r3 = new Rail(longeurRails);
@@ -182,11 +183,14 @@ public class TestKernel {
 		chemin = circuit.calculChemin(n3, n2);
 		Chariot c = new Chariot(5, n2, chemin);
 		n3.registerChariot(c);
+	}
 
+	@Test
+	public void test() {
 		for (int i = 0; i < 200; i++) {
 			hall.update();
 			try {
-				Thread.sleep(200);
+				Thread.sleep(800);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -194,5 +198,4 @@ public class TestKernel {
 
 		fail("Not yet implemented");
 	}
-*/
 }
