@@ -35,7 +35,7 @@ public class TestKernel {
 		toboggan1.setAutoDeleteBagages(true);
 
 		// Circuit
-		final int longeurRails = 500;
+		final int longeurRails = 150;
 		Rail r1 = new Rail(longeurRails);
 		Rail r2 = new Rail(longeurRails);
 
