@@ -23,14 +23,18 @@ public class ConnexionCircuit extends Noeud {
 			if (getListeChariot().getFirst().getDestination() == this) {
 
 				// Le chariot est arrivé à destination
+				log.debug("Chariot arrivé à destination " + getListeChariot().getFirst());
 
 				if (fileBagage instanceof TapisRoulant) {
-					if (((TapisRoulant) fileBagage).hasReadyBagage()) {
+					
+					if (((TapisRoulant) fileBagage).hasReadyBagage()
+							&& getListeChariot().getFirst().getBagage() == null) {
 						this.getListeChariot()
 								.getFirst()
 								.setBagage(
 										((TapisRoulant) fileBagage)
 												.getBagageIfReady());
+						log.debug("Bagage du chariot : " + getListeChariot().getFirst().getBagage());
 						moveToNextRail();
 					}
 				} else if (getListeChariot().getFirst().hasBagage()) {
