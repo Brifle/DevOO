@@ -5,8 +5,6 @@ package aeroport.sgbag.views;
 
 import static org.junit.Assert.*;
 
-import java.awt.geom.Point2D;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
