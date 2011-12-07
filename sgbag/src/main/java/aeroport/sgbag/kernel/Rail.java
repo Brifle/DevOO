@@ -8,7 +8,7 @@ import lombok.extern.log4j.*;
 @NoArgsConstructor
 @Log4j
 public class Rail extends ElementCircuit {
-	
+
 	@Getter
 	@Setter
 	private Noeud noeudSuivant;
@@ -20,7 +20,7 @@ public class Rail extends ElementCircuit {
 	@Getter
 	@Setter
 	private int length;
-	
+
 	public Rail(int length) {
 		this.length = length;
 	}
@@ -45,7 +45,8 @@ public class Rail extends ElementCircuit {
 			if (chariotSuivant != null
 					&& c.willCollide(newPosition, chariotSuivant)) {
 				c.setPosition(chariotSuivant.getRearPosition() - 3);
-				log.debug("Collision entre deux chariots : " + c + " et " + chariotSuivant);
+				log.debug("Collision entre deux chariots : " + c + " et "
+						+ chariotSuivant);
 			} else {
 				if (newPosition >= length) { // Le Chariot sort
 					log.debug("Sortie du rail " + this + "du chariot " + c);
@@ -55,11 +56,18 @@ public class Rail extends ElementCircuit {
 						c.setPosition(length - c.getLength() / 2);
 					}
 				} else { // Cas nominal
-					if (newPosition > (length - c.getLength() / 2))
+
+					// Dans le cas où le chariot est obligé d'attendre qu'un
+					// chariot sort du noeud suivant :
+					if (this.noeudSuivant.isFull()
+							&& newPosition > (length - c.getLength() / 2)) {
 						newPosition = length - c.getLength() / 2;
-						
+					}
+
 					c.setPosition(newPosition);
-					log.debug("Rail : " + this + " le chariot suivant avance à " + newPosition + " : " + c);
+					log.debug("Rail : " + this
+							+ " le chariot suivant avance à " + newPosition
+							+ " : " + c);
 				}
 			}
 		}

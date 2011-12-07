@@ -14,8 +14,7 @@ public class ConnexionCircuitTest {
 		Rail r2 = new Rail();
 		Rail r3 = new Rail();
 		TapisRoulant tapisRoulant = new TapisRoulant(5,5,1,false);
-		ConnexionCircuit n = new ConnexionCircuit();
-		n.setFileBagage(tapisRoulant);
+		ConnexionCircuit n = new ConnexionCircuit(tapisRoulant);
 		Chariot c = new Chariot();
 		Bagage b = new Bagage();
 
@@ -62,7 +61,7 @@ public class ConnexionCircuitTest {
 	public void testUpdateWhithoutStop() {
 		Rail r2 = new Rail();
 		Rail r3 = new Rail();
-		ConnexionCircuit n = new ConnexionCircuit();
+		ConnexionCircuit n = new ConnexionCircuit(null);
 		Chariot c = new Chariot();
 
 		LinkedList<ElementCircuit> cheminPrevu = new LinkedList<ElementCircuit>();

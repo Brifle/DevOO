@@ -5,7 +5,6 @@ import java.util.*;
 import lombok.*;
 
 @AllArgsConstructor
-@NoArgsConstructor
 public class Hall {
 
 	@Getter
@@ -18,6 +17,15 @@ public class Hall {
 	
 	@Getter
 	private ArrayList<FileBagage> fileBagageList;
+	
+	public Hall() {
+		bagagesList = new ArrayList<Bagage>();
+		fileBagageList = new ArrayList<FileBagage>();
+	}
+	
+	public void init() {
+		BagageFactory.getBagageFactory().setCircuit(circuit);
+	}
 	
 	public boolean update() {
 		boolean allUpdated = true;
