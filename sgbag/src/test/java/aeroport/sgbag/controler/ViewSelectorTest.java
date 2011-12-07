@@ -23,7 +23,7 @@ public class ViewSelectorTest {
 		Chariot c2 = new Chariot();
 		VueChariot vc2 = new VueChariot();
 		
-		ViewSelector vs = new ViewSelector();
+		ViewSelector vs = ViewSelector.getInstance();
 		
 		vs.setKernelView(n, vn);
 		vs.setKernelView(c1, vc1);

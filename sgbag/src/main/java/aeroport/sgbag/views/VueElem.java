@@ -3,11 +3,14 @@
  */
 package aeroport.sgbag.views;
 
+import java.util.Vector;
+
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
+
 
 import aeroport.sgbag.utils.*;
 
@@ -52,14 +55,15 @@ public abstract class VueElem implements Viewable {
 	protected Image image;
 
 	public Rectangle2D getRectangle2D() {
+		Point centre = new Point(x, y);
 		Point p1 = new Point(x - width / 2, y - height / 2);
 		Point p2 = new Point(x + width / 2, y - height / 2);
 		Point p3 = new Point(x - width / 2, y + height / 2);
 		Point p4 = new Point(x + width / 2, y + height / 2);
-		return new Rectangle2D(Geom.getRotatedPoint(p1, angle),
-				Geom.getRotatedPoint(p2, angle),
-				Geom.getRotatedPoint(p3, angle),
-				Geom.getRotatedPoint(p4, angle));
+		return new Rectangle2D(Geom.getRotatedPoint(p1, centre, angle),
+				Geom.getRotatedPoint(p2, centre, angle),
+				Geom.getRotatedPoint(p3, centre, angle),
+				Geom.getRotatedPoint(p4, centre, angle));
 	}
 
 	/**
@@ -97,7 +101,19 @@ public abstract class VueElem implements Viewable {
 	public boolean isClicked() {
 		// TODO calcul en fonction de la position de la souris et de des
 		// propriétés x, y, width, height.
+		
 		return false;
 	}
-
+	
+	public boolean isContening(Point point){
+		Point centre = new Point(x, y);
+		Point rotatedPoint = Geom.getRotatedPoint(point, centre, angle);
+		
+		if(rotatedPoint.x >= x - width / 2 && rotatedPoint.x <= x + width ){
+			if(rotatedPoint.y >= y - height / 2 && rotatedPoint.y <=   y + height / 2){
+				return true;
+			}
+		}
+		return false;
+	}
 }

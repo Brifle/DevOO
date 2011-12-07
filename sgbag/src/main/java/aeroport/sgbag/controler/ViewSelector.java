@@ -8,9 +8,18 @@ public class ViewSelector {
 
 	HashMap<Object, Viewable> hash;
 
-	public ViewSelector() {
+	private static ViewSelector instance = null;
+	
+	private ViewSelector() {
 		super();
 		hash = new HashMap<Object, Viewable>();
+	}
+
+	public static ViewSelector getInstance() {
+		if (instance == null) {
+			instance = new ViewSelector();
+		}
+		return instance;
 	}
 
 	public Viewable getViewForKernelObject(Object k) {
@@ -20,8 +29,8 @@ public class ViewSelector {
 	public void setKernelView(Object k, Viewable v) {
 		hash.put(k, v);
 	}
-	
-	public Viewable removeKeyValue(Object k){
+
+	public Viewable removeKeyValue(Object k) {
 		return hash.remove(k);
 	}
 

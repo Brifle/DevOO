@@ -2,22 +2,23 @@ package aeroport.sgbag.gui;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
+import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 
 import aeroport.sgbag.views.VueHall;
 
@@ -30,7 +31,7 @@ import aeroport.sgbag.views.VueHall;
 public class MainWindow extends ApplicationWindow {
 	private Action actionQuitter;
 	private Action actionDemarrer;
-	private Action actionPause;
+	private Action actionPauser;
 	private Action actionArreter;
 
 	/**
@@ -52,48 +53,38 @@ public class MainWindow extends ApplicationWindow {
 	protected Control createContents(Composite parent) {
 		parent.setSize(new Point(400, 400));
 		Composite container = new Composite(parent, SWT.NONE);
+		container.setLayout(new GridLayout(3, false));
 		
 		VueHall vueHall = new VueHall(container, SWT.BORDER);
+		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
+		gd_vueHall.heightHint = 150;
+		gd_vueHall.widthHint = 400;
+		gd_vueHall.minimumHeight = 200;
+		gd_vueHall.minimumWidth = 400;
+		vueHall.setLayoutData(gd_vueHall);
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		Tree tree = new Tree(container, SWT.BORDER);
+		Tree treeViews = new Tree(container, SWT.BORDER);
+		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
+		gd_treeViews.heightHint = 150;
+		treeViews.setLayoutData(gd_treeViews);
 		
-		Scale scale = new Scale(container, SWT.NONE);
+		Group grpProperties = new Group(container, SWT.NONE);
+		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		grpProperties.setText("Propriétés");
 		
-		CLabel lblHorloge_1 = new CLabel(container, SWT.NONE);
-		lblHorloge_1.setAlignment(SWT.RIGHT);
-		lblHorloge_1.setText("Horloge");
-		GroupLayout gl_container = new GroupLayout(container);
-		gl_container.setHorizontalGroup(
-			gl_container.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_container.createSequentialGroup()
-					.add(12)
-					.add(gl_container.createParallelGroup(GroupLayout.LEADING)
-						.add(GroupLayout.TRAILING, gl_container.createSequentialGroup()
-							.addPreferredGap(LayoutStyle.RELATED)
-							.add(lblHorloge_1, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-							.addPreferredGap(LayoutStyle.RELATED)
-							.add(scale, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE))
-						.add(vueHall, GroupLayout.DEFAULT_SIZE, 263, Short.MAX_VALUE))
-					.addPreferredGap(LayoutStyle.RELATED)
-					.add(tree, GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
-					.add(0))
-		);
-		gl_container.setVerticalGroup(
-			gl_container.createParallelGroup(GroupLayout.LEADING)
-				.add(gl_container.createSequentialGroup()
-					.add(12)
-					.add(gl_container.createParallelGroup(GroupLayout.LEADING)
-						.add(tree, GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-						.add(gl_container.createSequentialGroup()
-							.add(vueHall, GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
-							.addPreferredGap(LayoutStyle.RELATED)
-							.add(gl_container.createParallelGroup(GroupLayout.TRAILING)
-								.add(lblHorloge_1, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
-								.add(scale, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE))))
-					.add(0))
-		);
-		container.setLayout(gl_container);
+		CLabel lblVitesse = new CLabel(container, SWT.NONE);
+		lblVitesse.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
+		lblVitesse.setAlignment(SWT.RIGHT);
+		lblVitesse.setText("Vitesse de la simulation");
+		
+		Scale sclVitesse = new Scale(container, SWT.NONE);
+		GridData gd_sclVitesse = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_sclVitesse.heightHint = 30;
+		gd_sclVitesse.minimumHeight = 30;
+		gd_sclVitesse.widthHint = 120;
+		gd_sclVitesse.minimumWidth = 120;
+		sclVitesse.setLayoutData(gd_sclVitesse);
 		
 		return container;
 	}
@@ -117,7 +108,7 @@ public class MainWindow extends ApplicationWindow {
 			};
 		}
 		{
-			actionPause = new Action("Pause") {
+			actionPauser = new Action("Pauser") {
 			};
 		}
 		{
@@ -136,6 +127,10 @@ public class MainWindow extends ApplicationWindow {
 		{
 			MenuManager menuFichier = new MenuManager("Fichier");
 			menuBar.add(menuFichier);
+			menuFichier.add(actionDemarrer);
+			menuFichier.add(actionPauser);
+			menuFichier.add(actionArreter);
+			menuFichier.add(new Separator());
 			menuFichier.add(actionQuitter);
 		}
 		return menuBar;
@@ -149,7 +144,7 @@ public class MainWindow extends ApplicationWindow {
 	protected ToolBarManager createToolBarManager(int style) {
 		ToolBarManager toolBarManager = new ToolBarManager(style);
 		toolBarManager.add(actionDemarrer);
-		toolBarManager.add(actionPause);
+		toolBarManager.add(actionPauser);
 		toolBarManager.add(actionArreter);
 		return toolBarManager;
 	}
@@ -186,6 +181,6 @@ public class MainWindow extends ApplicationWindow {
 	@Override
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
-		shell.setText("SGBag");
+		shell.setText("SGBag - Interface de simulation");
 	}
 }
