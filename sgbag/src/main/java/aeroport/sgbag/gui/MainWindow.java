@@ -1,36 +1,25 @@
 package aeroport.sgbag.gui;
 
+import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.GC;
-import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.custom.CLabel;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.wb.swt.SWTResourceManager;
-
-import aeroport.sgbag.kernel.TapisRoulant;
-import aeroport.sgbag.views.VueHall;
-import aeroport.sgbag.views.VueTapisRoulant;
-
-import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
-import org.eclipse.jface.fieldassist.ControlDecoration;
-import org.eclipse.jface.action.Action;
-import org.junit.runners.ParentRunner;
-import org.eclipse.swt.widgets.Tree;
-import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.layout.FormLayout;
-import org.eclipse.swt.layout.FormData;
-import org.eclipse.swt.layout.FormAttachment;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Tree;
+import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.wb.swt.layout.grouplayout.GroupLayout;
+import org.eclipse.wb.swt.layout.grouplayout.LayoutStyle;
+
+import aeroport.sgbag.views.VueHall;
 
 /**
  * SGBag GUI root window.
@@ -40,6 +29,9 @@ import org.eclipse.swt.layout.FormAttachment;
  */
 public class MainWindow extends ApplicationWindow {
 	private Action actionQuitter;
+	private Action actionDemarrer;
+	private Action actionPause;
+	private Action actionArreter;
 
 	/**
 	 * Create the application window.
@@ -120,6 +112,18 @@ public class MainWindow extends ApplicationWindow {
 				}
 			};
 		}
+		{
+			actionDemarrer = new Action("Démarrer") {
+			};
+		}
+		{
+			actionPause = new Action("Pause") {
+			};
+		}
+		{
+			actionArreter = new Action("Arrêter") {
+			};
+		}
 	}
 
 	/**
@@ -144,6 +148,9 @@ public class MainWindow extends ApplicationWindow {
 	@Override
 	protected ToolBarManager createToolBarManager(int style) {
 		ToolBarManager toolBarManager = new ToolBarManager(style);
+		toolBarManager.add(actionDemarrer);
+		toolBarManager.add(actionPause);
+		toolBarManager.add(actionArreter);
 		return toolBarManager;
 	}
 
