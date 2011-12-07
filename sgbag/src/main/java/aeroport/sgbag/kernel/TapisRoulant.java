@@ -1,27 +1,34 @@
 package aeroport.sgbag.kernel;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class TapisRoulant extends FileBagage {
 
 	@Getter
 	@Setter
+	@NonNull
 	private int length;
 
 	@Getter
 	@Setter
-	private int vitesseTapis = 5;
+	@NonNull
+	private int vitesseTapis; //Ex:5
 
 	@Getter
 	@Setter
-	private int distanceEntreBagages = 30;
+	@NonNull
+	private int distanceEntreBagages; //Ex:30
 
 	@Getter
 	@Setter
-	private boolean autoBagageGeneration = true;
+	@NonNull
+	private boolean autoBagageGeneration; //Ex:true
+	
+	private int nbCharriotsEnChemin = 0;
 
 	public boolean hasReadyBagage() {
 		for (Bagage b : this.listBagages) {
@@ -69,11 +76,31 @@ public class TapisRoulant extends FileBagage {
 		for (Bagage b : this.listBagages) {
 			if (b.getPosition() == this.length) {
 				this.removeBagage(b);
+				
+				nbCharriotsEnChemin--;
+				
 				return b;
 			}
 		}
 
 		return null;
+	}
+	
+	/**
+	 * Retourne une note correspondant au besoin en charriots du tapis en question.
+	 * Plus un tapis a des bagages et moins il y a des charriots qui se dirigent actuellement vers ce tapis,
+	 * plus cette note sera elevée.
+	 * @return La note du tapis.
+	 */
+	public int getNoteBesoinBagages(){
+		return this.listBagages.size() - nbCharriotsEnChemin;
+	}
+	
+	/**
+	 * Notifie au tapis qu'un charriot est en chemin.
+	 */
+	public void chariotIncoming(){
+		nbCharriotsEnChemin++;
 	}
 
 }
