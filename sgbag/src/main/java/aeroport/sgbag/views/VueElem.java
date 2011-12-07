@@ -52,14 +52,15 @@ public abstract class VueElem implements Viewable {
 	protected Image image;
 
 	public Rectangle2D getRectangle2D() {
+		Point centre = new Point(x, y);
 		Point p1 = new Point(x - width / 2, y - height / 2);
 		Point p2 = new Point(x + width / 2, y - height / 2);
 		Point p3 = new Point(x - width / 2, y + height / 2);
 		Point p4 = new Point(x + width / 2, y + height / 2);
-		return new Rectangle2D(Geom.getRotatedPoint(p1, angle),
-				Geom.getRotatedPoint(p2, angle),
-				Geom.getRotatedPoint(p3, angle),
-				Geom.getRotatedPoint(p4, angle));
+		return new Rectangle2D(Geom.getRotatedPoint(p1, centre, angle),
+				Geom.getRotatedPoint(p2, centre, angle),
+				Geom.getRotatedPoint(p3, centre, angle),
+				Geom.getRotatedPoint(p4, centre, angle));
 	}
 
 	/**
