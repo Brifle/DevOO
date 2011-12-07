@@ -63,15 +63,15 @@ public class BagageFactory {
 	}
 
 	public Bagage generateBagage() {
-		if (!lTobogan.isEmpty()) {
+		//if (!lTobogan.isEmpty()) {
 			Bagage b = new Bagage();
 
 			b.setDestination(getTobogan().getConnexionCircuit());
 
 			return b;
-		} else {
-			return null;
-		}
+		//} else {
+		//	return null;
+		//}
 	}
 
 }
