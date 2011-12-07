@@ -3,11 +3,14 @@
  */
 package aeroport.sgbag.views;
 
+import java.util.Vector;
+
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
+
 
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.utils.*;
@@ -105,7 +108,19 @@ public abstract class VueElem implements Viewable {
 	public boolean isClicked() {
 		// TODO calcul en fonction de la position de la souris et de des
 		// propriétés x, y, width, height.
+		
 		return false;
 	}
-
+	
+	public boolean isContening(Point point){
+		Point centre = new Point(x, y);
+		Point rotatedPoint = Geom.getRotatedPoint(point, centre, angle);
+		
+		if(rotatedPoint.x >= x - width / 2 && rotatedPoint.x <= x + width ){
+			if(rotatedPoint.y >= y - height / 2 && rotatedPoint.y <=   y + height / 2){
+				return true;
+			}
+		}
+		return false;
+	}
 }
