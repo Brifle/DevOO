@@ -48,7 +48,7 @@ public class Rail extends ElementCircuit {
 				log.debug("Collision entre deux chariots : " + c + " et "
 						+ chariotSuivant);
 			} else {
-				if (newPosition >= length) { // Le Chariot sort
+				if (newPosition > (length - c.getLength() / 2)) { // Le Chariot sort
 					log.debug("Sortie du rail " + this + "du chariot " + c);
 					if (noeudSuivant.registerChariot(c)) {
 						ite.remove();
@@ -59,10 +59,10 @@ public class Rail extends ElementCircuit {
 
 					// Dans le cas où le chariot est obligé d'attendre qu'un
 					// chariot sort du noeud suivant :
-					if (this.noeudSuivant.isFull()
+					/*if (this.noeudSuivant.isFull()
 							&& newPosition > (length - c.getLength() / 2)) {
 						newPosition = length - c.getLength() / 2;
-					}
+					}*/
 
 					c.setPosition(newPosition);
 					log.debug("Rail : " + this
