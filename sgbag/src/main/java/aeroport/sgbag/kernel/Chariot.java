@@ -26,6 +26,10 @@ public class Chariot {
 	@Getter
 	@Setter
 	private Bagage bagage;
+	
+	@Getter
+	@Setter
+	private ElementCircuit parent;
 
 	@Getter
 	@Setter
