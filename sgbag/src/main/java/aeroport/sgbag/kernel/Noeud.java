@@ -67,4 +67,8 @@ public class Noeud extends ElementCircuit {
 	public void addRailSortie(Rail r) {
 		railsSortie.add(r);
 	}
+	
+	public boolean isFull() {
+		return this.hasChariot();
+	}
 }
