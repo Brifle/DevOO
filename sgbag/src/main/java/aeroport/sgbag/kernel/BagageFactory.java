@@ -17,6 +17,7 @@ public class BagageFactory {
 	public static BagageFactory getBagageFactory() {
 		if (instance == null) {
 			instance = new BagageFactory();
+			instance.searchTapisAndTobogans();
 		}
 
 		return instance;
