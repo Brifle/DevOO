@@ -5,7 +5,10 @@ package aeroport.sgbag.views;
 
 import static org.junit.Assert.*;
 
+import java.awt.geom.Point2D;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -107,6 +110,34 @@ public class VueRailTest {
 		assertEquals(100, rect.getBasDroit().y);
 	}
 
+	/**
+	 * Test method for {@link aeroport.sgbag.views.VueElem#isContening()}.
+	 */
+	@Test
+	public void testIsContening() {
+		Rail rail = new Rail();
+		vueRail.setRail(rail);
+		vueRail.setAngle(-90);
+		vueRail.setX(150);
+		vueRail.setY(150);
+		vueRail.setWidth(200);
+		vueRail.setHeight(100);
+		
+		//In
+		Point p1 = new Point(120,120);
+		Point p2 = new Point(150,220);
+		
+		//Out
+		Point p3 = new Point(50,50);
+		Point p4 = new Point(220,150);
+
+		assertTrue(vueRail.isContening(p1));
+		assertTrue(vueRail.isContening(p2));
+		assertFalse(vueRail.isContening(p3));
+		assertFalse(vueRail.isContening(p4));
+		
+	}
+	
 	/**
 	 * Test method for {@link aeroport.sgbag.views.VueElem#isClicked()}.
 	 */
