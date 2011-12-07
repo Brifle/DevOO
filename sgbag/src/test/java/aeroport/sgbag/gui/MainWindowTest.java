@@ -8,6 +8,7 @@ public class MainWindowTest {
 	@Test
 	public void test() {
 		MainWindow win = new MainWindow();
+		win.setBlockOnOpen(true);
 		win.open();
 		Display.getCurrent().dispose();
 	}

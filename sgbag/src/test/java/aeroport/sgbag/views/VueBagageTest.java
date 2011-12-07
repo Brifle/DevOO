@@ -13,15 +13,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import aeroport.sgbag.kernel.Rail;
+import aeroport.sgbag.kernel.Bagage;
 
 /**
  * @author Arnaud Lahache
  * 
  */
-public class VueRailTest {
+public class VueBagageTest {
 
-	private VueRail vueRail;
+	private VueBagage vueBagage;
 	private VueHall vueHall;
 	private Shell shell;
 	private Display display;
@@ -38,7 +38,7 @@ public class VueRailTest {
 		shell.setSize(400, 400);
 		vueHall = new VueHall(shell, SWT.NONE);
 		vueHall.setSize(300, 300);
-		vueRail = new VueRail(vueHall);
+		vueBagage = new VueBagage(vueHall);
 	}
 
 	/**
@@ -65,13 +65,12 @@ public class VueRailTest {
 	 */
 	@Test
 	public void testDraw() throws InterruptedException {
-		Rail rail = new Rail();
-		vueRail.setRail(rail);
-		vueRail.setAngle(-45);
-		vueRail.setX(150);
-		vueRail.setY(150);
-		vueRail.setWidth(100);
-		vueHall.ajouterVue(vueRail, 0);
+		Bagage bagage = new Bagage();
+		vueBagage.setBagage(bagage);
+		vueBagage.setAngle(-45);
+		vueBagage.setX(150);
+		vueBagage.setY(150);
+		vueHall.ajouterVue(vueBagage, 0);
 
 		shell.open();
 		vueHall.draw();

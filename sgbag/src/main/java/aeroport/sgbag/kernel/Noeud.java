@@ -2,70 +2,66 @@ package aeroport.sgbag.kernel;
 
 import java.util.*;
 import lombok.*;
+import lombok.extern.log4j.*;
 
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-// Utilise par la classe Circuit
+@Log4j
 public class Noeud extends ElementCircuit {
 
 	@Setter
 	@Getter
 	private LinkedList<Rail> railsSortie;
 
-	@Setter
-	@Getter
-	private LinkedList<Rail> railsEntree;
-
-	private final int tickThresholdToUpdate = 10;
-	private int ticksToUpdate = 0;
+	protected final int tickThresholdToUpdate = 10;
+	protected int ticksToUpdate = 0;
 
 	public Noeud() {
 		super();
-		railsEntree = new LinkedList<Rail>();
 		railsSortie = new LinkedList<Rail>();
 	}
 
 	public Boolean update() {
-		if (++ticksToUpdate >= tickThresholdToUpdate) {
+		log.trace("Update du noeud " + this + " temps restant : " + (tickThresholdToUpdate-ticksToUpdate));
+		if (hasChariot() && ++ticksToUpdate >= tickThresholdToUpdate) {
 			ticksToUpdate = 0;
-			if (hasChariot()) {
-				return moveToNextRail();
-			}
+			return moveToNextRail();
+		} else if(!hasChariot()){
+			ticksToUpdate = 0;
 		}
 
 		return true;
 	}
 
 	public Boolean moveToNextRail() {
-
 		Chariot chariot = listeChariot.getLast();
 
 		Rail prochainRail = chariot.getNextRail();
 
-		if (!railsSortie.contains(prochainRail)) {
-			return false;
+		if (prochainRail != null) {
+
+			if (!railsSortie.contains(prochainRail)) {
+				return false;
+			}
+
+			if (!prochainRail.registerChariot(chariot)) {
+				return false;
+			}
+
+			log.debug("Le chariot sort du noeud " + this + " par le rail " + prochainRail);
+			unregisterChariot();
 		}
 
-		if (!prochainRail.registerChariot(chariot)) {
-			return false;
-		}
-
-		unregisterChariot();
-
-		return true;
+		return (prochainRail != null);
 	}
 
 	public Boolean registerChariot(Chariot c) {
 		if (!hasChariot()) { // S'il n'y a pas de chariot sur le noeud on peut
 								// l'ajouter
+			log.debug("Entrée dans le noeud " + this + " du chariot " + c);
 			return super.registerChariot(c);
 		}
 
 		return false;
-	}
-
-	public void addRailEntree(Rail r) {
-		railsEntree.add(r);
 	}
 
 	public void addRailSortie(Rail r) {

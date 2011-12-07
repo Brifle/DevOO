@@ -1,3 +1,4 @@
+
 package aeroport.sgbag.kernel;
 
 import static org.junit.Assert.*;
@@ -6,36 +7,62 @@ import java.util.LinkedList;
 
 import org.junit.Test;
 
-public class NoeudTest {
+public class ConnexionCircuitTest {
 
 	@Test
-	public void testMoveToNextRail() {
+	public void testUpdateTakingBagage() {
 		Rail r2 = new Rail();
 		Rail r3 = new Rail();
-		Noeud n = new Noeud();
+		TapisRoulant tapisRoulant = new TapisRoulant(5,5,1,false);
+		ConnexionCircuit n = new ConnexionCircuit();
+		n.setFileBagage(tapisRoulant);
 		Chariot c = new Chariot();
+		Bagage b = new Bagage();
 
 		LinkedList<ElementCircuit> cheminPrevu = new LinkedList<ElementCircuit>();
 		cheminPrevu.add(r3);
 		c.setCheminPrevu(cheminPrevu);
+		c.setDestination(n);
 
 		// Sortie
 		n.addRailSortie(r2);
 		n.addRailSortie(r3);
 		// Chariot
 		n.registerChariot(c);
+		
+		//Tapis
+		tapisRoulant.setConnexionCircuit(n);
+		tapisRoulant.addBagage(b);
+		
+		//Le bagage devient pret
+		tapisRoulant.update();
 
-		n.moveToNextRail();
+		for (int i = 0; i < 9; i++) {
+			n.update();
+		}
+
+		assertFalse(r3.hasChariot());
+		assertTrue(n.hasChariot());
+		assertTrue(n.getListeChariot().getFirst().getBagage() == null);
+
+		// Au bon nombre de ticks
+		n.update();
 
 		assertTrue(r3.hasChariot());
+		assertTrue(r3.getListeChariot().getFirst().getBagage() == b);
 		assertFalse(n.hasChariot());
 	}
-
+	
 	@Test
-	public void testUpdate() {
+	public void testUpdatePuttingBagage() {
+		//TODO
+	}
+	
+	@Test
+	public void testUpdateWhithoutStop() {
 		Rail r2 = new Rail();
 		Rail r3 = new Rail();
-		Noeud n = new Noeud();
+		ConnexionCircuit n = new ConnexionCircuit();
 		Chariot c = new Chariot();
 
 		LinkedList<ElementCircuit> cheminPrevu = new LinkedList<ElementCircuit>();
@@ -61,4 +88,5 @@ public class NoeudTest {
 		assertTrue(r3.hasChariot());
 		assertFalse(n.hasChariot());
 	}
+
 }
