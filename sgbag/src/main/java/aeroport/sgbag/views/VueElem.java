@@ -12,6 +12,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 
 
+import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.utils.*;
 
 import lombok.*;
@@ -22,12 +23,10 @@ import lombok.*;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public abstract class VueElem implements Viewable {
 
 	@Getter
 	@Setter
-	@NonNull
 	protected VueHall parent;
 
 	@Getter
@@ -53,6 +52,14 @@ public abstract class VueElem implements Viewable {
 	@Getter
 	@Setter
 	protected Image image;
+	
+	public VueElem(VueHall parent) {
+		this.parent = parent;
+	}
+	
+	public void destroy() {
+		parent.retirerVue(this);
+	}
 
 	public Rectangle2D getRectangle2D() {
 		Point centre = new Point(x, y);
