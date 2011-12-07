@@ -50,7 +50,7 @@ public class RailTest {
 	}
 
 	@Test
-	public void chariotEnFinTest() {
+	public void chariotMordantAvecNoeudVide() {
 		Chariot c = new Chariot();
 		Noeud n = new Noeud();
 		Rail r = new Rail();
@@ -65,7 +65,39 @@ public class RailTest {
 		r.registerChariot(c);
 		r.update();
 		
-		assertTrue("c : " + c.getPosition(), c.getPosition() == 15);
+		assertTrue(n.hasChariot());
+		assertFalse(r.hasChariot());
+	}
+	
+	@Test
+	public void chariotMordantAvecNoeudPlein() {
+		Chariot c = new Chariot();
+		Chariot c2 = new Chariot();
+		Noeud n = new Noeud();
+		Rail r = new Rail();
+		
+		c.setMaxMoveDistance(10);
+		c.setPosition(8);
+		c.setLength(10);
+
+		r.setLength(20);
+		r.setNoeudSuivant(n);
+
+		n.registerChariot(c2);
+		r.registerChariot(c);
+		r.update();
+		
+		//Le noeud contient un chariot
+		assertTrue(n.hasChariot());
+		//C'est le chariot c2
+		assertTrue(n.getListeChariot().getFirst() == c2);
+		
+		//Le rail contient un chariot
+		assertTrue(r.hasChariot());
+		//C'est le chariot c
+		assertTrue(r.getListeChariot().getFirst() == c);
+		//Le chariot c est bien placé
+		assertTrue(c.getPosition() == 15);
 	}	
 
 }
