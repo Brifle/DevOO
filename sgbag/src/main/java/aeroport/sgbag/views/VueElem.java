@@ -107,7 +107,7 @@ public abstract class VueElem implements Viewable {
 	 */
 	public boolean isClicked(Point point){
 		Point centre = new Point(x, y);
-		Point rotatedPoint = Geom.getRotatedPoint(point, centre, angle);
+		Point rotatedPoint = Geom.getRotatedPoint(point, centre, -angle);
 		
 		if(rotatedPoint.x >= x - width / 2 && rotatedPoint.x <= x + width ){
 			if(rotatedPoint.y >= y - height / 2 && rotatedPoint.y <=   y + height / 2){
