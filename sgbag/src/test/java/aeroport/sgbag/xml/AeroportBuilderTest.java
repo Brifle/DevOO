@@ -45,5 +45,8 @@ public class AeroportBuilderTest {
 		
 		Rail r2 = (Rail) o;
 		assertTrue(r2.getLength() == 53);
+		
+		o = aBuilder.getNextKernelObject();
+		assertEquals(null, o);
 	}
 }

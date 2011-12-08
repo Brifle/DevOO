@@ -128,10 +128,14 @@ public class AeroportBuilder {
 		NodeList kernelNodes = kernelElement.getChildNodes();
 
 		Node currentKernelNode;
-		do {
-			currentKernelNode = kernelNodes.item(kernelIndex++);
-			log.debug(currentKernelNode);
-		} while (currentKernelNode.getNodeType() != Node.ELEMENT_NODE);
+		try {
+			do {
+				currentKernelNode = kernelNodes.item(kernelIndex++);
+				log.debug(currentKernelNode);
+			} while (currentKernelNode.getNodeType() != Node.ELEMENT_NODE);
+		} catch (NullPointerException e) {
+			return null;
+		}
 
 		Element currentKernelElement = (Element) currentKernelNode;
 		log.debug(currentKernelElement);
