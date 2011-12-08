@@ -34,6 +34,7 @@ public class ConnexionCircuit extends Noeud {
 								.setBagage(
 										((TapisRoulant) fileBagage)
 												.getBagageIfReady());
+						getListeChariot().getFirst().getBagage().setParent(getListeChariot().getFirst());
 						log.debug("Bagage du chariot : " + getListeChariot().getFirst().getBagage());
 						moveToNextRail();
 					}
