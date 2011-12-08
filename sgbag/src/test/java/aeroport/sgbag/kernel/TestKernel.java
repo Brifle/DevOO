@@ -178,11 +178,18 @@ public class TestKernel {
 
 		hall = new Hall();
 		hall.setCircuit(circuit);
+		
+		hall.addFileBagage(tapis1);
+		hall.addFileBagage(tapis2);
+		hall.addFileBagage(toboggan1);
+		hall.addFileBagage(toboggan2);
 
 		LinkedList<ElementCircuit> chemin = null;
 		chemin = circuit.calculChemin(n3, n2);
 		Chariot c = new Chariot(5, n2, chemin);
 		n3.registerChariot(c);
+		
+		BagageFactory.getBagageFactory().setCircuit(circuit);
 	}
 
 	@Test
@@ -190,12 +197,11 @@ public class TestKernel {
 		for (int i = 0; i < 200; i++) {
 			hall.update();
 			try {
-				Thread.sleep(800);
+				Thread.sleep(10);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
 
-		fail("Not yet implemented");
 	}
 }
