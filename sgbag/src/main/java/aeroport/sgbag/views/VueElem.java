@@ -24,6 +24,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public abstract class VueElem implements Viewable {
+	
+	public static final double RATIO = 0.5;
 
 	@Getter
 	@Setter
