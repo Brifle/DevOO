@@ -13,9 +13,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
-import aeroport.sgbag.kernel.ElementCircuit;
-import aeroport.sgbag.kernel.Noeud;
-import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.utils.Rectangle2D;
 
