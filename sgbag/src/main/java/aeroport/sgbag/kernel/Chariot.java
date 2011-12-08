@@ -80,6 +80,7 @@ public class Chariot {
 
 	public Boolean moveBagageToFile(FileBagage file) {
 		file.addBagage(bagage);
+		bagage.setParent(file);
 		return removeBagage();
 	}
 

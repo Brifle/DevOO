@@ -23,6 +23,10 @@ public class Bagage {
 
 	@Getter
 	private int position = 0;
+	
+	@Getter
+	@Setter
+	private Object parent;
 
 	public void moveBy(Integer distance) {
 		position += distance;

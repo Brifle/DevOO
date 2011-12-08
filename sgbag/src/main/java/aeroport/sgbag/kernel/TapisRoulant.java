@@ -70,6 +70,7 @@ public class TapisRoulant extends FileBagage {
 				
 				Bagage b = BagageFactory.getBagageFactory().generateBagage();
 				this.addBagage(b);
+				b.setParent(this);
 			}
 		}
 
