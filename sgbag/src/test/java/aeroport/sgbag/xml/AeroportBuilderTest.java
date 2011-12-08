@@ -21,26 +21,26 @@ public class AeroportBuilderTest {
 		AeroportBuilder aBuilder = new AeroportBuilder(
 				"src/test/java/aeroport/sgbag/xml/test.xml");
 
-		Chariot c1 = (Chariot) aBuilder.getNextKernelObject();
+		Chariot c1 = (Chariot) aBuilder.getNextKernelObject().getValue();
 		assertTrue(c1.getLength() == 10);
 		assertTrue(c1.getMaxMoveDistance() == 20);
 
-		Rail r = (Rail) aBuilder.getNextKernelObject();
+		Rail r = (Rail) aBuilder.getNextKernelObject().getValue();
 		assertTrue(r.getLength() == 50);		
 		
-		Chariot c2 = (Chariot) aBuilder.getNextKernelObject();
+		Chariot c2 = (Chariot) aBuilder.getNextKernelObject().getValue();
 		assertTrue("c2: " +c2.getLength(), c2.getLength() == 11);
 		assertTrue("c2: " +c2.getMaxMoveDistance(), c2.getMaxMoveDistance() == 21);
 		
-		Chariot c3 = (Chariot) aBuilder.getNextKernelObject();
+		Chariot c3 = (Chariot) aBuilder.getNextKernelObject().getValue();
 		assertTrue("c3: " +c3.getLength(), c3.getLength() == 12);
 		assertTrue("c3: " +c3.getMaxMoveDistance(), c3.getMaxMoveDistance() == 22);
 		
-		Chariot c4 = (Chariot) aBuilder.getNextKernelObject();
+		Chariot c4 = (Chariot) aBuilder.getNextKernelObject().getValue();
 		assertTrue("c4: " +c4.getLength(), c4.getLength() == 11);
 		assertTrue("c4: " +c4.getMaxMoveDistance(), c4.getMaxMoveDistance() == 22);
 		
-		Object o = aBuilder.getNextKernelObject();
+		Object o = aBuilder.getNextKernelObject().getValue();
 		assertTrue(o instanceof Rail);
 		
 		Rail r2 = (Rail) o;

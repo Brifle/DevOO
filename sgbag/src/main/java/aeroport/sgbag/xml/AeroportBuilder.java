@@ -10,6 +10,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
@@ -21,6 +22,15 @@ import org.xml.sax.SAXException;
 
 @Log4j
 public class AeroportBuilder {
+	
+	@AllArgsConstructor
+	public class Pair {
+		@Getter
+		String id;
+		@Getter
+		Object value;
+	}
+	
 	Document document;
 	Element racine;
 
@@ -70,8 +80,11 @@ public class AeroportBuilder {
 		return getElementByName("views");
 	}
 
-	private Object getObjectFromElement(Element element) {
+	private Pair getObjectFromElement(Element element) {
 		Object o = null;
+		
+		String id = element.getAttribute("id");
+		
 		NodeList propertieNodes = element.getChildNodes();
 		Class<?> c = null;
 		try {
@@ -119,11 +132,11 @@ public class AeroportBuilder {
 				}
 			}
 		}
-		return o;
+		return new Pair(id, o);
 	}
 
-	public Object getNextKernelObject() {
-		Object o = null;
+	public Pair getNextKernelObject() {
+		Pair p;
 		Element kernelElement = getKernelElement();
 		NodeList kernelNodes = kernelElement.getChildNodes();
 
@@ -140,15 +153,15 @@ public class AeroportBuilder {
 		Element currentKernelElement = (Element) currentKernelNode;
 		log.debug(currentKernelElement);
 
-		o = getObjectFromElement(currentKernelElement);
+		p = getObjectFromElement(currentKernelElement);
 
 		kernelIndex++;
 
-		return o;
+		return p;
 	}
 
-	public Object getNextViewObject() {
-		Object o = null;
+	public Pair getNextViewObject() {
+		Pair p;
 		Element viewElement = getViewElement();
 		NodeList viewNodes = viewElement.getChildNodes();
 
@@ -161,11 +174,11 @@ public class AeroportBuilder {
 		Element currentViewElement = (Element) currentViewNode;
 		log.debug(currentViewElement);
 
-		o = getObjectFromElement(currentViewElement);
+		p = getObjectFromElement(currentViewElement);
 
 		viewIndex++;
 
-		return o;
+		return p;
 	}
 
 	public List<List<Object>> getAllObjects() {
