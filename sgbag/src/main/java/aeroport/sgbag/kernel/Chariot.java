@@ -13,7 +13,7 @@ public class Chariot {
 	@Setter
 	private int maxMoveDistance;
 
-	private int halfLength;
+	private double halfLength;
 
 	@Getter
 	@Setter
@@ -109,15 +109,15 @@ public class Chariot {
 	}
 
 	public int getLength() {
-		return halfLength * 2;
+		return (int) (halfLength * 2);
 	}
 	
 	public void setLength(int len){
-		halfLength = len/2;
+		halfLength = ((double)len)/2;
 	}
 	
 	public int getRearPosition(){
-		return (position - halfLength);
+		return (position - (int)halfLength);
 	}
 	
 	public boolean hasBagage() {
