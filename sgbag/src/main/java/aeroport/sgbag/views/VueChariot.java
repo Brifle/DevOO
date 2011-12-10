@@ -23,6 +23,7 @@ public class VueChariot extends VueElem {
 		super((VueHall) parent);
 		this.image = new Image(parent.getDisplay(), "data/img/chariot.png");
 
+		this.chariot = chariot;
 		Rectangle rect = image.getBounds();
 		width = chariot.getLength();
 		height = width * rect.height / rect.width;
