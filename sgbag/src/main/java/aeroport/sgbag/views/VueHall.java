@@ -17,11 +17,11 @@ public class VueHall extends Canvas implements Viewable {
 	private GC gcBuffer;
 	
 	@Getter
-	private HashMap<Integer, LinkedList<VueElem>> calques;
+	private TreeMap<Integer, LinkedList<VueElem>> calques;
 
 	public VueHall(Composite parent, int style) {
 		super(parent, style);
-		calques = new HashMap<Integer, LinkedList<VueElem>>();
+		calques = new TreeMap<Integer, LinkedList<VueElem>>();
 	}
 
 	public void ajouterVue(VueElem vue, int layer) {
@@ -81,6 +81,20 @@ public class VueHall extends Canvas implements Viewable {
 	
 	public boolean isClicked(Point p) {
 		return true;
+	}
+	
+	public Viewable getClickedView(int x, int y) {
+		
+		Point p = new Point(x, y);
+		for (Iterator<Integer> iterator = calques.descendingKeySet().iterator(); iterator.hasNext();) {
+			LinkedList<VueElem> vues = calques.get(iterator.next());
+			for (Iterator<VueElem> itVueElem = vues.descendingIterator(); itVueElem.hasNext();) {
+				VueElem v = itVueElem.next();
+				if(v.isClicked(p)) return v;
+			}
+		}
+		
+		return this;
 	}
 
 }
