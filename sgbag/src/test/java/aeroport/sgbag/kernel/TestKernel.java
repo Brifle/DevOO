@@ -94,6 +94,9 @@ public class TestKernel {
 
 	@Before
 	public void setUpBefore() throws Exception {
+		
+		Circuit circuit = new Circuit();
+		
 		// Tapis roulants
 		TapisRoulant tapis1 = new TapisRoulant(200, 5, 30, true);
 		TapisRoulant tapis2 = new TapisRoulant(200, 5, 30, true);
@@ -107,45 +110,45 @@ public class TestKernel {
 		
 		// Circuit
 		final int longeurRails = 100;
-		Rail r1 = new Rail(longeurRails);
-		Rail r2 = new Rail(longeurRails);
-		Rail r3 = new Rail(longeurRails);
-		Rail r4 = new Rail(longeurRails);
-		Rail r5 = new Rail(longeurRails);
-		Rail r6 = new Rail(longeurRails);
-		Rail r7 = new Rail(longeurRails);
+		Rail r1 = new Rail(longeurRails, circuit);
+		Rail r2 = new Rail(longeurRails, circuit);
+		Rail r3 = new Rail(longeurRails, circuit);
+		Rail r4 = new Rail(longeurRails, circuit);
+		Rail r5 = new Rail(longeurRails, circuit);
+		Rail r6 = new Rail(longeurRails, circuit);
+		Rail r7 = new Rail(longeurRails, circuit);
 
-		ConnexionCircuit n1 = new ConnexionCircuit(tapis1);
+		ConnexionCircuit n1 = new ConnexionCircuit(tapis1, circuit);
 		tapis1.setConnexionCircuit(n1);
 		LinkedList<Rail> n1sortie = new LinkedList<Rail>();
 		n1sortie.add(r1);
 		n1.setRailsSortie(n1sortie);
 
-		ConnexionCircuit n2 = new ConnexionCircuit(tapis2);
+		ConnexionCircuit n2 = new ConnexionCircuit(tapis2, circuit);
 		tapis2.setConnexionCircuit(n2);
 		LinkedList<Rail> n2sortie = new LinkedList<Rail>();
 		n2sortie.add(r2);
 		n2.setRailsSortie(n2sortie);
 
-		Noeud n3 = new Noeud();
+		Noeud n3 = new Noeud(circuit);
 		LinkedList<Rail> n3sortie = new LinkedList<Rail>();
 		n3sortie.add(r3);
 		n3sortie.add(r7);
 		n3.setRailsSortie(n3sortie);
 
-		ConnexionCircuit n4 = new ConnexionCircuit(toboggan1);
+		ConnexionCircuit n4 = new ConnexionCircuit(toboggan1, circuit);
 		toboggan1.setConnexionCircuit(n4);
 		LinkedList<Rail> n4sortie = new LinkedList<Rail>();
 		n4sortie.add(r4);
 		n4.setRailsSortie(n4sortie);
 
-		ConnexionCircuit n5 = new ConnexionCircuit(toboggan2);
+		ConnexionCircuit n5 = new ConnexionCircuit(toboggan2, circuit);
 		toboggan2.setConnexionCircuit(n5);
 		LinkedList<Rail> n5sortie = new LinkedList<Rail>();
 		n5sortie.add(r5);
 		n5.setRailsSortie(n5sortie);
 
-		Noeud n6 = new Noeud();
+		Noeud n6 = new Noeud(circuit);
 		LinkedList<Rail> n6sortie = new LinkedList<Rail>();
 		n6sortie.add(r6);
 		n6.setRailsSortie(n6sortie);
@@ -174,7 +177,7 @@ public class TestKernel {
 		simpleList.add(r6);
 		simpleList.add(r7);
 
-		Circuit circuit = new Circuit(simpleList);
+		circuit.setElements(simpleList);
 
 		hall = new Hall();
 		hall.setCircuit(circuit);
@@ -194,7 +197,7 @@ public class TestKernel {
 
 	@Test
 	public void test() {
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 700; i++) {
 			hall.update();
 			try {
 				Thread.sleep(10);
