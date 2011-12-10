@@ -25,7 +25,8 @@ public class ConnexionCircuit extends Noeud {
 	public Boolean update() {
 		log.trace("Update de la ConnexionCircuit " + this);
 		if (hasChariot() && ++ticksToUpdate >= tickThresholdToUpdate) {
-			if (getListeChariot().getFirst().getDestination() == this) {
+			Chariot chariot = this.getListeChariot().getFirst();
+			if (chariot.getDestination().getId() == this.getId()) {
 
 				// Le chariot est arrivé à destination
 				log.debug("Chariot arrivé à destination " + getListeChariot().getFirst());
@@ -34,21 +35,41 @@ public class ConnexionCircuit extends Noeud {
 					
 					if (((TapisRoulant) fileBagage).hasReadyBagage()
 							&& getListeChariot().getFirst().getBagage() == null) {
-						this.getListeChariot()
-								.getFirst()
-								.setBagage(
+						
+						chariot.setBagage(
 										((TapisRoulant) fileBagage)
 												.getBagageIfReady());
-						getListeChariot().getFirst().getBagage().setParent(getListeChariot().getFirst());
-						log.debug("Bagage du chariot : " + getListeChariot().getFirst().getBagage());
+						chariot.getBagage().setParent(getListeChariot().getFirst());
+						
+						log.debug("Bagage du chariot : " + chariot.getBagage()
+								+ " destination : " + chariot.getBagage().getDestination());
+						chariot.setCheminPrevu(
+								this.getParent().calculChemin(
+										this,
+										chariot.getBagage().getDestination()));
+						chariot.setDestination(chariot.getBagage().getDestination());
+						
+						String logstr = "Chemin prévu pour aller à " + chariot.getBagage().getDestination() + " :";
+						for(int i=0; i<chariot.getCheminPrevu().size(); i++) {
+							logstr += chariot.getCheminPrevu().get(i) + " ";
+						}
+						log.debug(logstr);
+								
 						moveToNextRail();
 					}
 				} else if (getListeChariot().getFirst().hasBagage()) {
 
 					// On retire le bagage
 
-					this.getListeChariot().getFirst()
-							.moveBagageToFile(fileBagage);
+					chariot.moveBagageToFile(fileBagage);
+					
+					Noeud nouvelleDestination = BagageFactory.getBagageFactory().getTapis().getConnexionCircuit();
+					chariot.setCheminPrevu(
+							this.getParent().calculChemin(
+									this,
+									nouvelleDestination));
+					chariot.setDestination(nouvelleDestination);
+					
 					moveToNextRail();
 				} else {
 
