@@ -36,8 +36,7 @@ public class BagageFactory {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private TapisRoulant getTapis() { // Unused
+	public TapisRoulant getTapis() {
 		if (!this.lTapis.isEmpty()) {
 			int random = (int) (Math.random() * this.lTapis.size());
 
