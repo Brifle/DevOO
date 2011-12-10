@@ -4,12 +4,12 @@ import java.util.*;
 import lombok.*;
 
 
-@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Circuit {
 
 	@Getter
+	@Setter
 	private ArrayList<ElementCircuit>  elements;
 
 	/**
