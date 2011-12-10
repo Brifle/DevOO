@@ -14,6 +14,8 @@ public abstract class ElementCircuit {
 	@Getter
 	protected LinkedList<Chariot> listeChariot;
 	
+	@Getter
+	@Setter
 	private Circuit parent;
 
 	public abstract Boolean update();
