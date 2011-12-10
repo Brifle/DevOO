@@ -12,6 +12,11 @@ public class ConnexionCircuit extends Noeud {
 	private FileBagage fileBagage;
 
 	public ConnexionCircuit(FileBagage f) {
+		this(f, null);
+	}
+	
+	public ConnexionCircuit(FileBagage f, Circuit parent) {
+		super(parent);
 		this.fileBagage = f;
 		if (f != null)
 			f.setConnexionCircuit(this);

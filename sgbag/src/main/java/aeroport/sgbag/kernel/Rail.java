@@ -22,6 +22,11 @@ public class Rail extends ElementCircuit {
 	private int length;
 
 	public Rail(int length) {
+		this(length, null);
+	}
+	
+	public Rail(int length, Circuit parent) {
+		super(parent);
 		this.length = length;
 	}
 

@@ -13,6 +13,8 @@ public abstract class ElementCircuit {
 
 	@Getter
 	protected LinkedList<Chariot> listeChariot;
+	
+	private Circuit parent;
 
 	public abstract Boolean update();
 
@@ -21,6 +23,11 @@ public abstract class ElementCircuit {
 		listeChariot = new LinkedList<Chariot>();
 		id = counter;
 		counter++;
+	}
+	
+	public ElementCircuit(Circuit parent) {
+		this();
+		this.parent = parent;
 	}
 
 	public Boolean registerChariot(Chariot chariot) {
