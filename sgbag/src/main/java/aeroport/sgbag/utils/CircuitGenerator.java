@@ -41,7 +41,14 @@ public class CircuitGenerator {
 	private CircuitGenerator(){
 	}
 	
-	public static void UpdateCircuit(){
+	public static void clear(){
+		hall = new Hall();
+		listePointsNoeuds = new HashMap<Point, Noeud>();
+		simpleList = new ArrayList<ElementCircuit>();
+		circuit = new Circuit();
+	}
+	
+	public static void updateCircuit(){
 		circuit.setElements(simpleList);
 		hall.setCircuit(circuit);
 	}
