@@ -35,6 +35,11 @@ import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.RowLayout;
 
 /**
  * SGBag GUI root window.
@@ -75,13 +80,28 @@ public class MainWindow extends ApplicationWindow {
 		container.setLayout(new GridLayout(3, false));
 		
 		vueHall = new VueHall(container, SWT.BORDER);
-		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
+		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 5);
 		gd_vueHall.heightHint = 150;
 		gd_vueHall.widthHint = 400;
 		gd_vueHall.minimumHeight = 200;
 		gd_vueHall.minimumWidth = 400;
 		vueHall.setLayoutData(gd_vueHall);
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		Composite composite = new Composite(container, SWT.NONE);
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		
+		Button btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnManuel.setText("Manuel");
+		
+		Button butAutomatique = new Button(composite, SWT.TOGGLE);
+		butAutomatique.setText("Automatique");
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
 		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);

@@ -76,7 +76,6 @@ public class VueHall extends Canvas implements Viewable {
 	public void draw() {
 		buffer = new Image(this.getDisplay(), this.getBounds());
 		gcBuffer = new GC(buffer);
-		gcBuffer.drawLine(0, 0, 300, 300);
 		// Draw all the views ordered by the layers :
 		for (Iterator<Integer> iterator = calques.keySet().iterator(); iterator.hasNext();) {
 			LinkedList<VueElem> vues = calques.get(iterator.next());

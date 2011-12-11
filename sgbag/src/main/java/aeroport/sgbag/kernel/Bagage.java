@@ -11,9 +11,10 @@ import lombok.Setter;
  * 
  */
 @NoArgsConstructor
-public class Bagage {
+public class Bagage extends KernelObject {
 
 	public Bagage(Noeud destination) {
+		super();
 		this.destination = destination;
 	}
 

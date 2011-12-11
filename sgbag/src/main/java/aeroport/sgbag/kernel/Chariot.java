@@ -7,7 +7,7 @@ import lombok.extern.log4j.*;
 @NoArgsConstructor
 @ToString(exclude={"maxMoveDistance","halfLength", "cheminPrevu"})
 @Log4j
-public class Chariot {
+public class Chariot extends KernelObject {
 
 	@Getter
 	@Setter
