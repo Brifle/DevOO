@@ -5,11 +5,7 @@ import lombok.*;
 
 @EqualsAndHashCode
 @ToString(exclude="listeChariot")
-public abstract class ElementCircuit {
-	
-	private static int counter = 0;
-	@Getter
-	final int id;
+public abstract class ElementCircuit extends KernelObject {
 
 	@Getter
 	protected LinkedList<Chariot> listeChariot;
@@ -23,8 +19,6 @@ public abstract class ElementCircuit {
 	public ElementCircuit() {
 		super();
 		listeChariot = new LinkedList<Chariot>();
-		id = counter;
-		counter++;
 	}
 	
 	public ElementCircuit(Circuit parent) {

@@ -6,7 +6,7 @@ import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-public class Circuit {
+public class Circuit extends KernelObject {
 
 	@Getter
 	@Setter
