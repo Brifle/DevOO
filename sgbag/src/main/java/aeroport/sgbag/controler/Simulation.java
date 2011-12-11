@@ -18,6 +18,10 @@ public class Simulation {
 		MANUEL, AUTO
 	}
 	
+	public enum Etat {
+		NORMAL, SELECTION, CHOIX_DESTINATION
+	}
+	
 	@NonNull
 	@Getter
 	private File xmlFile;
@@ -33,11 +37,21 @@ public class Simulation {
 	private Mode mode;
 	
 	@Getter
+	@Setter
+	private Etat etat;
+	
+	@Getter
 	private Clock clock;
+	
+	@Getter
+	@Setter
+	private VueElem selectedElem;
 	
 	public void init() {
 		
 		// TODO init vueHall with XML file
+		
+		vueHall.setSimulation(this);
 		hall = vueHall.getHall();
 		
 		clock = new Clock(100, hall, vueHall);
