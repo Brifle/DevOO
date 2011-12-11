@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,8 +32,19 @@ public class TestCircuitGenerator {
 
 	}
 	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@After
+	public void tearDown() throws Exception {
+		vueHall.dispose();
+		shell.dispose();
+		display.dispose();
+	}
+	
 	@Test
 	public void test1(){
+		CircuitGenerator.clear();
 		CircuitGenerator.setVueHall(vueHall);
 
 		Point p1 = new Point(20, 20);
@@ -49,6 +61,38 @@ public class TestCircuitGenerator {
 		CircuitGenerator.createSegment(p5, p6);
 		CircuitGenerator.createSegment(p3, p5);
 		
+		CircuitGenerator.updateCircuit();
+		
+		shell.open();
+		vueHall.draw();
+		
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				display.sleep();
+		}
+	}
+	
+	@Test
+	public void testExit(){
+		CircuitGenerator.clear();
+		CircuitGenerator.setVueHall(vueHall);
+
+		Point p1 = new Point(20, 20);
+		Point p2 = new Point(100, 20);
+		Point p3 = new Point(200, 100);
+		Point p4 = new Point(500, 500);
+		Point p5 = new Point(40, 300);
+		Point p6 = new Point(40, 400);
+		
+		CircuitGenerator.createSegment(p1, p2);
+		CircuitGenerator.createSegment(p2, p3);
+		CircuitGenerator.createSegment(p3, p4);
+		CircuitGenerator.createSegment(p4, p5);
+		CircuitGenerator.createSegment(p5, p6);
+		CircuitGenerator.createSegment(p3, p5);
+		CircuitGenerator.createExit(p3);
+		
+		CircuitGenerator.updateCircuit();
 		shell.open();
 		vueHall.draw();
 		
