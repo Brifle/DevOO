@@ -33,5 +33,9 @@ public class ViewSelector {
 	public Viewable removeKeyValue(Object k) {
 		return hash.remove(k);
 	}
+	
+	public void clear() {
+		hash.clear();
+	}
 
 }
