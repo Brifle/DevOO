@@ -90,14 +90,8 @@ public class MainWindow extends ApplicationWindow {
 		treeViews.setLayoutData(gd_treeViews);
 		
 		Group grpProperties = new Group(container, SWT.NONE);
-<<<<<<< HEAD
-		GridData gd_grpProperties = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
-		gd_grpProperties.widthHint = 144;
-		grpProperties.setLayoutData(gd_grpProperties);
-=======
 		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
 		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
->>>>>>> branch 'master' of ssh://git@github.com/Brifle/DevOO.git
 		grpProperties.setText("Propriétés");
 		
 		propertiesWidget = new PropertiesWidget(grpProperties, SWT.NONE, null);
