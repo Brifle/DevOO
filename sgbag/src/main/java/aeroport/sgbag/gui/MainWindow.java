@@ -1,5 +1,12 @@
 package aeroport.sgbag.gui;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileView;
+import javax.swing.plaf.FileChooserUI;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -16,7 +23,9 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -122,6 +131,21 @@ public class MainWindow extends ApplicationWindow {
 		}
 		{
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
+				@Override
+				public void run() {
+					FileDialog fd = new FileDialog(getShell());
+					fd.setFilterNames(new String[] { "Description XML" });
+				    fd.setFilterExtensions(new String[] { "*.xml" }); 
+				    fd.setFilterPath(System.getProperty("user.dir"));
+				    fd.setFileName("");
+				    
+				    String fileName = fd.open();
+				    
+				    MessageBox mb = new MessageBox(getShell(), SWT.OK);
+				    mb.setMessage(fileName);
+				    mb.open();
+				    // Call here the controller
+				}
 			};
 		}
 	}
