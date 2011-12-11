@@ -3,12 +3,19 @@ package aeroport.sgbag.kernel;
 import static org.junit.Assert.*;
 
 import java.util.*;
+
+import org.apache.log4j.PropertyConfigurator;
 import org.junit.*;
 
 /**
  * Test de la classe Circuit
  */
 public class CircuitTest {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PropertyConfigurator.configure("log4j.properties");
+	}
 
 	/**
 	 * Test method for {@link aeroport.sgbag.kernel.Circuit#update()}.

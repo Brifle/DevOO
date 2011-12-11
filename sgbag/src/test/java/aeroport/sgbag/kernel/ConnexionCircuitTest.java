@@ -5,9 +5,16 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class ConnexionCircuitTest {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PropertyConfigurator.configure("log4j.properties");
+	}
 
 	@Test
 	public void testUpdateTakingBagage() {
