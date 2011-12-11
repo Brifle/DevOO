@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueRail;
 
 
 public class TestCircuitGenerator {
@@ -88,13 +89,15 @@ public class TestCircuitGenerator {
 		CircuitGenerator.createSegment(p2, p3);
 		CircuitGenerator.createSegment(p3, p4);
 		CircuitGenerator.createSegment(p4, p5);
-		CircuitGenerator.createSegment(p5, p6);
+		VueRail vueRail1 = CircuitGenerator.createSegment(p5, p6);
 		CircuitGenerator.createSegment(p3, p5);
 		CircuitGenerator.createExit(p3);
 		CircuitGenerator.createEntry(p5, 100, 10, 5, false);
+		CircuitGenerator.addChariot(vueRail1.getRail(), 40, 20, 200, null, null, null);
 		
 		CircuitGenerator.updateCircuit();
 		shell.open();
+		vueHall.updateView();
 		vueHall.draw();
 		
 		while (!shell.isDisposed()) {
