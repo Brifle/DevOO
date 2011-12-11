@@ -22,6 +22,11 @@ public class Rail extends ElementCircuit {
 	private int length;
 
 	public Rail(int length) {
+		this(length, null);
+	}
+	
+	public Rail(int length, Circuit parent) {
+		super(parent);
 		this.length = length;
 	}
 
@@ -51,6 +56,7 @@ public class Rail extends ElementCircuit {
 				if (newPosition > (length - c.getLength() / 2)) { // Le Chariot sort
 					log.debug("Sortie du rail " + this + "du chariot " + c);
 					if (noeudSuivant.registerChariot(c)) {
+						c.setParent(noeudSuivant);
 						ite.remove();
 					} else {
 						c.setPosition(length - c.getLength() / 2);

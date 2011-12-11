@@ -4,8 +4,10 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.extern.log4j.Log4j;
 
 @RequiredArgsConstructor
+@Log4j
 public class TapisRoulant extends FileBagage {
 
 	@Getter
@@ -41,7 +43,9 @@ public class TapisRoulant extends FileBagage {
 	}
 
 	public boolean update() {
+		log.trace("Update tapis roulant");
 		if (!hasReadyBagage()) {
+			
 			if (!this.listBagages.isEmpty()) {
 				int delta = this.length - this.listBagages.get(0).getPosition();
 
@@ -66,6 +70,7 @@ public class TapisRoulant extends FileBagage {
 				
 				Bagage b = BagageFactory.getBagageFactory().generateBagage();
 				this.addBagage(b);
+				b.setParent(this);
 			}
 		}
 

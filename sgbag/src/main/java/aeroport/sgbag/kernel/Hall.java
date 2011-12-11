@@ -17,6 +17,9 @@ public class Hall {
 
 	@Getter
 	private ArrayList<FileBagage> fileBagageList;
+	
+	@Getter 
+	private ArrayList<Chariot> chariotList;
 
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();

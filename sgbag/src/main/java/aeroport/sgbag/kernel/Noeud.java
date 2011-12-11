@@ -16,7 +16,11 @@ public class Noeud extends ElementCircuit {
 	protected int ticksToUpdate = 0;
 
 	public Noeud() {
-		super();
+		this(null);
+	}
+	
+	public Noeud(Circuit parent) {
+		super(parent);
 		railsSortie = new LinkedList<Rail>();
 	}
 
@@ -46,6 +50,8 @@ public class Noeud extends ElementCircuit {
 			if (!prochainRail.registerChariot(chariot)) {
 				return false;
 			}
+			
+			chariot.setParent(prochainRail);
 
 			log.debug("Le chariot sort du noeud " + this + " par le rail " + prochainRail);
 			unregisterChariot();

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root>
+	<kernel>
+		<Chariot id="c1">
+			<Length>10</Length>
+			<MaxMoveDistance>20</MaxMoveDistance>
+		</Chariot>
+		<Rail id="r1">
+			<Length>50</Length>
+		</Rail>
+		<Chariot id="c2">
+			<Length>11</Length>
+			<MaxMoveDistance>21</MaxMoveDistance>
+		</Chariot>
+		<Chariot id="c3">
+			<Length>12</Length>
+			<MaxMoveDistance>22</MaxMoveDistance>
+		</Chariot>
+		<Chariot id="c4">
+			<Length>11</Length>
+			<MaxMoveDistance>22</MaxMoveDistance>
+		</Chariot>
+		<Rail id="r2">
+			<Length>53</Length>
+		</Rail>
+	</kernel>
+	<views>
+		<!-- Insert view objects here -->
+	</views>
+</root>

@@ -36,8 +36,7 @@ public class BagageFactory {
 		}
 	}
 
-	@SuppressWarnings("unused")
-	private TapisRoulant getTapis() { // Unused
+	public TapisRoulant getTapis() {
 		if (!this.lTapis.isEmpty()) {
 			int random = (int) (Math.random() * this.lTapis.size());
 
@@ -63,15 +62,15 @@ public class BagageFactory {
 	}
 
 	public Bagage generateBagage() {
-		if (!lTobogan.isEmpty()) {
+		//if (!lTobogan.isEmpty()) {
 			Bagage b = new Bagage();
 
 			b.setDestination(getTobogan().getConnexionCircuit());
 
 			return b;
-		} else {
-			return null;
-		}
+		//} else {
+		//	return null;
+		//}
 	}
 
 }

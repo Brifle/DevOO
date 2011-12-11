@@ -3,15 +3,19 @@
  */
 package aeroport.sgbag.views;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 
-import aeroport.sgbag.utils.*;
-
-import lombok.*;
+import aeroport.sgbag.utils.Geom;
+import aeroport.sgbag.utils.Rectangle2D;
 
 /**
  * @author Arnaud Lahache
@@ -19,12 +23,12 @@ import lombok.*;
  */
 @NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
 public abstract class VueElem implements Viewable {
+	
+	public static final double RATIO = 0.5;
 
 	@Getter
 	@Setter
-	@NonNull
 	protected VueHall parent;
 
 	@Getter
@@ -50,16 +54,25 @@ public abstract class VueElem implements Viewable {
 	@Getter
 	@Setter
 	protected Image image;
+	
+	public VueElem(VueHall parent) {
+		this.parent = parent;
+	}
+	
+	public void destroy() {
+		parent.retirerVue(this);
+	}
 
 	public Rectangle2D getRectangle2D() {
+		Point centre = new Point(x, y);
 		Point p1 = new Point(x - width / 2, y - height / 2);
 		Point p2 = new Point(x + width / 2, y - height / 2);
 		Point p3 = new Point(x - width / 2, y + height / 2);
 		Point p4 = new Point(x + width / 2, y + height / 2);
-		return new Rectangle2D(Geom.getRotatedPoint(p1, angle),
-				Geom.getRotatedPoint(p2, angle),
-				Geom.getRotatedPoint(p3, angle),
-				Geom.getRotatedPoint(p4, angle));
+		return new Rectangle2D(Geom.getRotatedPoint(p1, centre, angle),
+				Geom.getRotatedPoint(p2, centre, angle),
+				Geom.getRotatedPoint(p3, centre, angle),
+				Geom.getRotatedPoint(p4, centre, angle));
 	}
 
 	/**
@@ -90,14 +103,19 @@ public abstract class VueElem implements Viewable {
 		gc.setTransform(null);
 		trImage.dispose();
 	}
-
+	
 	/**
-	 * @see aeroport.sgbag.views.Viewable#isClicked()
+	 * @see aeroport.sgbag.views.Viewable#isClicked(Point p)
 	 */
-	public boolean isClicked() {
-		// TODO calcul en fonction de la position de la souris et de des
-		// propriétés x, y, width, height.
+	public boolean isClicked(Point point){
+		Point centre = new Point(x, y);
+		Point rotatedPoint = Geom.getRotatedPoint(point, centre, -angle);
+		
+		if(rotatedPoint.x >= x - width / 2 && rotatedPoint.x <= x + width ){
+			if(rotatedPoint.y >= y - height / 2 && rotatedPoint.y <=   y + height / 2){
+				return true;
+			}
+		}
 		return false;
 	}
-
 }

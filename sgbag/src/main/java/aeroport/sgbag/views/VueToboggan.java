@@ -29,8 +29,7 @@ public class VueToboggan extends VueElem {
 	
 	@Override
 	public void updateView() {
-		// TODO Auto-generated method stub
-		
+		// Nothing
 	}
 	
 }

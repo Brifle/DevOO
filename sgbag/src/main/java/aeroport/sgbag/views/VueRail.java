@@ -18,7 +18,7 @@ import aeroport.sgbag.kernel.Rail;
  */
 @NoArgsConstructor
 public class VueRail extends VueElem {
-
+	
 	@Getter
 	@Setter
 	private Rail rail;
@@ -37,7 +37,7 @@ public class VueRail extends VueElem {
 	 */
 	@Override
 	public void updateView() {
-		this.width = rail.getLength();
+		this.width = (int) (rail.getLength()*RATIO);
 	}
 
 }
