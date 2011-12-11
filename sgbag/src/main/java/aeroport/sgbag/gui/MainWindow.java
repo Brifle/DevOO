@@ -34,6 +34,7 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
 import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.swt.layout.FillLayout;
 
 /**
  * SGBag GUI root window.
@@ -48,8 +49,9 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionArreter;
 	private Action actionOuvrir;
 
-	public VueHall vueHall;
-	public Simulation simulation;
+	private VueHall vueHall;
+	private Simulation simulation;
+	private PropertiesWidget propertiesWidget;
 	
 	/**
 	 * Create the application window.
@@ -88,8 +90,11 @@ public class MainWindow extends ApplicationWindow {
 		treeViews.setLayoutData(gd_treeViews);
 		
 		Group grpProperties = new Group(container, SWT.NONE);
+		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
 		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		grpProperties.setText("Propriétés");
+		
+		propertiesWidget = new PropertiesWidget(grpProperties, SWT.NONE, null);
 		
 		CLabel lblVitesse = new CLabel(container, SWT.NONE);
 		lblVitesse.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
@@ -147,6 +152,8 @@ public class MainWindow extends ApplicationWindow {
 				    
 				    if(fileName != null){
 				    	simulation = new Simulation(new File(fileName));
+				    	propertiesWidget.setSimulation(simulation);
+				    	propertiesWidget.refresh();
 				    }
 				}
 			};
