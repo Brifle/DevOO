@@ -24,6 +24,7 @@ public class Hall extends KernelObject {
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();
 		fileBagageList = new ArrayList<FileBagage>();
+		chariotList = new ArrayList<Chariot>();
 	}
 
 	public void init() {
