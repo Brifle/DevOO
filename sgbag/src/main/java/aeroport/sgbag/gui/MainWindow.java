@@ -40,6 +40,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.RowLayout;
+import org.eclipse.core.databinding.DataBindingContext;
+import org.eclipse.core.databinding.observable.value.IObservableValue;
+import org.eclipse.jface.databinding.swt.SWTObservables;
+import org.eclipse.core.databinding.beans.PojoObservables;
+import org.eclipse.core.databinding.observable.Realm;
 
 /**
  * SGBag GUI root window.
@@ -48,15 +53,20 @@ import org.eclipse.swt.layout.RowLayout;
  *
  */
 public class MainWindow extends ApplicationWindow {
+	private DataBindingContext m_bindingContext;
 	private Action actionQuitter;
 	private Action actionDemarrer;
 	private Action actionPauser;
 	private Action actionArreter;
 	private Action actionOuvrir;
+	private Action actionSetAuto;
+	private Action actionSetManuel;
 
 	private VueHall vueHall;
 	private Simulation simulation;
 	private PropertiesWidget propertiesWidget;
+	private Button btnManuel;
+	private Button butAutomatique;
 	
 	/**
 	 * Create the application window.
@@ -92,7 +102,7 @@ public class MainWindow extends ApplicationWindow {
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		
-		Button btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel = new Button(composite, SWT.TOGGLE);
 		btnManuel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -100,7 +110,7 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnManuel.setText("Manuel");
 		
-		Button butAutomatique = new Button(composite, SWT.TOGGLE);
+		butAutomatique = new Button(composite, SWT.TOGGLE);
 		butAutomatique.setText("Automatique");
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
@@ -128,6 +138,7 @@ public class MainWindow extends ApplicationWindow {
 		gd_sclVitesse.widthHint = 120;
 		gd_sclVitesse.minimumWidth = 120;
 		sclVitesse.setLayoutData(gd_sclVitesse);
+		m_bindingContext = initDataBindings();
 		
 		return container;
 	}
@@ -162,6 +173,7 @@ public class MainWindow extends ApplicationWindow {
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
 				@Override
 				public void run() {
+					super.run();
 					FileDialog fd = new FileDialog(getShell());
 					fd.setFilterNames(new String[] { "Description XML" });
 				    fd.setFilterExtensions(new String[] { "*.xml" }); 
@@ -175,6 +187,30 @@ public class MainWindow extends ApplicationWindow {
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
 				    }
+				}
+			};
+		}
+		{
+			actionSetAuto = new Action("Mode automatique") {
+				@Override
+				public void run() {
+					super.run();
+					
+					simulation.setMode(Simulation.Mode.AUTO);
+					setChecked(true);
+					actionSetManuel.setChecked(false);
+				}
+			};
+		}
+		{
+			actionSetManuel = new Action("Mode manuel") {
+				@Override
+				public void run() {
+					super.run();
+					
+					simulation.setMode(Simulation.Mode.MANUEL);
+					setChecked(true);
+					actionSetAuto.setChecked(false);
 				}
 			};
 		}
@@ -229,14 +265,19 @@ public class MainWindow extends ApplicationWindow {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		try {
-			MainWindow window = new MainWindow();
-			window.setBlockOnOpen(true);
-			window.open();
-			Display.getCurrent().dispose();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+		Display display = Display.getDefault();
+		Realm.runWithDefault(SWTObservables.getRealm(display), new Runnable() {
+			public void run() {
+				try {
+					MainWindow window = new MainWindow();
+					window.setBlockOnOpen(true);
+					window.open();
+					Display.getCurrent().dispose();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 	/**
@@ -248,5 +289,18 @@ public class MainWindow extends ApplicationWindow {
 		super.configureShell(shell);
 		shell.setText("SGBag - Interface de simulation");
 		shell.setMinimumSize(600,500);
+	}
+	protected DataBindingContext initDataBindings() {
+		DataBindingContext bindingContext = new DataBindingContext();
+		//
+		IObservableValue btnManuelObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(30, SWTObservables.observeSelection(btnManuel));
+		IObservableValue actionSetManuelCheckedObserveValue = PojoObservables.observeValue(actionSetManuel, "checked");
+		bindingContext.bindValue(btnManuelObserveSelectionObserveWidget, actionSetManuelCheckedObserveValue, null, null);
+		//
+		IObservableValue butAutomatiqueObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(30, SWTObservables.observeSelection(butAutomatique));
+		IObservableValue actionSetAutoCheckedObserveValue = PojoObservables.observeValue(actionSetAuto, "checked");
+		bindingContext.bindValue(butAutomatiqueObserveSelectionObserveWidget, actionSetAutoCheckedObserveValue, null, null);
+		//
+		return bindingContext;
 	}
 }
