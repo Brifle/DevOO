@@ -20,13 +20,11 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.jface.resource.CompositeImageDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.osgi.framework.Bundle;
 
 /**
  * Utility class for managing OS resources associated with SWT/JFace controls such as colors, fonts, images,
@@ -339,10 +337,8 @@ public class ResourceManager extends SWTResourceManager {
 	private static URL getPluginImageURL(String symbolicName, String path) {
 		// try runtime plugins
 		{
-			Bundle bundle = Platform.getBundle(symbolicName);
-			if (bundle != null) {
-				return bundle.getEntry(path);
-			}
+			// Not implemented
+			// (code removed, not used in this project)
 		}
 		// try design time provider
 		if (m_designTimePluginResourceProvider != null) {
