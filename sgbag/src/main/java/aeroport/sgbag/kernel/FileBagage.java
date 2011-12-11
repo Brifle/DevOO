@@ -3,7 +3,7 @@ package aeroport.sgbag.kernel;
 import java.util.*;
 import lombok.*;
 
-public abstract class FileBagage {
+public abstract class FileBagage extends KernelObject {
     
 	@Getter
 	@Setter

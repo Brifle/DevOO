@@ -5,7 +5,7 @@ import java.util.*;
 import lombok.*;
 
 @AllArgsConstructor
-public class Hall {
+public class Hall extends KernelObject {
 
 	@Getter
 	@Setter

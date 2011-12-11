@@ -5,6 +5,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 
+import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.kernel.Hall;
 
 import java.util.*;
@@ -18,6 +19,10 @@ public class VueHall extends Canvas implements Viewable {
 	@Getter
 	@Setter
 	private Hall hall;
+	
+	@Getter
+	@Setter
+	private Simulation simulation;
 	
 	@Getter
 	@Setter

@@ -1,5 +1,12 @@
 package aeroport.sgbag.gui;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileView;
+import javax.swing.plaf.FileChooserUI;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -16,14 +23,23 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
 import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.RowLayout;
 
 /**
  * SGBag GUI root window.
@@ -38,6 +54,10 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionArreter;
 	private Action actionOuvrir;
 
+	private VueHall vueHall;
+	private Simulation simulation;
+	private PropertiesWidget propertiesWidget;
+	
 	/**
 	 * Create the application window.
 	 */
@@ -59,14 +79,29 @@ public class MainWindow extends ApplicationWindow {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		
-		VueHall vueHall = new VueHall(container, SWT.BORDER);
-		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
+		vueHall = new VueHall(container, SWT.BORDER);
+		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 5);
 		gd_vueHall.heightHint = 150;
 		gd_vueHall.widthHint = 400;
 		gd_vueHall.minimumHeight = 200;
 		gd_vueHall.minimumWidth = 400;
 		vueHall.setLayoutData(gd_vueHall);
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		Composite composite = new Composite(container, SWT.NONE);
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		
+		Button btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+			}
+		});
+		btnManuel.setText("Manuel");
+		
+		Button butAutomatique = new Button(composite, SWT.TOGGLE);
+		butAutomatique.setText("Automatique");
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
 		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
@@ -75,8 +110,11 @@ public class MainWindow extends ApplicationWindow {
 		treeViews.setLayoutData(gd_treeViews);
 		
 		Group grpProperties = new Group(container, SWT.NONE);
+		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
 		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		grpProperties.setText("Propriétés");
+		
+		propertiesWidget = new PropertiesWidget(grpProperties, SWT.NONE, null);
 		
 		CLabel lblVitesse = new CLabel(container, SWT.NONE);
 		lblVitesse.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
@@ -122,6 +160,22 @@ public class MainWindow extends ApplicationWindow {
 		}
 		{
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
+				@Override
+				public void run() {
+					FileDialog fd = new FileDialog(getShell());
+					fd.setFilterNames(new String[] { "Description XML" });
+				    fd.setFilterExtensions(new String[] { "*.xml" }); 
+				    fd.setFilterPath(System.getProperty("user.dir"));
+				    fd.setFileName("");
+				    
+				    String fileName = fd.open();
+				    
+				    if(fileName != null){
+				    	simulation = new Simulation(new File(fileName));
+				    	propertiesWidget.setSimulation(simulation);
+				    	propertiesWidget.refresh();
+				    }
+				}
 			};
 		}
 	}
