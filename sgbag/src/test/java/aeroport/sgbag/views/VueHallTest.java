@@ -1,10 +1,16 @@
 package aeroport.sgbag.views;
 import static org.junit.Assert.*;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.widgets.*;
 import org.junit.*;
 
 public class VueHallTest {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PropertyConfigurator.configure("log4j.properties");
+	}
 
 	@Test
 	public void testLayouts() {

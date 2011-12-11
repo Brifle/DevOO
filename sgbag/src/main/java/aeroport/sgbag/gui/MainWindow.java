@@ -1,26 +1,40 @@
 package aeroport.sgbag.gui;
 
+import java.io.File;
+
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileView;
+import javax.swing.plaf.FileChooserUI;
+
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
+import org.eclipse.wb.swt.ResourceManager;
+import org.eclipse.swt.layout.FillLayout;
 
 /**
  * SGBag GUI root window.
@@ -33,7 +47,12 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionDemarrer;
 	private Action actionPauser;
 	private Action actionArreter;
+	private Action actionOuvrir;
 
+	private VueHall vueHall;
+	private Simulation simulation;
+	private PropertiesWidget propertiesWidget;
+	
 	/**
 	 * Create the application window.
 	 */
@@ -55,7 +74,7 @@ public class MainWindow extends ApplicationWindow {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		
-		VueHall vueHall = new VueHall(container, SWT.BORDER);
+		vueHall = new VueHall(container, SWT.BORDER);
 		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
 		gd_vueHall.heightHint = 150;
 		gd_vueHall.widthHint = 400;
@@ -66,12 +85,16 @@ public class MainWindow extends ApplicationWindow {
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
 		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
+		gd_treeViews.minimumWidth = 120;
 		gd_treeViews.heightHint = 150;
 		treeViews.setLayoutData(gd_treeViews);
 		
 		Group grpProperties = new Group(container, SWT.NONE);
+		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
 		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		grpProperties.setText("Propriétés");
+		
+		propertiesWidget = new PropertiesWidget(grpProperties, SWT.NONE, null);
 		
 		CLabel lblVitesse = new CLabel(container, SWT.NONE);
 		lblVitesse.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
@@ -104,15 +127,35 @@ public class MainWindow extends ApplicationWindow {
 			};
 		}
 		{
-			actionDemarrer = new Action("Démarrer") {
+			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 			};
 		}
 		{
-			actionPauser = new Action("Pauser") {
+			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(getClass(), "icons/pause.png") ) {
 			};
 		}
 		{
-			actionArreter = new Action("Arrêter") {
+			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
+			};
+		}
+		{
+			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
+				@Override
+				public void run() {
+					FileDialog fd = new FileDialog(getShell());
+					fd.setFilterNames(new String[] { "Description XML" });
+				    fd.setFilterExtensions(new String[] { "*.xml" }); 
+				    fd.setFilterPath(System.getProperty("user.dir"));
+				    fd.setFileName("");
+				    
+				    String fileName = fd.open();
+				    
+				    if(fileName != null){
+				    	simulation = new Simulation(new File(fileName));
+				    	propertiesWidget.setSimulation(simulation);
+				    	propertiesWidget.refresh();
+				    }
+				}
 			};
 		}
 	}
@@ -143,6 +186,8 @@ public class MainWindow extends ApplicationWindow {
 	@Override
 	protected ToolBarManager createToolBarManager(int style) {
 		ToolBarManager toolBarManager = new ToolBarManager(style);
+		toolBarManager.add(actionOuvrir);
+		toolBarManager.add(new Separator());
 		toolBarManager.add(actionDemarrer);
 		toolBarManager.add(actionPauser);
 		toolBarManager.add(actionArreter);
@@ -182,5 +227,6 @@ public class MainWindow extends ApplicationWindow {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText("SGBag - Interface de simulation");
+		shell.setMinimumSize(600,500);
 	}
 }

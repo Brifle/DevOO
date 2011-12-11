@@ -4,6 +4,10 @@ import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
+
+import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.kernel.Hall;
+
 import java.util.*;
 
 import lombok.*;
@@ -11,6 +15,14 @@ import lombok.*;
 public class VueHall extends Canvas implements Viewable {
 
 	private Image buffer;
+	
+	@Getter
+	@Setter
+	private Hall hall;
+	
+	@Getter
+	@Setter
+	private Simulation simulation;
 	
 	@Getter
 	@Setter
