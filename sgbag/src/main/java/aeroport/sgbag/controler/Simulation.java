@@ -28,6 +28,7 @@ public class Simulation {
 	private File xmlFile;
 
 	@Getter
+	@NonNull
 	private VueHall vueHall;
 
 	@Getter
