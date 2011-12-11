@@ -35,6 +35,11 @@ import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.RowLayout;
 
 /**
  * SGBag GUI root window.
@@ -48,10 +53,14 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionPauser;
 	private Action actionArreter;
 	private Action actionOuvrir;
+	private Action actionSetAuto;
+	private Action actionSetManuel;
 
 	private VueHall vueHall;
 	private Simulation simulation;
 	private PropertiesWidget propertiesWidget;
+	private Button btnManuel;
+	private Button btnAutomatique;
 	
 	/**
 	 * Create the application window.
@@ -62,6 +71,7 @@ public class MainWindow extends ApplicationWindow {
 		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
 		addStatusLine();
+    	simulation = new Simulation(vueHall);
 	}
 
 	/**
@@ -75,13 +85,35 @@ public class MainWindow extends ApplicationWindow {
 		container.setLayout(new GridLayout(3, false));
 		
 		vueHall = new VueHall(container, SWT.BORDER);
-		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
+		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 5);
 		gd_vueHall.heightHint = 150;
 		gd_vueHall.widthHint = 400;
 		gd_vueHall.minimumHeight = 200;
 		gd_vueHall.minimumWidth = 400;
 		vueHall.setLayoutData(gd_vueHall);
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		Composite composite = new Composite(container, SWT.NONE);
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
+		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		
+		btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				actionSetManuel.run();
+			}
+		});
+		btnManuel.setText("Manuel");
+		
+		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				actionSetAuto.run();
+			}
+		});
+		btnAutomatique.setText("Automatique");
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
 		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
@@ -142,6 +174,7 @@ public class MainWindow extends ApplicationWindow {
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
 				@Override
 				public void run() {
+					super.run();
 					FileDialog fd = new FileDialog(getShell());
 					fd.setFilterNames(new String[] { "Description XML" });
 				    fd.setFilterExtensions(new String[] { "*.xml" }); 
@@ -151,10 +184,39 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
-				    	simulation = new Simulation(new File(fileName));
+				    	simulation.setXmlFile(new File(fileName));
+				    	simulation.init();
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
 				    }
+				}
+			};
+		}
+		{
+			actionSetAuto = new Action("Mode automatique") {
+				@Override
+				public void run() {
+					super.run();
+					
+					simulation.setMode(Simulation.Mode.AUTO);
+					setChecked(true);
+					actionSetManuel.setChecked(false);
+					btnManuel.setSelection(false);
+					btnAutomatique.setSelection(true);
+				}
+			};
+		}
+		{
+			actionSetManuel = new Action("Mode manuel") {
+				@Override
+				public void run() {
+					super.run();
+					
+					simulation.setMode(Simulation.Mode.MANUEL);
+					setChecked(true);
+					actionSetAuto.setChecked(false);
+					btnManuel.setSelection(true);
+					btnAutomatique.setSelection(false);
 				}
 			};
 		}
@@ -209,6 +271,7 @@ public class MainWindow extends ApplicationWindow {
 	 * @param args
 	 */
 	public static void main(String args[]) {
+		Display display = Display.getDefault();
 		try {
 			MainWindow window = new MainWindow();
 			window.setBlockOnOpen(true);

@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 
+import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.utils.Geom;
 import aeroport.sgbag.utils.Rectangle2D;
 
@@ -56,6 +57,7 @@ public abstract class VueElem implements Viewable {
 	protected Image image;
 	
 	@Getter
+	@Setter
 	protected boolean selected;
 	
 	public VueElem(VueHall parent) {
@@ -64,15 +66,7 @@ public abstract class VueElem implements Viewable {
 	
 	public void destroy() {
 		parent.retirerVue(this);
-	}
-	
-	public void setSelected(boolean _selected) {
-		selected = _selected;
-		if(selected == true) {
-			this.image.getImageData().alpha = 255;
-		} else {
-			this.image.getImageData().alpha = 127;
-		}
+		ViewSelector.getInstance().removeByView(this);
 	}
 
 	public Rectangle2D getRectangle2D() {
@@ -106,6 +100,13 @@ public abstract class VueElem implements Viewable {
 		trImage.translate(this.x, this.y);
 		trImage.rotate(this.angle);
 		gc.setTransform(trImage);
+		
+		// If the element is selected :
+		if(selected) {
+			gc.setAlpha(100);
+		} else {
+			gc.setAlpha(255);
+		}
 
 		// Then we just draw the image on the GC :
 		gc.drawImage(this.image, 0, 0, rect.width, rect.height,
