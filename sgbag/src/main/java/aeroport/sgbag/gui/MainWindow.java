@@ -183,7 +183,7 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
-				    	simulation = new Simulation(new File(fileName));
+				    	simulation = new Simulation(new File(fileName), vueHall);
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
 				    }

@@ -557,7 +557,7 @@ public class VuesIntegrationTest {
 		}
 	}
 
-	class PointNoeud {
+	 class PointNoeud {
 		public PointNoeud(Point p, Noeud n) {
 			pt = p;
 			noeud = n;
