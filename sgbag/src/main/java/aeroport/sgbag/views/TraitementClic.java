@@ -17,8 +17,8 @@ public class TraitementClic extends MouseAdapter {
 	@Getter
 	private VueHall vueHall;
 
-	public TraitementClic(VueHall _vueHall) {
-		vueHall = _vueHall;
+	public TraitementClic(VueHall vueHall) {
+		this.vueHall = vueHall;
 	}
 
 	/**
