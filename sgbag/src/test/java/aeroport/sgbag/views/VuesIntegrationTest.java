@@ -1,12 +1,9 @@
 package aeroport.sgbag.views;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.Set;
 
-import javax.lang.model.element.Element;
+
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
@@ -24,13 +21,14 @@ import aeroport.sgbag.kernel.ConnexionCircuit;
 import aeroport.sgbag.kernel.ElementCircuit;
 import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
+import aeroport.sgbag.kernel.TapisRoulant;
+import aeroport.sgbag.kernel.Toboggan;
 import aeroport.sgbag.utils.Geom;
 
 public class VuesIntegrationTest {
 
 	private Shell shell;
 	private Display display;
-	private VueRail vueRail;
 	private VueHall vueHall;
 
 	/**
@@ -77,16 +75,171 @@ public class VuesIntegrationTest {
 			//Création d'une branche alternative sur le chemin principal
 			ArrayList<PointNoeud> listePointsBranche1 = new ArrayList<VuesIntegrationTest.PointNoeud>();
 			
-			listePointsBranche1.add(new PointNoeud(40, 300, null));
+			listePointsBranche1.add(new PointNoeud(40, 300, listePoints.get(4).noeud));
 			listePointsBranche1.add(new PointNoeud(150, 200, null));
-			listePointsBranche1.add(new PointNoeud(200, 100, null));
+			listePointsBranche1.add(new PointNoeud(200, 100, listePoints.get(2).noeud));
 
 			generateVuesChemin( vueHall, listePointsBranche1, listeVuesRail,listeVuesEmbranchements, false, false); 
 			
 			//Création d'une feuille sur la branche alternative
 			ArrayList<PointNoeud> listePointsFeuille1 = new ArrayList<VuesIntegrationTest.PointNoeud>();
 			
-			listePointsFeuille1.add(new PointNoeud(150, 200, null));
+			listePointsFeuille1.add(new PointNoeud(150, 200, listePointsBranche1.get(1).noeud));
+			listePointsFeuille1.add(new PointNoeud(100, 150, null));
+
+			generateVuesChemin( vueHall, listePointsFeuille1, listeVuesRail,listeVuesEmbranchements, false, true); 
+			
+			int indice = 0;
+
+			for (; indice < listeVuesRail.size(); indice++) {
+				vueHall.ajouterVue(listeVuesRail.get(indice), 1);
+			}
+			for (indice = 0; indice < listeVuesEmbranchements.size(); indice++) {
+				VueEmbranchement a = listeVuesEmbranchements.get(indice);a.getAngle();
+				vueHall.ajouterVue(listeVuesEmbranchements.get(indice), 2);
+			}
+
+			shell.open();
+			vueHall.draw();
+
+			while (!shell.isDisposed()) {
+				if (!display.readAndDispatch())
+					 display.sleep();
+			}
+
+		} catch (Exception e) {
+			System.out.println(e.getCause());
+			System.out.println(e.getMessage());
+		}
+	}
+	@Test 
+	// TODO avec les tics
+	public void testCircuitAvecChariot() throws InterruptedException {		
+		
+		//Création du chemin principal
+		ArrayList<PointNoeud> listePoints = new ArrayList<VuesIntegrationTest.PointNoeud>();
+		listePoints.add(new PointNoeud(200, 100, null));
+		listePoints.add(new PointNoeud(500, 500, null));
+		listePoints.add(new PointNoeud(40, 300, null));
+		listePoints.add(new PointNoeud(40, 400, null));
+
+		ArrayList<VueRail> listeVuesRail= new ArrayList<VueRail>();
+		ArrayList<VueEmbranchement> listeVuesEmbranchements= new ArrayList<VueEmbranchement>(); 
+		generateVuesChemin( vueHall, listePoints, listeVuesRail,listeVuesEmbranchements, true, true); 
+		
+		//Création d'une branche alternative sur le chemin principal
+		ArrayList<PointNoeud> listePointsBranche1 = new ArrayList<VuesIntegrationTest.PointNoeud>();
+		
+		listePointsBranche1.add(new PointNoeud(40, 300, listePoints.get(2).noeud));
+		listePointsBranche1.add(new PointNoeud(150, 200, null));
+		listePointsBranche1.add(new PointNoeud(200, 100, listePoints.get(0).noeud));
+
+		generateVuesChemin( vueHall, listePointsBranche1, listeVuesRail,listeVuesEmbranchements, false, false); 
+		
+		int indice = 0;
+
+		for (; indice < listeVuesRail.size(); indice++) {
+			vueHall.ajouterVue(listeVuesRail.get(indice), 1);
+		}
+		for (indice = 0; indice < listeVuesEmbranchements.size(); indice++) {
+			VueEmbranchement a = listeVuesEmbranchements.get(indice);a.getAngle();
+			vueHall.ajouterVue(listeVuesEmbranchements.get(indice), 2);
+		}
+
+		//Création du chemin des chariots
+		LinkedList<ElementCircuit> cheminPrevu1 = new LinkedList<ElementCircuit>();
+		cheminPrevu1.add(listeVuesRail.get(0).getRail());
+		cheminPrevu1.add(listeVuesEmbranchements.get(1).getNoeud());
+		
+		LinkedList<ElementCircuit> cheminPrevu2 = new LinkedList<ElementCircuit>();
+		cheminPrevu2.add(listeVuesEmbranchements.get(1).getNoeud());
+		cheminPrevu2.add(listeVuesRail.get(1).getRail());
+		
+		Chariot chariot1 = new Chariot(10, 20, 0, listeVuesEmbranchements.get(1).getNoeud(),null, cheminPrevu1);
+		Chariot chariot2 = new Chariot(10, 20, 200, listeVuesEmbranchements.get(1).getNoeud(),null, cheminPrevu2);
+		//listeVuesEmbranchements.get(0).getNoeud().addRailSortie(listeVuesRail.get(0).getRail());
+		
+		//On place les chariots
+		listeVuesEmbranchements.get(0).getNoeud().registerChariot(chariot1);
+		chariot1.setParent(listeVuesEmbranchements.get(0).getNoeud());
+		
+		listeVuesRail.get(0).getRail().registerChariot(chariot2);
+		chariot2.setParent(listeVuesRail.get(0).getRail());
+		
+		//On ajoute les vues
+		VueChariot vueChariot1 = new VueChariot(vueHall, chariot1);
+		VueChariot vueChariot2 = new VueChariot(vueHall, chariot2);
+		vueHall.ajouterVue(vueChariot1, 3);
+		vueHall.ajouterVue(vueChariot2, 3);
+		
+		ViewSelector.getInstance().setKernelView(listeVuesEmbranchements.get(0).getNoeud(),listeVuesEmbranchements.get(0));
+		ViewSelector.getInstance().setKernelView(listeVuesRail.get(0).getRail(),listeVuesRail.get(0));
+		
+		
+		shell.open();
+		//for(int i = 0; i<10; i++){
+		//	System.out.println("Clock!!");
+			vueHall.updateView();
+			vueHall.draw();
+		//	Thread.sleep(2000);
+		//}
+		
+
+
+		while (!shell.isDisposed()) {
+			if (!display.readAndDispatch())
+				 display.sleep();
+		}		
+	}
+	
+	@Test
+	public void testEmbranchementsToboggansTapis() {// TODO methode pr affecter un tapis/tobo à un embranchemant
+		try {
+
+			//Creation Toboggan
+			Toboggan tobo = new Toboggan(1, 2, true);
+			ConnexionCircuit conex = new ConnexionCircuit(tobo);
+			tobo.setConnexionCircuit(conex);
+			VueToboggan vTobo = new VueToboggan(vueHall, tobo);
+			vTobo.setX(200);
+			vTobo.setY(100);
+			vueHall.ajouterVue(vTobo, 3);
+			
+			//Creation Tapis
+			TapisRoulant tapis = new TapisRoulant(100, 10, 5, true);
+			ConnexionCircuit conex2 = new ConnexionCircuit(tobo);
+			tobo.setConnexionCircuit(conex);
+			VueTapisRoulant vTapis = new VueTapisRoulant(vueHall, tapis);
+			vTapis.setX(500);
+			vTapis.setY(500);
+			vueHall.ajouterVue(vTapis, 3);
+
+			//Création du chemin principal
+			ArrayList<PointNoeud> listePoints = new ArrayList<VuesIntegrationTest.PointNoeud>();
+			listePoints.add(new PointNoeud(20, 20, null));
+			listePoints.add(new PointNoeud(100, 20, null));
+			listePoints.add(new PointNoeud(200, 100, conex));
+			listePoints.add(new PointNoeud(500, 500, null));
+			listePoints.add(new PointNoeud(40, 300, null));
+			listePoints.add(new PointNoeud(40, 400, null));
+
+			ArrayList<VueRail> listeVuesRail= new ArrayList<VueRail>();
+			ArrayList<VueEmbranchement> listeVuesEmbranchements= new ArrayList<VueEmbranchement>(); 
+			generateVuesChemin( vueHall, listePoints, listeVuesRail,listeVuesEmbranchements, true, true); 
+			
+			//Création d'une branche alternative sur le chemin principal
+			ArrayList<PointNoeud> listePointsBranche1 = new ArrayList<VuesIntegrationTest.PointNoeud>();
+			
+			listePointsBranche1.add(new PointNoeud(40, 300, listePoints.get(4).noeud));
+			listePointsBranche1.add(new PointNoeud(150, 200, null));
+			listePointsBranche1.add(new PointNoeud(200, 100, listePoints.get(2).noeud));
+
+			generateVuesChemin( vueHall, listePointsBranche1, listeVuesRail,listeVuesEmbranchements, false, false); 
+			
+			//Création d'une feuille sur la branche alternative
+			ArrayList<PointNoeud> listePointsFeuille1 = new ArrayList<VuesIntegrationTest.PointNoeud>();
+			
+			listePointsFeuille1.add(new PointNoeud(150, 200, listePointsBranche1.get(1).noeud));
 			listePointsFeuille1.add(new PointNoeud(100, 150, null));
 
 			generateVuesChemin( vueHall, listePointsFeuille1, listeVuesRail,listeVuesEmbranchements, false, true); 
@@ -115,79 +268,7 @@ public class VuesIntegrationTest {
 		}
 	}
 	
-	@Test 
-	//Non terminée TODO
-	public void testCircuitAvecChariot() throws InterruptedException {		
-		
-		//Création du chemin principal
-		ArrayList<PointNoeud> listePoints = new ArrayList<VuesIntegrationTest.PointNoeud>();
-		listePoints.add(new PointNoeud(200, 100, null));
-		listePoints.add(new PointNoeud(500, 500, null));
-		listePoints.add(new PointNoeud(40, 300, null));
-		listePoints.add(new PointNoeud(40, 400, null));
-
-		ArrayList<VueRail> listeVuesRail= new ArrayList<VueRail>();
-		ArrayList<VueEmbranchement> listeVuesEmbranchements= new ArrayList<VueEmbranchement>(); 
-		generateVuesChemin( vueHall, listePoints, listeVuesRail,listeVuesEmbranchements, true, true); 
-		
-		//Création d'une branche alternative sur le chemin principal
-		ArrayList<PointNoeud> listePointsBranche1 = new ArrayList<VuesIntegrationTest.PointNoeud>();
-		
-		listePointsBranche1.add(new PointNoeud(40, 300, null));
-		listePointsBranche1.add(new PointNoeud(150, 200, null));
-		listePointsBranche1.add(new PointNoeud(200, 100, null));
-
-		generateVuesChemin( vueHall, listePointsBranche1, listeVuesRail,listeVuesEmbranchements, false, false); 
-		
-		int indice = 0;
-
-		for (; indice < listeVuesRail.size(); indice++) {
-			vueHall.ajouterVue(listeVuesRail.get(indice), 1);
-		}
-		for (indice = 0; indice < listeVuesEmbranchements.size(); indice++) {
-			VueEmbranchement a = listeVuesEmbranchements.get(indice);a.getAngle();
-			vueHall.ajouterVue(listeVuesEmbranchements.get(indice), 2);
-		}
-
-		//Création du chemin du chariot
-		LinkedList<ElementCircuit> cheminPrevu = new LinkedList<ElementCircuit>();
-
-		//cheminPrevu.add(listeVuesRail.get(0).getRail());
-		//cheminPrevu.add(listeVuesEmbranchements.get(1).getNoeud());
-		
-		
-		Chariot chariot1 = new Chariot(10, 20, 0, listeVuesEmbranchements.get(1).getNoeud(),null, cheminPrevu);
-		Chariot chariot2 = new Chariot(10, 20, 200, listeVuesEmbranchements.get(1).getNoeud(),null, cheminPrevu);
-		//listeVuesEmbranchements.get(0).getNoeud().addRailSortie(listeVuesRail.get(0).getRail());
-		
-		//On place les chariots
-		listeVuesEmbranchements.get(0).getNoeud().registerChariot(chariot1);
-		chariot1.setParent(listeVuesEmbranchements.get(0).getNoeud());
-		
-		listeVuesRail.get(0).getRail().registerChariot(chariot2);
-		chariot2.setParent(listeVuesRail.get(0).getRail());
-		
-		//On ajoute les vues
-		VueChariot vueChariot1 = new VueChariot(vueHall, chariot1);
-		VueChariot vueChariot2 = new VueChariot(vueHall, chariot2);
-		vueHall.ajouterVue(vueChariot1, 3);
-		vueHall.ajouterVue(vueChariot2, 3);
-		
-		ViewSelector.getInstance().setKernelView(listeVuesEmbranchements.get(0).getNoeud(),listeVuesEmbranchements.get(0));
-		ViewSelector.getInstance().setKernelView(listeVuesRail.get(0).getRail(),listeVuesRail.get(0));
-		
-		
-		shell.open();
-		vueHall.updateView();
-		vueHall.draw();
-
-
-		while (!shell.isDisposed()) {
-			if (!display.readAndDispatch())
-				 display.sleep();
-		}
-		
-	}
+	
 	
 	//TODO autres tests
 	
@@ -195,131 +276,64 @@ public class VuesIntegrationTest {
 	 * Construit une suite de rails et d'embranchements (il n'y a pas d'embranchement "multiple" ).
 	 * 
 	 * @param vHall = VueHall où doivent être dessinés les rails et les embranchement
-	 * @param listePoints = Liste des points ordonnée entre lesquels doivent se trouver les rails et où se trouvent les noeuds
-	 * @param listeRail = Liste ordonnée de Rail que l'on veut associer aux vueRails (peut etre null)
-	 * @param listeNoeuds =  Liste ordonnée de Noeud que l'on veut associer aux vueEmbranchement (peut etre null)
+	 * @param listePoints = Liste des points ordonnée entre lesquels doivent se trouver les rails et où se trouvent les noeuds 
+	 * (à chaque point on peut associer un noeud (toboggan, tapis ...). Par defaut c'est un noeud basique qui est créé.
 	 * @param listeVuesRail = Liste des VueRail générée. Si cette liste contient deja des VueRail, alors les nouvelles seront ajoutée à la fin.
 	 * @param listeVuesEmbranchements =  Liste des VueEmbranchement générée selon les parametres. Si cette liste contient deja des vues, alors les nouvelles seront ajoutées à la fin.
 	 * @param commenceParNoeud = permet de préciser si le chemin doit où non commencer par un noeud
 	 * @param finiParNoeud = permet de préciser si le chemin doit où non se terminer par un noeud
 	 */
-	/*public void generateVuesChemin(VueHall vHall, ArrayList<Point> listePoints,  ArrayList<Rail> listeRail, ArrayList<Noeud> listeNoeuds, ArrayList<VueRail> listeVuesRail, ArrayList<VueEmbranchement> listeVuesEmbranchements, Boolean commenceParNoeud, Boolean finiParNoeud) {
-
-		if (listePoints.size() >= 2) {
-			
-			int index = 0;
-
-			//Création des vueRail
-			for (; index < listePoints.size() - 1; index++) {
-				if(listeRail == null || index > listeRail.size()){
-					listeVuesRail.add(generateVueRail(listePoints.get(index),
-							listePoints.get(index + 1), null, vHall));
-				}else{
-					listeVuesRail.add(generateVueRail(listePoints.get(index),
-							listePoints.get(index + 1), listeRail.get(index), vHall));
-				}
-			}
-			
-			index = 0;			
-			if(!commenceParNoeud){
-				index = 1;
-			}
-			int indexFin;
-			if(!finiParNoeud){
-				indexFin = listePoints.size()-1;
-			}else{
-				indexFin = listePoints.size();
-			}
-			
-			//Création des VueEmbranchement
-			for(;index < indexFin; index++){
-				
-				if(listeNoeuds == null || index > listeNoeuds.size()){
-					listeVuesEmbranchements.add(generateVueEmbranchement(listePoints.get(index), null, vHall));
-				}else{
-					listeVuesEmbranchements.add(generateVueEmbranchement(listePoints.get(index), listeNoeuds.get(index), vHall));
-				}
-			}
-		}
-	}*/
-	/*
-	public void generateVuesChemin(VueHall vHall, ArrayList<Point> listePoints, ArrayList<VueRail> listeVuesRail, ArrayList<VueEmbranchement> listeVuesEmbranchements, Boolean commenceParNoeud, Boolean finiParNoeud) {
-
-		if (listePoints.size() >= 2) {
-			
-			int index = 0;
-
-			//Création des vueRail
-			for (; index < listePoints.size() - 1; index++) {
-				listeVuesRail.add(generateVueRail(listePoints.get(index),
-				listePoints.get(index + 1), vHall));
-			}
-			
-			index = 0;			
-			if(!commenceParNoeud){
-				index = 1;
-			}
-			int indexFin;
-			if(!finiParNoeud){
-				indexFin = listePoints.size()-1;
-			}else{
-				indexFin = listePoints.size();
-			}
-			
-			//Création des VueEmbranchement
-			for(;index < indexFin; index++){
-				
-				//if(listeNoeuds == null || index > listeNoeuds.size()){
-					listeVuesEmbranchements.add(generateVueEmbranchement(listePoints.get(index), null, vHall));
-				//}else{
-				//	listeVuesEmbranchements.add(generateVueEmbranchement(listePoints.get(index), listeNoeuds.get(index), vHall));
-				//}
-			}
-		}
-	}*/
-	
 	public void generateVuesChemin(VueHall vHall,ArrayList<PointNoeud> listePoints, ArrayList<VueRail> listeVuesRail, ArrayList<VueEmbranchement> listeVuesEmbranchements, Boolean commenceParNoeud, Boolean finiParNoeud) {
-
+		//Boolean stop = false;
+		
 		if (listePoints.size() >= 2) {
 			
-			int index = 0;
-
-			//Iterator<Point> it = listePoints.keySet().iterator();
-
-			//Point precedent = new Point(0,0);
-			
-			//if(it.hasNext()){
-			//	precedent = it.next();
-			//}
-			
-			//Création des vueRail
-			for (; index<listePoints.size()- 1;index++) {
-				listeVuesRail.add(generateVueRail(listePoints.get(index).pt,
-						listePoints.get(index + 1).pt, vHall));
-			}
-			
-			index = 0;			
+			int index;
+			int indexDeb = 0;
 			if(!commenceParNoeud){
-				index = 1;
+				if(listePoints.get(0).noeud == null){
+					System.out.println("Il faut instancier un noeud de départ");
+					return ;//stop = true;
+				}
+				indexDeb = 1;
+				
 			}
 			int indexFin;
 			if(!finiParNoeud){
+				if(listePoints.get(listePoints.size()-1).noeud == null){
+					System.out.println("Il faut instancier un noeud de fin");
+					return;//stop = true;
+				}
 				indexFin = listePoints.size()-1;
+
 			}else{
 				indexFin = listePoints.size();
 			}
 			
-			//Iterator<Point> it2 = listePoints.keySet().iterator();
-			
 			//Création des VueEmbranchement
-			for(;index < indexFin; index++){
+			for(index = indexDeb;index < indexFin; index++){
+				VueEmbranchement vueEmbranchement = generateVueEmbranchement(listePoints.get(index).pt, listePoints.get(index).noeud, vHall);
+				listeVuesEmbranchements.add(vueEmbranchement);
 				
-				//if(listeNoeuds == null || index > listeNoeuds.size()){
-
-				listeVuesEmbranchements.add(generateVueEmbranchement(listePoints.get(index).pt, listePoints.get(index).noeud, vHall));
-				//}else{
-				//	listeVuesEmbranchements.add(generateVueEmbranchement(listePoints.get(index), listeNoeuds.get(index), vHall));
-				//}
+				//Si il n'y avait pas de noeud dans listePoint, on le rajoute
+				if(listePoints.get(index).noeud == null){
+					listePoints.get(index).noeud = vueEmbranchement.getNoeud();
+				}
+			}	
+			
+			//Création des vueRail
+			for (index = 0; index<listePoints.size()- 1;index++) {
+				PointNoeud noeudDebut = listePoints.get(index);
+				PointNoeud noeudFin = listePoints.get(index + 1);
+				VueRail vueRail = generateVueRail(noeudDebut.pt,
+						noeudFin.pt, vHall);
+				
+				//On attache le rail
+				vueRail.getRail().setNoeudPrecedent(noeudDebut.noeud);
+				vueRail.getRail().setNoeudSuivant(noeudFin.noeud);
+				noeudDebut.noeud.addRailSortie(vueRail.getRail());
+				
+				listeVuesRail.add(vueRail);
 			}
 		}
 	}
