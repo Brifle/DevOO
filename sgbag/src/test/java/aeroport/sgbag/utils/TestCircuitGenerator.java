@@ -73,7 +73,7 @@ public class TestCircuitGenerator {
 	}
 	
 	@Test
-	public void testExit(){
+	public void testExitEntry(){
 		CircuitGenerator.clear();
 		CircuitGenerator.setVueHall(vueHall);
 
@@ -91,6 +91,7 @@ public class TestCircuitGenerator {
 		CircuitGenerator.createSegment(p5, p6);
 		CircuitGenerator.createSegment(p3, p5);
 		CircuitGenerator.createExit(p3);
+		CircuitGenerator.createEntry(p5, 100, 10, 5, false);
 		
 		CircuitGenerator.updateCircuit();
 		shell.open();
