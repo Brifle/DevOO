@@ -3,22 +3,25 @@ package aeroport.sgbag.views;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+import aeroport.sgbag.controler.Clock;
 import aeroport.sgbag.controler.ViewSelector;
+import aeroport.sgbag.kernel.Bagage;
+import aeroport.sgbag.kernel.BagageFactory;
 import aeroport.sgbag.kernel.Chariot;
+import aeroport.sgbag.kernel.Circuit;
 import aeroport.sgbag.kernel.ConnexionCircuit;
 import aeroport.sgbag.kernel.ElementCircuit;
+import aeroport.sgbag.kernel.FileBagage;
+import aeroport.sgbag.kernel.Hall;
 import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
@@ -30,6 +33,9 @@ public class VuesIntegrationTest {
 	private Shell shell;
 	private Display display;
 	private VueHall vueHall;
+	private Hall hall;
+	private ArrayList<ElementCircuit> simpleList;
+	private Circuit circuit;
 
 	/**
 	 * @throws java.lang.Exception
@@ -43,11 +49,7 @@ public class VuesIntegrationTest {
 		shell.setSize(800, 800);
 		vueHall = new VueHall(shell, SWT.NONE);
 		vueHall.setSize(300, 300);
-	}
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		PropertyConfigurator.configure("log4j.properties");
 	}
 
 	/**
@@ -60,11 +62,49 @@ public class VuesIntegrationTest {
 		display.dispose();
 	}
 
+	public void initializeKernel(ArrayList<ElementCircuit> listeElem,
+			ArrayList<FileBagage> files, ArrayList<Bagage> bagages) {
+		if (simpleList == null) {
+			simpleList = new ArrayList<ElementCircuit>();
+		} else {
+			simpleList.clear();
+		}
+		
+		if(listeElem != null){
+			for (int i = 0; i < listeElem.size(); i++) {
+				simpleList.add(listeElem.get(i));
+			}			
+		}
+
+		if (circuit == null) {
+			circuit = new Circuit(simpleList);
+		} else {
+			circuit.setElements(simpleList);
+		}
+
+		if (hall == null) {
+			hall = new Hall();
+		}
+
+		hall.setCircuit(circuit);
+		hall.getFileBagageList().clear();
+
+		if(files != null){
+			for (int j = 0; j < files.size(); j++) {
+				hall.addFileBagage(files.get(j));
+			}
+		}
+
+		hall.setBagagesList(bagages);
+		
+		
+		BagageFactory.getBagageFactory().setCircuit(circuit);
+	}
+
 	@Test
 	public void testRailEtEmbranchements() {
 		try {
 			// Création du chemin principal
-
 			ArrayList<PointNoeud> listePoints = new ArrayList<VuesIntegrationTest.PointNoeud>();
 			listePoints.add(new PointNoeud(20, 20, null));
 			listePoints.add(new PointNoeud(100, 20, null));
@@ -110,6 +150,20 @@ public class VuesIntegrationTest {
 				a.getAngle();
 				vueHall.ajouterVue(listeVuesEmbranchements.get(indice), 2);
 			}
+
+			ArrayList<ElementCircuit> listeElem = new ArrayList<ElementCircuit>();
+			
+			//On recupere tous les elements
+			for (int i = 0; i < listeVuesRail.size(); i++) {
+				listeElem.add(listeVuesRail.get(i).getRail());
+			}
+			for (int i = 0; i < listeVuesEmbranchements.size(); i++) {
+				listeElem.add(listeVuesEmbranchements.get(i).getNoeud());
+			}
+			
+			initializeKernel(listeElem, null, null);
+			InitializeViewSelectorEmbranchements(listeVuesEmbranchements);
+			InitializeViewSelectorRails(listeVuesRail);
 
 			shell.open();
 			vueHall.draw();
@@ -173,15 +227,15 @@ public class VuesIntegrationTest {
 		cheminPrevu2.add(listeVuesEmbranchements.get(1).getNoeud());
 		cheminPrevu2.add(listeVuesRail.get(1).getRail());
 
-		Chariot chariot1 = new Chariot(10, 20, 0, listeVuesEmbranchements
+		Chariot chariot1 = new Chariot(200, 20, 0, listeVuesEmbranchements
 				.get(1).getNoeud(), null, cheminPrevu1);
-		Chariot chariot2 = new Chariot(10, 20, 200, listeVuesEmbranchements
+		Chariot chariot2 = new Chariot(200, 20, 200, listeVuesEmbranchements
 				.get(1).getNoeud(), null, cheminPrevu2);
-		// listeVuesEmbranchements.get(0).getNoeud().addRailSortie(listeVuesRail.get(0).getRail());
 
 		// On place les chariots
 		listeVuesEmbranchements.get(0).getNoeud().registerChariot(chariot1);
 		chariot1.setParent(listeVuesEmbranchements.get(0).getNoeud());
+		
 
 		listeVuesRail.get(0).getRail().registerChariot(chariot2);
 		chariot2.setParent(listeVuesRail.get(0).getRail());
@@ -189,15 +243,35 @@ public class VuesIntegrationTest {
 		// On ajoute les vues
 		VueChariot vueChariot1 = new VueChariot(vueHall, chariot1);
 		VueChariot vueChariot2 = new VueChariot(vueHall, chariot2);
+		
 		vueHall.ajouterVue(vueChariot1, 3);
 		vueHall.ajouterVue(vueChariot2, 3);
+		ArrayList<VueChariot> vuesChariots = new ArrayList<VueChariot>();
+		vuesChariots.add(vueChariot1);
+		vuesChariots.add(vueChariot2);
 
-		ViewSelector.getInstance().setKernelView(
-				listeVuesEmbranchements.get(0).getNoeud(),
-				listeVuesEmbranchements.get(0));
-		ViewSelector.getInstance().setKernelView(
-				listeVuesRail.get(0).getRail(), listeVuesRail.get(0));
+		//ViewSelector.getInstance().clear();
+		ArrayList<ElementCircuit> listeElem = new ArrayList<ElementCircuit>();
+		
+		//On recupere tous les elements
+		for (int i = 0; i < listeVuesRail.size(); i++) {
+			listeElem.add(listeVuesRail.get(i).getRail());
+		}
+		for (int i = 0; i < listeVuesEmbranchements.size(); i++) {
+			listeElem.add(listeVuesEmbranchements.get(i).getNoeud());
+		}
 
+		
+		initializeKernel(listeElem, null, null);
+		InitializeViewSelectorEmbranchements(listeVuesEmbranchements);
+		InitializeViewSelectorRails(listeVuesRail);
+		
+		InitializeViewSelectorEmbranchements(listeVuesEmbranchements);
+		InitializeViewSelectorRails(listeVuesRail);
+		InitializeViewSelectorChariot(vuesChariots);
+		
+		//TODO prblem update
+		hall.init();
 		shell.open();
 		// for(int i = 0; i<10; i++){
 		// System.out.println("Clock!!");
@@ -205,7 +279,10 @@ public class VuesIntegrationTest {
 		vueHall.draw();
 		// Thread.sleep(2000);
 		// }
-
+		initializeKernel(listeElem, null, null);
+		
+		Clock clock = new Clock(200, hall, vueHall);
+		clock.run();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
@@ -220,7 +297,7 @@ public class VuesIntegrationTest {
 
 			// Creation Toboggan
 			Toboggan tobo = new Toboggan(1, 2, true);
-			ConnexionCircuit conex = new ConnexionCircuit(tobo);
+			ConnexionCircuit conex = new ConnexionCircuit(tobo, circuit);
 			tobo.setConnexionCircuit(conex);
 			VueToboggan vTobo = new VueToboggan(vueHall, tobo);
 			vTobo.setX(200);
@@ -230,7 +307,7 @@ public class VuesIntegrationTest {
 			// Creation Tapis
 			TapisRoulant tapis = new TapisRoulant(100, 10, 5, true);
 			ConnexionCircuit conex2 = new ConnexionCircuit(tobo);
-			tobo.setConnexionCircuit(conex);
+			tobo.setConnexionCircuit(conex2);
 			VueTapisRoulant vTapis = new VueTapisRoulant(vueHall, tapis);
 			vTapis.setX(500);
 			vTapis.setY(500);
@@ -443,6 +520,41 @@ public class VuesIntegrationTest {
 		VueEmbranchement.setY(point.y);
 
 		return VueEmbranchement;
+	}
+
+	public void InitializeViewSelectorEmbranchements(
+			ArrayList<VueEmbranchement> listeVuesEmbranchements) {
+		ViewSelector viewSelector = ViewSelector.getInstance();
+		for (int i = 0; i < listeVuesEmbranchements.size(); i++) {
+			viewSelector.setKernelView(listeVuesEmbranchements.get(i)
+					.getNoeud(), listeVuesEmbranchements.get(i));
+		}
+	}
+
+	public void InitializeViewSelectorRails(ArrayList<VueRail> listeVuesRails) {
+		ViewSelector viewSelector = ViewSelector.getInstance();
+		for (int i = 0; i < listeVuesRails.size(); i++) {
+			viewSelector.setKernelView(listeVuesRails.get(i).getRail(),
+					listeVuesRails.get(i));
+		}
+	}
+
+	public void InitializeViewSelectorBagages(
+			ArrayList<VueBagage> listeVuesBagages) {
+		ViewSelector viewSelector = ViewSelector.getInstance();
+		for (int i = 0; i < listeVuesBagages.size(); i++) {
+			viewSelector.setKernelView(listeVuesBagages.get(i).getBagage(),
+					listeVuesBagages.get(i));
+		}
+	}
+	
+	public void InitializeViewSelectorChariot(
+			ArrayList<VueChariot> listeVueschariots) {
+		ViewSelector viewSelector = ViewSelector.getInstance();
+		for (int i = 0; i < listeVueschariots.size(); i++) {
+			viewSelector.setKernelView(listeVueschariots.get(i).getChariot(),
+					listeVueschariots.get(i));
+		}
 	}
 
 	class PointNoeud {

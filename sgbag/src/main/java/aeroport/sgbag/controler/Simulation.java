@@ -14,6 +14,10 @@ import aeroport.sgbag.views.*;
 @RequiredArgsConstructor
 public class Simulation {
 	
+	public enum Mode {
+		MANUEL, AUTO
+	}
+	
 	@NonNull
 	@Getter
 	private File xmlFile;
@@ -24,8 +28,32 @@ public class Simulation {
 	@Getter
 	private Hall hall;
 	
+	@Getter
+	@Setter
+	private Mode mode;
+	
+	@Getter
+	private Clock clock;
+	
 	public void init() {
-		// TODO
+		
+		// TODO init vueHall with XML file
+		hall = vueHall.getHall();
+		
+		clock = new Clock(100, hall, vueHall);
+	}
+	
+	public void play() {
+		clock.run();
+	}
+	
+	public void pause() {
+		clock.pause();
+	}
+	
+	public void stop() {
+		clock.pause();
+		// TODO clear all bagages
 	}
 	
 }
