@@ -55,12 +55,24 @@ public abstract class VueElem implements Viewable {
 	@Setter
 	protected Image image;
 	
+	@Getter
+	protected boolean selected;
+	
 	public VueElem(VueHall parent) {
 		this.parent = parent;
 	}
 	
 	public void destroy() {
 		parent.retirerVue(this);
+	}
+	
+	public void setSelected(boolean _selected) {
+		selected = _selected;
+		if(selected == true) {
+			this.image.getImageData().alpha = 255;
+		} else {
+			this.image.getImageData().alpha = 127;
+		}
 	}
 
 	public Rectangle2D getRectangle2D() {
