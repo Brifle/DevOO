@@ -53,10 +53,14 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionPauser;
 	private Action actionArreter;
 	private Action actionOuvrir;
+	private Action actionSetAuto;
+	private Action actionSetManuel;
 
 	private VueHall vueHall;
 	private Simulation simulation;
 	private PropertiesWidget propertiesWidget;
+	private Button btnManuel;
+	private Button butAutomatique;
 	
 	/**
 	 * Create the application window.
@@ -92,7 +96,7 @@ public class MainWindow extends ApplicationWindow {
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		
-		Button btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel = new Button(composite, SWT.TOGGLE);
 		btnManuel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -100,7 +104,7 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnManuel.setText("Manuel");
 		
-		Button butAutomatique = new Button(composite, SWT.TOGGLE);
+		butAutomatique = new Button(composite, SWT.TOGGLE);
 		butAutomatique.setText("Automatique");
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
@@ -162,6 +166,7 @@ public class MainWindow extends ApplicationWindow {
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
 				@Override
 				public void run() {
+					super.run();
 					FileDialog fd = new FileDialog(getShell());
 					fd.setFilterNames(new String[] { "Description XML" });
 				    fd.setFilterExtensions(new String[] { "*.xml" }); 
@@ -171,10 +176,34 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
-				    	simulation = new Simulation(new File(fileName));
+				    	simulation = new Simulation(new File(fileName), vueHall);
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
 				    }
+				}
+			};
+		}
+		{
+			actionSetAuto = new Action("Mode automatique") {
+				@Override
+				public void run() {
+					super.run();
+					
+					simulation.setMode(Simulation.Mode.AUTO);
+					setChecked(true);
+					actionSetManuel.setChecked(false);
+				}
+			};
+		}
+		{
+			actionSetManuel = new Action("Mode manuel") {
+				@Override
+				public void run() {
+					super.run();
+					
+					simulation.setMode(Simulation.Mode.MANUEL);
+					setChecked(true);
+					actionSetAuto.setChecked(false);
 				}
 			};
 		}
@@ -229,6 +258,7 @@ public class MainWindow extends ApplicationWindow {
 	 * @param args
 	 */
 	public static void main(String args[]) {
+		Display display = Display.getDefault();
 		try {
 			MainWindow window = new MainWindow();
 			window.setBlockOnOpen(true);
