@@ -78,12 +78,27 @@ public class Simulation {
 			selectedElem.setSelected(true);
 	}
 
-	public void createBagage(VueElem depart, VueElem destination) {
+	public boolean createBagage(VueElem depart, VueElem destination) {
 
-		// TODO sh*tty stuff to create a Bagage in kernel
+		if (!(destination instanceof VueToboggan)
+				|| !(depart instanceof VueTapisRoulant)) {
+			return false;
+		}
+		VueToboggan vueToboggan = (VueToboggan) destination;
+		VueTapisRoulant vueTapisRoulant = (VueTapisRoulant) depart;
+		
+		// Create the bagage in kernel :
+		Bagage b = new Bagage();
+		b.setDestination(vueToboggan.getToboggan().getConnexionCircuit());
+		vueTapisRoulant.getTapisRoulant().addBagage(b);
+		b.setParent(vueTapisRoulant.getTapisRoulant());
 
-		// TODO sh*tty stuff to create a VueBagage
+		// Create the vueBagage :
+		VueBagage v = new VueBagage(vueHall);
+		vueHall.ajouterVue(v, 4);
+		ViewSelector.getInstance().setKernelView(b, v);
 
+		return true;
 	}
 
 }
