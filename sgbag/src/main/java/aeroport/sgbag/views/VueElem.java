@@ -14,6 +14,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 
+import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.utils.Geom;
 import aeroport.sgbag.utils.Rectangle2D;
 
@@ -64,6 +65,7 @@ public abstract class VueElem implements Viewable {
 	
 	public void destroy() {
 		parent.retirerVue(this);
+		ViewSelector.getInstance().removeByView(this);
 	}
 	
 	public void setSelected(boolean _selected) {

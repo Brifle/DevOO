@@ -77,13 +77,13 @@ public class Simulation {
 		if (selectedElem != null)
 			selectedElem.setSelected(true);
 	}
-	
+
 	public void createBagage(VueElem depart, VueElem destination) {
-		
+
 		// TODO sh*tty stuff to create a Bagage in kernel
-		
+
 		// TODO sh*tty stuff to create a VueBagage
-		
+
 	}
 
 }
