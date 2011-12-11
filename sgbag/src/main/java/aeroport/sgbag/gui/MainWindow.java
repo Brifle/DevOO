@@ -36,6 +36,7 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionDemarrer;
 	private Action actionPauser;
 	private Action actionArreter;
+	private Action actionOuvrir;
 
 	/**
 	 * Create the application window.
@@ -119,6 +120,10 @@ public class MainWindow extends ApplicationWindow {
 			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
 			};
 		}
+		{
+			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(getClass(), "icons/open.png") ) {
+			};
+		}
 	}
 
 	/**
@@ -147,6 +152,8 @@ public class MainWindow extends ApplicationWindow {
 	@Override
 	protected ToolBarManager createToolBarManager(int style) {
 		ToolBarManager toolBarManager = new ToolBarManager(style);
+		toolBarManager.add(actionOuvrir);
+		toolBarManager.add(new Separator());
 		toolBarManager.add(actionDemarrer);
 		toolBarManager.add(actionPauser);
 		toolBarManager.add(actionArreter);
