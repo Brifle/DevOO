@@ -5,9 +5,11 @@ import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
 import org.eclipse.jface.action.StatusLineManager;
 import org.eclipse.jface.action.ToolBarManager;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
+import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -21,6 +23,7 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.views.VueHall;
+import org.eclipse.wb.swt.ResourceManager;
 
 /**
  * SGBag GUI root window.
@@ -66,6 +69,7 @@ public class MainWindow extends ApplicationWindow {
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
 		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
+		gd_treeViews.minimumWidth = 120;
 		gd_treeViews.heightHint = 150;
 		treeViews.setLayoutData(gd_treeViews);
 		
@@ -104,15 +108,15 @@ public class MainWindow extends ApplicationWindow {
 			};
 		}
 		{
-			actionDemarrer = new Action("Démarrer") {
+			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 			};
 		}
 		{
-			actionPauser = new Action("Pauser") {
+			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(getClass(), "icons/pause.png") ) {
 			};
 		}
 		{
-			actionArreter = new Action("Arrêter") {
+			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
 			};
 		}
 	}
@@ -182,5 +186,6 @@ public class MainWindow extends ApplicationWindow {
 	protected void configureShell(Shell shell) {
 		super.configureShell(shell);
 		shell.setText("SGBag - Interface de simulation");
+		shell.setMinimumSize(600,500);
 	}
 }
