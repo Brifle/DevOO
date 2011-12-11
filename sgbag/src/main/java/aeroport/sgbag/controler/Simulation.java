@@ -41,7 +41,19 @@ public class Simulation {
 		hall = vueHall.getHall();
 		
 		clock = new Clock(100, hall, vueHall);
-		clock.init();
+	}
+	
+	public void play() {
+		clock.run();
+	}
+	
+	public void pause() {
+		clock.pause();
+	}
+	
+	public void stop() {
+		clock.pause();
+		// TODO clear all bagages
 	}
 	
 }
