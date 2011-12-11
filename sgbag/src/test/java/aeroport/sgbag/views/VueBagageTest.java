@@ -59,14 +59,6 @@ public class VueBagageTest {
 	}
 
 	/**
-	 * Test method for {@link aeroport.sgbag.views.VueRail#updateView()}.
-	 */
-	@Test
-	public void testUpdateView() {
-		fail("Not yet implemented");
-	}
-
-	/**
 	 * Test method for {@link aeroport.sgbag.views.VueRail#draw()}.
 	 * @throws InterruptedException 
 	 */
@@ -77,6 +69,7 @@ public class VueBagageTest {
 		vueBagage.setAngle(-45);
 		vueBagage.setX(150);
 		vueBagage.setY(150);
+		vueBagage.setSelected(true);
 		vueHall.ajouterVue(vueBagage, 0);
 
 		shell.open();
@@ -86,14 +79,6 @@ public class VueBagageTest {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
-	}
-
-	/**
-	 * Test method for {@link aeroport.sgbag.views.VueElem#isClicked()}.
-	 */
-	@Test
-	public void testIsClicked() {
-		fail("Not yet implemented");
 	}
 
 }

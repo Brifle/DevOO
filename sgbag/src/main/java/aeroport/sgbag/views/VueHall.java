@@ -64,6 +64,11 @@ public class VueHall extends Canvas implements Viewable {
 	}
 
 	public void updateView() {
+		
+		// TODO : add new bagages views
+		
+		// TODO : remove deleted bagages views
+		
 		// Update all the views, ordered by the layers
 		for (Iterator<Integer> iterator = calques.keySet().iterator(); iterator.hasNext();) {
 			LinkedList<VueElem> vues = calques.get(iterator.next());
