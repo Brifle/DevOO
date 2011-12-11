@@ -184,7 +184,7 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
-				    	simulation.setFile(new File(fileName));
+				    	simulation.setXmlFile(new File(fileName));
 				    	simulation.init();
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
