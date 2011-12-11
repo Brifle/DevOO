@@ -32,7 +32,10 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueTapisRoulant;
+
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -177,6 +180,10 @@ public class MainWindow extends ApplicationWindow {
 				    
 				    if(fileName != null){
 				    	simulation = new Simulation(new File(fileName), vueHall);
+				    	
+				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
+				    	simulation.setSelectedElem(null);
+				    	
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
 				    }

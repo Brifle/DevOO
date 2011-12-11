@@ -1,14 +1,13 @@
 package aeroport.sgbag.gui;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 
 import lombok.Getter;
-import lombok.Setter;
 
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
@@ -16,7 +15,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 import aeroport.sgbag.controler.Simulation;
-import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.views.VueBagage;
 import aeroport.sgbag.views.VueChariot;
@@ -51,15 +49,15 @@ public class PropertiesWidget extends Composite {
 
 		this.setLayout(new FillLayout());
 
-		canvas = new Canvas(this, SWT.NONE);
+		canvas = new Composite(this, SWT.NONE);
 	}
 
 	public void refresh() {
 		if (canvas != null) {
 			canvas.dispose();
 		}
-
-		canvas = new Canvas(this, SWT.NONE);
+		
+		canvas = new Composite(this, SWT.NONE);
 
 		canvas.setLayout(new GridLayout(2, false));
 
@@ -67,6 +65,7 @@ public class PropertiesWidget extends Composite {
 			if (this.simulation.getSelectedElem() == null) {
 				Label l = new Label(canvas, SWT.NONE);
 				l.setText("Aucun objet selectionné");
+				l.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 2, 1));
 			} else {
 				if (this.simulation.getSelectedElem() instanceof VueBagage) {
 
@@ -81,6 +80,9 @@ public class PropertiesWidget extends Composite {
 				}
 			}
 		}
+		
+		canvas.redraw();
+		this.redraw();
 	}
 	
 	private void setVueTapisRoulantViewMode(){
