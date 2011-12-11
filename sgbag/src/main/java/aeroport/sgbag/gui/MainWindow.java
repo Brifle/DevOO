@@ -31,6 +31,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
 import org.eclipse.wb.swt.ResourceManager;
 
@@ -47,6 +48,9 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionArreter;
 	private Action actionOuvrir;
 
+	public VueHall vueHall;
+	public Simulation simulation;
+	
 	/**
 	 * Create the application window.
 	 */
@@ -68,7 +72,7 @@ public class MainWindow extends ApplicationWindow {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		
-		VueHall vueHall = new VueHall(container, SWT.BORDER);
+		vueHall = new VueHall(container, SWT.BORDER);
 		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3);
 		gd_vueHall.heightHint = 150;
 		gd_vueHall.widthHint = 400;
@@ -141,10 +145,9 @@ public class MainWindow extends ApplicationWindow {
 				    
 				    String fileName = fd.open();
 				    
-				    MessageBox mb = new MessageBox(getShell(), SWT.OK);
-				    mb.setMessage(fileName);
-				    mb.open();
-				    // Call here the controller
+				    if(fileName != null){
+				    	simulation = new Simulation(new File(fileName));
+				    }
 				}
 			};
 		}
