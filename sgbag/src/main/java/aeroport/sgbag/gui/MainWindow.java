@@ -63,7 +63,7 @@ public class MainWindow extends ApplicationWindow {
 	private Simulation simulation;
 	private PropertiesWidget propertiesWidget;
 	private Button btnManuel;
-	private Button butAutomatique;
+	private Button btnAutomatique;
 	
 	/**
 	 * Create the application window.
@@ -74,6 +74,7 @@ public class MainWindow extends ApplicationWindow {
 		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
 		addStatusLine();
+    	simulation = new Simulation(vueHall);
 	}
 
 	/**
@@ -103,12 +104,19 @@ public class MainWindow extends ApplicationWindow {
 		btnManuel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				actionSetManuel.run();
 			}
 		});
 		btnManuel.setText("Manuel");
 		
-		butAutomatique = new Button(composite, SWT.TOGGLE);
-		butAutomatique.setText("Automatique");
+		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				actionSetAuto.run();
+			}
+		});
+		btnAutomatique.setText("Automatique");
 		
 		Tree treeViews = new Tree(container, SWT.BORDER);
 		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
@@ -179,13 +187,15 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
-				    	simulation = new Simulation(new File(fileName), vueHall);
+
+				    	simulation.setXmlFile(new File(fileName));
+				    	simulation.init();
+
+				    	propertiesWidget.setSimulation(simulation);
+				    	propertiesWidget.refresh();
 				    	
 				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
 				    	simulation.setSelectedElem(null);
-				    	
-				    	propertiesWidget.setSimulation(simulation);
-				    	propertiesWidget.refresh();
 				    }
 				}
 			};
@@ -199,6 +209,8 @@ public class MainWindow extends ApplicationWindow {
 					simulation.setMode(Simulation.Mode.AUTO);
 					setChecked(true);
 					actionSetManuel.setChecked(false);
+					btnManuel.setSelection(false);
+					btnAutomatique.setSelection(true);
 				}
 			};
 		}
@@ -211,6 +223,8 @@ public class MainWindow extends ApplicationWindow {
 					simulation.setMode(Simulation.Mode.MANUEL);
 					setChecked(true);
 					actionSetAuto.setChecked(false);
+					btnManuel.setSelection(true);
+					btnAutomatique.setSelection(false);
 				}
 			};
 		}

@@ -11,17 +11,22 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 
 import aeroport.sgbag.controler.ViewSelector;
+import aeroport.sgbag.kernel.Bagage;
+import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.Circuit;
 import aeroport.sgbag.kernel.ConnexionCircuit;
 import aeroport.sgbag.kernel.ElementCircuit;
 import aeroport.sgbag.kernel.Hall;
 import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
+import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
 import aeroport.sgbag.views.Viewable;
+import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueEmbranchement;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.views.VueRail;
+import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
 import aeroport.sgbag.utils.PointNoeud;
 
@@ -41,12 +46,19 @@ public class CircuitGenerator {
 	private CircuitGenerator(){
 	}
 	
-	public static void UpdateCircuit(){
+	public static void clear(){
+		hall = new Hall();
+		listePointsNoeuds = new HashMap<Point, Noeud>();
+		simpleList = new ArrayList<ElementCircuit>();
+		circuit = new Circuit();
+	}
+	
+	public static void updateCircuit(){
 		circuit.setElements(simpleList);
 		hall.setCircuit(circuit);
 	}
 
-	public static void createSegment(Point pointEntree, Point pointSortie){//creer les noeuds si existent pas
+	public static VueRail createSegment(Point pointEntree, Point pointSortie){//creer les noeuds si existent pas
 		Noeud noeudDebut = listePointsNoeuds.get(pointEntree);
 		Noeud noeudFin = listePointsNoeuds.get(pointSortie);
 
@@ -81,7 +93,7 @@ public class CircuitGenerator {
 		noeudDebut.addRailSortie(railAssocie);
 		
 		ViewSelector.getInstance().setKernelView(railAssocie, vueR);
-			
+		return vueR;
 	}
 	
 	public static VueEmbranchement createNode(Point point){
@@ -108,11 +120,35 @@ public class CircuitGenerator {
 		return vueEmbranchement;
 	}
 	
-	public static void createEntry(Point point){
+	public static TapisRoulant createEntry(Point point, int length, int vitesse, int distanceEntreBagage, Boolean autoGeneration){
+		Noeud noeud = listePointsNoeuds.get(point);
+		if(noeud == null){
+			createNode(point);
+		}
 		
+		// Creation Toboggan
+		TapisRoulant tapis = new TapisRoulant(length,vitesse,distanceEntreBagage,autoGeneration);
+		hall.addFileBagage(tapis);
+		
+		//On créé un noeud associé à un toboggan
+		ConnexionCircuit noeudExit = new ConnexionCircuit(tapis, circuit);
+		tapis.setConnexionCircuit(noeudExit);
+		
+		noeudExit.setRailsSortie(noeud.getRailsSortie());
+		//Attention bagages non copiés!!!
+		
+		replaceNode(point,noeudExit);
+		
+		VueTapisRoulant vTapis = new VueTapisRoulant(vueHall, tapis);
+		vTapis.setX(point.x);
+		vTapis.setY(point.y);
+		vueHall.ajouterVue(vTapis, 3);
+		ViewSelector.getInstance().setKernelView(tapis, vTapis);
+		
+		return tapis;
 	}
 	
-	public static void createExit(Point point){
+	public static Toboggan createExit(Point point){
 		Noeud noeud = listePointsNoeuds.get(point);
 		if(noeud == null){
 			createNode(point);
@@ -132,9 +168,45 @@ public class CircuitGenerator {
 		replaceNode(point,noeudExit);
 		
 		VueToboggan vTobo = new VueToboggan(vueHall, tobo);
-		vTobo.setX(200);
-		vTobo.setY(100);
+		vTobo.setX(point.x);
+		vTobo.setY(point.y);
 		vueHall.ajouterVue(vTobo, 3);
+		ViewSelector.getInstance().setKernelView(tobo, vTobo);
+		
+		return tobo;
+	}
+	
+	public static void addChariot(Noeud noeud, int maxMoveDistance, int length, Noeud destination, Bagage bagage, LinkedList<ElementCircuit>  cheminPrevu){
+		Chariot chariot = new Chariot( maxMoveDistance, length, 0, destination, bagage, cheminPrevu);
+
+		// On place les chariots
+		noeud.registerChariot(chariot);
+		chariot.setParent(noeud);
+
+		// On ajoute les vues
+		VueChariot vueChariot = new VueChariot(vueHall, chariot);
+		vueHall.ajouterVue(vueChariot, 3);
+		hall.getChariotList().add(chariot);
+		ViewSelector.getInstance().setKernelView(chariot, vueChariot);
+	}
+	
+	public static void addChariot(Rail rail, int maxMoveDistance, int length, int position, Noeud destination, Bagage bagage, LinkedList<ElementCircuit>  cheminPrevu){
+		Chariot chariot = new Chariot( maxMoveDistance, length, position, destination, bagage, cheminPrevu);
+		
+		rail.registerChariot(chariot);
+		chariot.setParent(rail);
+		
+		// On ajoute les vues
+		VueChariot vueChariot = new VueChariot(vueHall, chariot);
+		vueHall.ajouterVue(vueChariot, 3);
+
+		// On place les chariots
+		rail.registerChariot(chariot);
+		chariot.setParent(rail);
+
+		// On ajoute les vues
+		hall.getChariotList().add(chariot);
+		ViewSelector.getInstance().setKernelView(chariot, vueChariot);
 	}
 	
 	private static void replaceNode(Point point, Noeud noeud){
