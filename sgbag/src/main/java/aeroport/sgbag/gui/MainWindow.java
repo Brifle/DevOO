@@ -21,6 +21,8 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.views.VueHall;
+import org.eclipse.swt.widgets.Table;
+import org.eclipse.jface.viewers.TableViewer;
 
 /**
  * SGBag GUI root window.
@@ -70,7 +72,9 @@ public class MainWindow extends ApplicationWindow {
 		treeViews.setLayoutData(gd_treeViews);
 		
 		Group grpProperties = new Group(container, SWT.NONE);
-		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		GridData gd_grpProperties = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
+		gd_grpProperties.widthHint = 144;
+		grpProperties.setLayoutData(gd_grpProperties);
 		grpProperties.setText("Propriétés");
 		
 		CLabel lblVitesse = new CLabel(container, SWT.NONE);
