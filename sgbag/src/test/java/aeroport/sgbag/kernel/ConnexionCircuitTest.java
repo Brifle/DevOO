@@ -3,6 +3,7 @@ package aeroport.sgbag.kernel;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -35,6 +36,16 @@ public class ConnexionCircuitTest {
 		n.addRailSortie(r3);
 		// Chariot
 		n.registerChariot(c);
+		
+		ArrayList<ElementCircuit> listeElems = new ArrayList<ElementCircuit>();
+		listeElems.add(r2);
+		listeElems.add(n);
+		listeElems.add(r3);
+		Circuit circuit = new Circuit(listeElems);
+		
+		r3.setParent(circuit);
+		n.setParent(circuit);
+		r2.setParent(circuit);
 		
 		//Tapis
 		tapisRoulant.setConnexionCircuit(n);
