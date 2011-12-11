@@ -30,5 +30,9 @@ public class Clock implements Runnable {
 		
 		vueHall.getDisplay().timerExec(interval, this);
 	}
+	
+	public void pause() {
+		vueHall.getDisplay().timerExec(-1, this);
+	}
 
 }
