@@ -3,7 +3,6 @@ package aeroport.sgbag.kernel;
 import java.util.*;
 import lombok.*;
 
-@EqualsAndHashCode
 @ToString(exclude="listeChariot")
 public abstract class ElementCircuit extends KernelObject {
 

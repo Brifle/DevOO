@@ -1,8 +1,10 @@
 package aeroport.sgbag.kernel;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
+@EqualsAndHashCode
 public class KernelObject {
 	private static int counter = 0;
 
