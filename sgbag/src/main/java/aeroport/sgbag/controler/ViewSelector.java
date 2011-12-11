@@ -3,6 +3,7 @@ package aeroport.sgbag.controler;
 import java.util.HashMap;
 
 import aeroport.sgbag.views.Viewable;
+import aeroport.sgbag.views.VueElem;
 
 public class ViewSelector {
 
@@ -32,6 +33,10 @@ public class ViewSelector {
 
 	public Viewable removeKeyValue(Object k) {
 		return hash.remove(k);
+	}
+	
+	public void removeByView(VueElem v) {
+		hash.values().remove(v);
 	}
 	
 	public void clear() {
