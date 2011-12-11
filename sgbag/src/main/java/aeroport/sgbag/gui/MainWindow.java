@@ -40,11 +40,6 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.RowLayout;
-import org.eclipse.core.databinding.DataBindingContext;
-import org.eclipse.core.databinding.observable.value.IObservableValue;
-import org.eclipse.jface.databinding.swt.SWTObservables;
-import org.eclipse.core.databinding.beans.PojoObservables;
-import org.eclipse.core.databinding.observable.Realm;
 
 /**
  * SGBag GUI root window.
@@ -53,7 +48,6 @@ import org.eclipse.core.databinding.observable.Realm;
  *
  */
 public class MainWindow extends ApplicationWindow {
-	private DataBindingContext m_bindingContext;
 	private Action actionQuitter;
 	private Action actionDemarrer;
 	private Action actionPauser;
@@ -138,7 +132,6 @@ public class MainWindow extends ApplicationWindow {
 		gd_sclVitesse.widthHint = 120;
 		gd_sclVitesse.minimumWidth = 120;
 		sclVitesse.setLayoutData(gd_sclVitesse);
-		m_bindingContext = initDataBindings();
 		
 		return container;
 	}
@@ -266,18 +259,14 @@ public class MainWindow extends ApplicationWindow {
 	 */
 	public static void main(String args[]) {
 		Display display = Display.getDefault();
-		Realm.runWithDefault(SWTObservables.getRealm(display), new Runnable() {
-			public void run() {
-				try {
-					MainWindow window = new MainWindow();
-					window.setBlockOnOpen(true);
-					window.open();
-					Display.getCurrent().dispose();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+		try {
+			MainWindow window = new MainWindow();
+			window.setBlockOnOpen(true);
+			window.open();
+			Display.getCurrent().dispose();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -289,18 +278,5 @@ public class MainWindow extends ApplicationWindow {
 		super.configureShell(shell);
 		shell.setText("SGBag - Interface de simulation");
 		shell.setMinimumSize(600,500);
-	}
-	protected DataBindingContext initDataBindings() {
-		DataBindingContext bindingContext = new DataBindingContext();
-		//
-		IObservableValue btnManuelObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(30, SWTObservables.observeSelection(btnManuel));
-		IObservableValue actionSetManuelCheckedObserveValue = PojoObservables.observeValue(actionSetManuel, "checked");
-		bindingContext.bindValue(btnManuelObserveSelectionObserveWidget, actionSetManuelCheckedObserveValue, null, null);
-		//
-		IObservableValue butAutomatiqueObserveSelectionObserveWidget = SWTObservables.observeDelayedValue(30, SWTObservables.observeSelection(butAutomatique));
-		IObservableValue actionSetAutoCheckedObserveValue = PojoObservables.observeValue(actionSetAuto, "checked");
-		bindingContext.bindValue(butAutomatiqueObserveSelectionObserveWidget, actionSetAutoCheckedObserveValue, null, null);
-		//
-		return bindingContext;
 	}
 }
