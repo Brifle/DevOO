@@ -5,6 +5,7 @@ package aeroport.sgbag.views;
 
 import static org.junit.Assert.*;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
@@ -12,6 +13,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import aeroport.sgbag.kernel.Rail;
@@ -27,6 +29,11 @@ public class VueRailTest {
 	private VueHall vueHall;
 	private Shell shell;
 	private Display display;
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PropertyConfigurator.configure("log4j.properties");
+	}
 
 	/**
 	 * @throws java.lang.Exception

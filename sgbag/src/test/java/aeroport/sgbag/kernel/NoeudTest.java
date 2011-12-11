@@ -4,9 +4,16 @@ import static org.junit.Assert.*;
 
 import java.util.LinkedList;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 public class NoeudTest {
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PropertyConfigurator.configure("log4j.properties");
+	}
 
 	@Test
 	public void testMoveToNextRail() {

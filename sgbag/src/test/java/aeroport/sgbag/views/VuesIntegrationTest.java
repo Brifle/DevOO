@@ -3,6 +3,7 @@ package aeroport.sgbag.views;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -11,6 +12,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import aeroport.sgbag.controler.ViewSelector;
@@ -41,6 +43,11 @@ public class VuesIntegrationTest {
 		shell.setSize(800, 800);
 		vueHall = new VueHall(shell, SWT.NONE);
 		vueHall.setSize(300, 300);
+	}
+
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		PropertyConfigurator.configure("log4j.properties");
 	}
 
 	/**
