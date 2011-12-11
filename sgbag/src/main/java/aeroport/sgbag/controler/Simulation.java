@@ -23,8 +23,8 @@ public class Simulation {
 		NORMAL, SELECTION, CHOIX_DESTINATION
 	}
 
-	@NonNull
 	@Getter
+	@Setter
 	private File xmlFile;
 
 	@Getter
