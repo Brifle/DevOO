@@ -24,7 +24,9 @@ public class Clock implements Runnable {
 	}
 
 	public void run() {
-		hall.update();
+		if(hall != null){
+			hall.update();
+		}
 		vueHall.update();
 		vueHall.draw();
 		
