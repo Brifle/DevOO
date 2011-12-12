@@ -30,7 +30,7 @@ public class Geom {
 	 */
 		public double getAngleSegment(Point p1, Point p2) {
 	 
-			double angle;
+			double angle = 0;
 
 			// Point au milieu des 2 points
 			Point centre = new Point((p2.x + p1.x) / 2, (p2.y + p1.y) / 2);
@@ -60,12 +60,23 @@ public class Geom {
 				//Si p1 en bas à gauche
 				if (p1.x < centre.x && p1.y > centre.y){
 					angle = -angle;
-				}				
+				}
+				
+				//Si horizontal de droite à gauche
+				if(p1.y == centre.y && p1.x > centre.x){
+						angle = Math.PI;
+				}
+				
+				if(p1.x == centre.x){
+					if(p1.y > centre.y){//Dirigé vers le bas
+						angle = -Math.PI / 2;
+					}else{
+						angle = + Math.PI / 2;
+					}
+				}
 				
 				System.out.println(angle);
-			} else {
-				angle = Math.PI / 2;
-			}
+			} 
 			return angle;
 		}
 
