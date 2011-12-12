@@ -124,7 +124,7 @@ public class SimulationAndCircuitGenerator {
 		cg.createSegment(p1, p2);
 		cg.createSegment(p2, p3);
 		cg.createSegment(p3, p4);
-		cg.createSegment(p4, p5);
+		VueRail vueRail2 = cg.createSegment(p4, p5);
 		VueRail vueRail1 = cg.createSegment(p5, p6);
 		cg.createSegment(p6, p7);
 		cg.createSegment(p7, p1);
@@ -134,6 +134,11 @@ public class SimulationAndCircuitGenerator {
 		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 20, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
+		
+		cg.addChariot(vueRail2.getRail().getNoeudSuivant(), 50, 20, tapis.getConnexionCircuit(),
+				null,
+				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
+		
 		
 		vueHall.getHall().init();
 		
