@@ -32,7 +32,10 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueTapisRoulant;
+
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Button;
@@ -71,7 +74,6 @@ public class MainWindow extends ApplicationWindow {
 		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
 		addStatusLine();
-    	simulation = new Simulation(vueHall);
 	}
 
 	/**
@@ -92,6 +94,7 @@ public class MainWindow extends ApplicationWindow {
 		gd_vueHall.minimumWidth = 400;
 		vueHall.setLayoutData(gd_vueHall);
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+    	simulation = new Simulation(vueHall);
 		
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -184,10 +187,21 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
+
 				    	simulation.setXmlFile(new File(fileName));
 				    	simulation.init();
+
 				    	propertiesWidget.setSimulation(simulation);
 				    	propertiesWidget.refresh();
+				    	
+				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
+				    	simulation.setSelectedElem(null);
+				    	
+				    	
+				    	// Hard test (TODO: Remove this crap)
+				    	Button b1 = new Button( propertiesWidget, SWT.PUSH );
+				    	   b1.setText( "Button on Composite 1" );
+
 				    }
 				}
 			};

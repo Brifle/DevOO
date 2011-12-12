@@ -24,6 +24,7 @@ public class Hall extends KernelObject {
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();
 		fileBagageList = new ArrayList<FileBagage>();
+		chariotList = new ArrayList<Chariot>();
 	}
 
 	public void init() {
@@ -51,6 +52,14 @@ public class Hall extends KernelObject {
 		fileBagageList.remove(file);
 	}
 
+	/**
+	 * Permet d'obtenir la ConnexionCircuit associée au TapisRoulant qui a le plus besoin d'avoir un chariot.
+	 * Un TapisRoulant avec 3 bagages dessus sera prioritaire a un autre TapisRoulant 
+	 * qui a 5 bagages mais a déjà 4 chariots qui s'y dirigent.
+	 * A chaque fois qu'on appelle cette methode, on suppose que un chariot va se diriger vers le
+	 * TapisRoulant associé. N'appeler donc la methode qu'une fois par charriot.
+	 * @return la ConnexionCircuit associée au TapisRoulant le plus necessité.
+	 */
 	public ConnexionCircuit getOptimalNextTapisRoulant() {
 		TapisRoulant t = null;
 		int noteMax = Integer.MIN_VALUE;
