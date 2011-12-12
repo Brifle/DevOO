@@ -5,15 +5,19 @@ import lombok.*;
 import lombok.extern.log4j.Log4j;
 
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Log4j
 public class Circuit extends KernelObject {
+	protected static String kObjName = "Objet";
 
 	@Getter
 	@Setter
+	@NonNull
 	private ArrayList<ElementCircuit>  elements;
 	
-	
+	@Getter
+	@Setter
+	private Hall parent;
 	
 
 	public Circuit() {

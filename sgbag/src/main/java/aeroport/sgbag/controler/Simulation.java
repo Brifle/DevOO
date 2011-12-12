@@ -5,6 +5,7 @@ import java.io.File;
 import org.eclipse.swt.graphics.Point;
 
 import lombok.*;
+import aeroport.sgbag.gui.PropertiesWidget;
 import aeroport.sgbag.kernel.*;
 import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.views.*;
@@ -50,6 +51,9 @@ public class Simulation {
 
 	@Getter
 	private VueElem selectedElem;
+	
+	@Setter
+	private PropertiesWidget propertiesWidget;
 
 	public void init() {
 
@@ -92,6 +96,8 @@ public class Simulation {
 		selectedElem = _selectedElem;
 		if (selectedElem != null)
 			selectedElem.setSelected(true);
+		
+		propertiesWidget.refresh();
 	}
 
 	public boolean createBagage(VueElem depart, VueElem destination) {

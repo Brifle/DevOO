@@ -7,6 +7,7 @@ import lombok.extern.log4j.*;
 @AllArgsConstructor
 @Log4j
 public class Noeud extends ElementCircuit {
+	protected static String kObjName = "Nœud";
 
 	@Setter
 	@Getter

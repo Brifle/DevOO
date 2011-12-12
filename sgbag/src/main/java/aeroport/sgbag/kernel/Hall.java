@@ -6,6 +6,7 @@ import lombok.*;
 
 @AllArgsConstructor
 public class Hall extends KernelObject {
+	protected static String kObjName = "Hall";
 
 	@Getter
 	@Setter

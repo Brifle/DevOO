@@ -2,6 +2,9 @@ package aeroport.sgbag.kernel;
 
 import java.util.ArrayList;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 public class BagageFactory {
 
 	private static BagageFactory instance = null;
@@ -61,10 +64,12 @@ public class BagageFactory {
 		searchTapisAndTobogans();
 	}
 
-	public Bagage generateBagage() {
+	public Bagage generateBagage(Hall hall) {
 		//if (!lTobogan.isEmpty()) {
 			Bagage b = new Bagage();
-
+			hall.getBagagesList().add(b);
+			
+			log.debug("Ajout d'un bagage métier.");
 			b.setDestination(getTobogan().getConnexionCircuit());
 
 			return b;
