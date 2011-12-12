@@ -15,9 +15,11 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Spinner;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.kernel.KernelObject;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.views.VueBagage;
 import aeroport.sgbag.views.VueChariot;
+import aeroport.sgbag.views.VueElem;
 import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
@@ -39,6 +41,7 @@ public class PropertiesWidget extends Composite {
 	 */
 	public void setSimulation(Simulation simulation) {
 		this.simulation = simulation;
+		
 		refresh();
 	}
 
@@ -52,7 +55,7 @@ public class PropertiesWidget extends Composite {
 		canvas = new Composite(this, SWT.NONE);
 	}
 
-	public void refresh() {
+	public void refresh() {			
 		if (canvas != null) {
 			canvas.dispose();
 		}
@@ -80,14 +83,20 @@ public class PropertiesWidget extends Composite {
 				}
 			}
 		}
-		
-		canvas.redraw();
-		this.redraw();
+
+		canvas.layout();
+		this.layout();
 	}
 	
 	private void setVueTapisRoulantViewMode(){
 		TapisRoulant tr = ((VueTapisRoulant) this.simulation
 				.getSelectedElem()).getTapisRoulant();
+		
+		Label l3 = new Label(canvas, SWT.NONE);
+		l3.setText("Nom : " + tr.getName());
+		
+		Label l4 = new Label(canvas, SWT.NONE);
+		l4.setText("Id : " + tr.getId());
 
 		Label l1 = new Label(canvas, SWT.NONE);
 		l1.setText("Vitesse du tapis :");
@@ -103,7 +112,7 @@ public class PropertiesWidget extends Composite {
 				tr.setVitesseTapis(((Spinner)arg0.widget).getSelection());
 			}
 		});
-		s1.setValues(tr.getVitesseTapis(), 0, 100, 2, 1, 10);
+		s1.setValues(tr.getVitesseTapis(), 0, 100, 0, 1, 10);
 		
 		
 		Label l2 = new Label(canvas, SWT.NONE);
@@ -120,7 +129,10 @@ public class PropertiesWidget extends Composite {
 				tr.setDistanceEntreBagages(((Spinner)arg0.widget).getSelection());
 			}
 		});
-		s2.setValues(tr.getDistanceEntreBagages(), 0, 100, 2, 1, 10);
+		s2.setValues(tr.getDistanceEntreBagages(), 0, 100, 0, 1, 10);
+		
+		Label l5 = new Label(canvas, SWT.NONE);
+		l5.setText("Longueur du tapis : " + tr.getLength());
 	}
 	
 	
