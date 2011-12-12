@@ -8,13 +8,16 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Hall;
 
 import java.util.*;
 
 import lombok.*;
+import lombok.extern.log4j.Log4j;
 
+@Log4j
 public class VueHall extends Canvas implements Viewable {
 
 	private Image buffer;
@@ -116,6 +119,7 @@ public class VueHall extends Canvas implements Viewable {
 			}
 			if(!found) {
 				addBagage(bagages.get(i));
+				log.debug("Ajout d'une vue bagage");
 			}
 		}
 
@@ -131,6 +135,7 @@ public class VueHall extends Canvas implements Viewable {
 				//Remove bagage vue
 				bagagesVues.get(i).destroy();
 				bagagesVues.remove(i);
+				log.debug("Suppression d'une vue bagage");
 			}
 		}
 
@@ -147,6 +152,8 @@ public class VueHall extends Canvas implements Viewable {
 	public void addBagage(Bagage bagage) {
 		VueBagage vueBagage = new VueBagage(this);
 		vueBagage.setBagage(bagage);
+		this.ajouterVue(vueBagage, 4);
+		ViewSelector.getInstance().setKernelView(bagage, vueBagage);
 		bagagesVues.add(vueBagage);
 	}
 

@@ -4,7 +4,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude={"name"})
 public abstract class KernelObject {
 	private static int counter = 0;
 

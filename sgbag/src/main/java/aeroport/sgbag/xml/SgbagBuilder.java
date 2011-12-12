@@ -8,6 +8,7 @@ import java.io.IOException;
 
 import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;
+import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.utils.CircuitGenerator;
 
 import com.thoughtworks.xstream.XStream;
@@ -23,10 +24,13 @@ public class SgbagBuilder {
 		super();
 		xStream = new XStream();
 
-		xStream.omitField(CircuitGenerator.class, "vueHall");
+		xStream.omitField(CircuitGenerator.class, "vueHall");		
 		xStream.omitField(CircuitGenerator.class, "hall");
 		xStream.omitField(CircuitGenerator.class, "listePointsNoeuds");
+		xStream.omitField(CircuitGenerator.class, "listOfRail");
 		xStream.omitField(CircuitGenerator.class, "circuit");
+		xStream.omitField(CircuitGenerator.class, "mapOfElems");
+		xStream.omitField(Chariot.class, "parent");
 
 		xStream.setMode(XStream.ID_REFERENCES);
 
