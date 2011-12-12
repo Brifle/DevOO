@@ -45,8 +45,7 @@ public class TestCircuitGenerator {
 	
 	@Test
 	public void test1(){
-		CircuitGenerator cg = new CircuitGenerator();
-		cg.setVueHall(vueHall);
+		CircuitGenerator cg = new CircuitGenerator(vueHall);
 
 		Point p1 = new Point(20, 20);
 		Point p2 = new Point(100, 20);
@@ -73,8 +72,7 @@ public class TestCircuitGenerator {
 	
 	@Test
 	public void testExitEntry(){
-		CircuitGenerator cg = new CircuitGenerator();
-		cg.setVueHall(vueHall);
+		CircuitGenerator cg = new CircuitGenerator(vueHall);
 
 		Point p1 = new Point(20, 20);
 		Point p2 = new Point(100, 20);
