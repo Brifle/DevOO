@@ -74,6 +74,8 @@ public class VueHall extends Canvas implements Viewable {
 				gcBuffer.dispose();
 			}
 		});
+		
+		this.addMouseListener(new TraitementClic(this));
 	}
 
 	public void ajouterVue(VueElem vue, int layer) {
