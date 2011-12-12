@@ -163,14 +163,26 @@ public class MainWindow extends ApplicationWindow {
 		}
 		{
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
+				@Override
+				public void run() {
+					simulation.play();
+				}
 			};
 		}
 		{
 			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(getClass(), "icons/pause.png") ) {
+				@Override
+				public void run() {
+					simulation.pause();
+				}
 			};
 		}
 		{
 			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
+				@Override
+				public void run() {
+					simulation.stop();
+				}
 			};
 		}
 		{
@@ -196,12 +208,6 @@ public class MainWindow extends ApplicationWindow {
 				    	
 				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
 				    	simulation.setSelectedElem(null);
-				    	
-				    	
-				    	// Hard test (TODO: Remove this crap)
-				    	Button b1 = new Button( propertiesWidget, SWT.PUSH );
-				    	   b1.setText( "Button on Composite 1" );
-
 				    }
 				}
 			};
@@ -285,7 +291,6 @@ public class MainWindow extends ApplicationWindow {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		Display display = Display.getDefault();
 		try {
 			MainWindow window = new MainWindow();
 			window.setBlockOnOpen(true);

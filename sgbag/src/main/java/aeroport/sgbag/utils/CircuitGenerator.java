@@ -117,6 +117,7 @@ public class CircuitGenerator {
 
 		// Création du rail associé
 		Rail railAssocie = new Rail();
+
 		railAssocie.setNoeudPrecedent(noeudDebut);
 		railAssocie.setNoeudSuivant(noeudFin);
 		
@@ -198,7 +199,7 @@ public class CircuitGenerator {
 
 		return tapis;
 	}
-	
+
 	public Toboggan createExit(Point point) {
 		listOfExits.add(point);
 		
