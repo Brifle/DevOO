@@ -126,6 +126,7 @@ public class CircuitGenerator {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if(noeud == null){
 			createNode(point);
+			noeud = listePointsNoeuds.get(point);
 		}
 		
 		// Creation Toboggan
@@ -154,6 +155,7 @@ public class CircuitGenerator {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if(noeud == null){
 			createNode(point);
+			noeud = listePointsNoeuds.get(point);
 		}
 		
 		// Creation Toboggan
