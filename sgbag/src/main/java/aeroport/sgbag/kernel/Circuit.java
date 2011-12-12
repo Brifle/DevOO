@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j;
 @RequiredArgsConstructor
 @Log4j
 public class Circuit extends KernelObject {
+	protected static String kObjName = "Objet";
 
 	@Getter
 	@Setter

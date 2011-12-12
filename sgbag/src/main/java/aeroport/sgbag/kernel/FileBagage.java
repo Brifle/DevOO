@@ -4,6 +4,7 @@ import java.util.*;
 import lombok.*;
 
 public abstract class FileBagage extends KernelObject {
+	protected static String kObjName = "File de bagage";
     
 	@Getter
 	@Setter

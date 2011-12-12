@@ -15,17 +15,21 @@ import com.thoughtworks.xstream.XStream;
 @Log4j
 @NoArgsConstructor
 public class SgbagBuilder {
-	
+
 	private XStream xStream;
 	private String path;
 
 	public SgbagBuilder(String path) throws IOException {
 		super();
 		xStream = new XStream();
-		
+
 		xStream.omitField(CircuitGenerator.class, "vueHall");
+		xStream.omitField(CircuitGenerator.class, "hall");
+		xStream.omitField(CircuitGenerator.class, "listePointsNoeuds");
+		xStream.omitField(CircuitGenerator.class, "circuit");
+
 		xStream.setMode(XStream.ID_REFERENCES);
-		
+
 		this.path = path;
 	}
 
@@ -35,18 +39,17 @@ public class SgbagBuilder {
 		BufferedReader in = new BufferedReader(freader);
 		String tmp = "";
 		String str = "";
-		
-		while((tmp = in.readLine()) != null) {
-			log.debug("->" + tmp);
+
+		while ((tmp = in.readLine()) != null) {
 			str += (tmp + '\n');
 		}
-		
+
 		log.debug(str);
-		
+
 		if (str.length() == 0) {
 			return null;
 		}
-		
+
 		return (CircuitGenerator) xStream.fromXML(str);
 	}
 
@@ -54,11 +57,8 @@ public class SgbagBuilder {
 		log.debug("Sérialisation");
 		FileWriter fstream = new FileWriter(path);
 		BufferedWriter out = new BufferedWriter(fstream);
-		
-		
-		String str = xStream.toXML(cg);
 
-		log.debug("xml : \n" + str);
+		String str = xStream.toXML(cg);
 		out.write(str);
 		out.flush();
 

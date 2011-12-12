@@ -34,6 +34,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * SGBag GUI root window.
@@ -82,18 +84,21 @@ public class MainWindow extends ApplicationWindow {
 		container.setLayout(new GridLayout(3, false));
 		
 		vueHall = new VueHall(container, SWT.NONE);
-		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 5);
-		gd_vueHall.heightHint = 150;
-		gd_vueHall.widthHint = 400;
-		gd_vueHall.minimumHeight = 200;
-		gd_vueHall.minimumWidth = 400;
-		vueHall.setLayoutData(gd_vueHall);
+		vueHall.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3));
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-    	simulation = new Simulation(vueHall);
+		simulation = new Simulation(vueHall);
+		
+		vueHall.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent arg0) {
+				vueHall.draw();
+			}
+		});
 		
 		Composite composite = new Composite(container, SWT.NONE);
-		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
+		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 		
 		btnManuel = new Button(composite, SWT.TOGGLE);
 		btnManuel.addSelectionListener(new SelectionAdapter() {
@@ -113,15 +118,12 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnAutomatique.setText("Automatique");
 		
-		Tree treeViews = new Tree(container, SWT.BORDER);
-		GridData gd_treeViews = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 2);
-		gd_treeViews.minimumWidth = 120;
-		gd_treeViews.heightHint = 150;
-		treeViews.setLayoutData(gd_treeViews);
-		
 		Group grpProperties = new Group(container, SWT.NONE);
+		GridData gd_grpProperties = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2);
+		gd_grpProperties.minimumWidth = 150;
+		gd_grpProperties.widthHint = 200;
+		grpProperties.setLayoutData(gd_grpProperties);
 		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
-		grpProperties.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		grpProperties.setText("Propriétés");
 		
 		propertiesWidget = new PropertiesWidget(grpProperties, SWT.NONE, null);
@@ -133,19 +135,9 @@ public class MainWindow extends ApplicationWindow {
 		
 		Scale sclVitesse = new Scale(container, SWT.NONE);
 		GridData gd_sclVitesse = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_sclVitesse.heightHint = 30;
-		gd_sclVitesse.minimumHeight = 30;
-		gd_sclVitesse.widthHint = 120;
-		gd_sclVitesse.minimumWidth = 120;
+		gd_sclVitesse.widthHint = 100;
+		gd_sclVitesse.minimumWidth = 100;
 		sclVitesse.setLayoutData(gd_sclVitesse);
-		
-		vueHall.addPaintListener(new PaintListener() {
-			
-			@Override
-			public void paintControl(PaintEvent arg0) {
-				vueHall.draw();
-			}
-		});
 		
 		return container;
 	}
@@ -168,7 +160,9 @@ public class MainWindow extends ApplicationWindow {
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 				@Override
 				public void run() {
+
 					simulation.play();
+
 				}
 			};
 		}
@@ -207,10 +201,8 @@ public class MainWindow extends ApplicationWindow {
 				    	simulation.init();
 
 				    	propertiesWidget.setSimulation(simulation);
+
 				    	propertiesWidget.refresh();
-				    	
-				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
-				    	simulation.setSelectedElem(null);
 				    }
 				}
 			};

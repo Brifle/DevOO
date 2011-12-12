@@ -8,6 +8,7 @@ import lombok.extern.log4j.*;
 @NoArgsConstructor
 @Log4j
 public class Rail extends ElementCircuit {
+	protected static String kObjName = "Rail";
 
 	@Getter
 	@Setter
