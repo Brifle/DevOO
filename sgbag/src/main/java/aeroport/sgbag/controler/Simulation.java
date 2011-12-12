@@ -59,16 +59,22 @@ public class Simulation {
 	}
 
 	public void play() {
-		clock.run();
+		if(clock != null){
+			clock.run();
+		}
 	}
 
 	public void pause() {
-		clock.pause();
+		if(clock != null){
+			clock.pause();
+		}
 	}
 
 	public void stop() {
-		clock.pause();
-		// TODO clear all bagages
+		if(clock != null){
+			clock.pause();
+			// TODO clear all bagages
+		}
 	}
 
 	public void setSelectedElem(VueElem _selectedElem) {
