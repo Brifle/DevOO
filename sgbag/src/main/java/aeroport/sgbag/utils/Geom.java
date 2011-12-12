@@ -44,7 +44,7 @@ public class Geom {
 
 				//Si p1 en haut à droite
 				if (p1.x > centre.x && p1.y < centre.y){
-					angle = angle + Math.PI / 2;
+					angle = -angle + -Math.PI;
 				}
 				
 				//Si p1 en haut à gauche
@@ -60,15 +60,7 @@ public class Geom {
 				//Si p1 en bas à gauche
 				if (p1.x < centre.x && p1.y > centre.y){
 					angle = -angle;
-				}
-				
-				/*
-				if ((p1.x < centre.x && p1.y > centre.y)
-						|| (p2.x < centre.x && p2.y > centre.y)) {
-					angle = -angle;
-				}
-				*/
-				
+				}				
 				
 				System.out.println(angle);
 			} else {
