@@ -68,7 +68,8 @@ public class TapisRoulant extends FileBagage {
 					|| this.listBagages.get(this.listBagages.size() - 1)
 							.getPosition() >= distanceEntreBagages) {
 				
-				Bagage b = BagageFactory.getBagageFactory().generateBagage();
+				Bagage b = BagageFactory.getBagageFactory().generateBagage(
+						this.getConnexionCircuit().getParent().getParent());
 				this.addBagage(b);
 				b.setParent(this);
 			}
