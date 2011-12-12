@@ -75,11 +75,13 @@ public class CircuitGenerator {
 	private List<Point> listOfExits;
 	private List<Chariot> listOfChariot;
 
-	public CircuitGenerator() {
+	public CircuitGenerator(VueHall vh) {
+		vueHall = vh;
 		listePointsNoeuds = new HashMap<Point, Noeud>();
 		circuit = new Circuit();
 		hall = new Hall();
 		hall.setCircuit(circuit);
+		vueHall.setHall(hall);
 		listOfSegement = new LinkedList<CircuitGenerator.PointBinder>();
 		listOfEntrys = new LinkedList<CircuitGenerator.Entry>();
 		listOfExits = new LinkedList<Point>();
