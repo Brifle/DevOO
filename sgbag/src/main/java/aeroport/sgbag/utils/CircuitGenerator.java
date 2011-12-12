@@ -3,12 +3,15 @@ package aeroport.sgbag.utils;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
+import org.w3c.dom.ls.LSInput;
 
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
@@ -75,6 +78,9 @@ public class CircuitGenerator {
 	@Getter
 	@Setter
 	private List<Chariot> listOfChariot;
+	private HashMap<Chariot, Integer> mapOfChariot;
+	private HashMap<Integer, ElementCircuit> mapOfElems;
+	private LinkedList<Rail> listOfRail;
 
 	public CircuitGenerator(VueHall vh) {
 		vueHall = vh;
@@ -86,12 +92,17 @@ public class CircuitGenerator {
 		listOfSegement = new LinkedList<CircuitGenerator.PointBinder>();
 		listOfEntrys = new LinkedList<CircuitGenerator.Entry>();
 		listOfExits = new LinkedList<Point>();
+		listOfRail = new LinkedList<Rail>();
 		listOfChariot = new LinkedList<Chariot>();
+		mapOfChariot = new HashMap<Chariot, Integer>();
+		mapOfElems = new HashMap<Integer, ElementCircuit>();
 	}
 
 	public VueRail createSegment(Point pointEntree, Point pointSortie) {
 		listOfSegement.add(new PointBinder(pointEntree, pointSortie));
-		return generateSegment(pointEntree, pointSortie);
+		VueRail vr = generateSegment(pointEntree, pointSortie);
+		listOfRail.add(vr.getRail());
+		return vr;
 	}
 
 	public VueRail generateSegment(Point pointEntree, Point pointSortie) {
@@ -136,6 +147,11 @@ public class CircuitGenerator {
 		noeudDebut.addRailSortie(railAssocie);
 
 		ViewSelector.getInstance().setKernelView(railAssocie, vueR);
+
+		mapOfElems.put(noeudDebut.getId(), noeudDebut);
+		mapOfElems.put(noeudFin.getId(), noeudFin);
+		mapOfElems.put(railAssocie.getId(), railAssocie);
+
 		return vueR;
 	}
 
@@ -244,6 +260,7 @@ public class CircuitGenerator {
 		VueChariot vc = generateChariot(noeud, maxMoveDistance, length,
 				destination, bagage, cheminPrevu);
 
+		mapOfChariot.put(vc.getChariot(), noeud.getId());
 		listOfChariot.add(vc.getChariot());
 		return vc;
 	}
@@ -254,6 +271,7 @@ public class CircuitGenerator {
 		VueChariot vc = generateChariot(rail, maxMoveDistance, length, 0,
 				destination, bagage, cheminPrevu);
 
+		mapOfChariot.put(vc.getChariot(), rail.getId());
 		listOfChariot.add(vc.getChariot());
 		return vc;
 	}
@@ -310,16 +328,17 @@ public class CircuitGenerator {
 
 		// On copie les rails de sorties
 		noeud.setRailsSortie(ancienNoeud.getRailsSortie());
-		for(int i=0; i<ancienNoeud.getRailsSortie().size(); i++) {
+		for (int i = 0; i < ancienNoeud.getRailsSortie().size(); i++) {
 			ancienNoeud.getRailsSortie().get(i).setNoeudPrecedent(noeud);
 		}
-		
+
 		boolean trouve = false;
-		for(int i=0; i<circuit.getElements().size() && !trouve; i++) {
+		for (int i = 0; i < circuit.getElements().size() && !trouve; i++) {
 			ElementCircuit e = circuit.getElements().get(i);
-			if(e instanceof Rail && ((Rail)e).getNoeudSuivant().equals(ancienNoeud)) {
+			if (e instanceof Rail
+					&& ((Rail) e).getNoeudSuivant().equals(ancienNoeud)) {
 				trouve = true;
-				((Rail)e).setNoeudSuivant(noeud);
+				((Rail) e).setNoeudSuivant(noeud);
 			}
 		}
 
@@ -334,17 +353,20 @@ public class CircuitGenerator {
 		ViewSelector.getInstance().setKernelView(noeud, vue);
 	}
 
-	//dirty dirty dirty
+	// dirty dirty dirty
 	public void generateAll(VueHall vueHall) {
 		this.vueHall = vueHall;
 		listePointsNoeuds = new HashMap<Point, Noeud>();
+		mapOfElems = new HashMap<Integer, ElementCircuit>();
+		listOfRail = new LinkedList<Rail>();
 		circuit = new Circuit();
 		hall = new Hall();
 		hall.setCircuit(circuit);
 		vueHall.setHall(hall);
-		
+
 		for (PointBinder pb : listOfSegement) {
-			generateSegment(pb.getP1(), pb.getP2());
+			Rail r = generateSegment(pb.getP1(), pb.getP2()).getRail();
+			listOfRail.add(r);
 		}
 		for (Entry e : listOfEntrys) {
 			generateEntry(e.point, e.length, e.vitesse, e.distanceEntreBagage,
@@ -354,14 +376,16 @@ public class CircuitGenerator {
 			generateExit(p);
 		}
 		for (Chariot c : listOfChariot) {
-			if (c.getParent() instanceof Noeud) {
-				generateChariot((Noeud) c.getParent(), c.getMaxMoveDistance(),
-						c.getLength(), c.getDestination(), c.getBagage(),
-						c.getCheminPrevu());
-			} else {
-				generateChariot((Rail) c.getParent(), c.getMaxMoveDistance(),
+			int id = mapOfChariot.get(c);
+			ElementCircuit e = mapOfElems.get(id);
+
+			if (e instanceof Rail) {
+				generateChariot((Rail) e, c.getMaxMoveDistance(),
 						c.getLength(), c.getPosition(), c.getDestination(),
 						c.getBagage(), c.getCheminPrevu());
+			} else {
+				generateChariot((Noeud) e, c.getMaxMoveDistance(), c.getLength(),
+						c.getDestination(), c.getBagage(), c.getCheminPrevu());
 			}
 		}
 	}
