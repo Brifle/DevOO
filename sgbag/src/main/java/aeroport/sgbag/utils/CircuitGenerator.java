@@ -307,6 +307,18 @@ public class CircuitGenerator {
 
 		// On copie les rails de sorties
 		noeud.setRailsSortie(ancienNoeud.getRailsSortie());
+		for(int i=0; i<ancienNoeud.getRailsSortie().size(); i++) {
+			ancienNoeud.getRailsSortie().get(i).setNoeudPrecedent(noeud);
+		}
+		
+		boolean trouve = false;
+		for(int i=0; i<circuit.getElements().size() && !trouve; i++) {
+			ElementCircuit e = circuit.getElements().get(i);
+			if(e instanceof Rail && ((Rail)e).getNoeudSuivant().equals(ancienNoeud)) {
+				trouve = true;
+				((Rail)e).setNoeudSuivant(noeud);
+			}
+		}
 
 		listePointsNoeuds.remove(point);
 		listePointsNoeuds.put(point, noeud);
