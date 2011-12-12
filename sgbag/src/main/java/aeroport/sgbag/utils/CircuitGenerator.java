@@ -6,7 +6,6 @@ import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
@@ -33,7 +32,6 @@ import aeroport.sgbag.views.VueToboggan;
 public class CircuitGenerator {
 
 	@AllArgsConstructor
-	@NoArgsConstructor
 	private class PointBinder {
 		@Getter
 		@Setter
@@ -51,18 +49,13 @@ public class CircuitGenerator {
 		int distanceEntreBagage;
 		Boolean autoGeneration;
 	}
-	
-	@AllArgsConstructor
-	private class NoeudChariot {
-		Noeud node;
-		Chariot ch;
-	}
 
 	@Getter
 	@Setter
 	private VueHall vueHall;
 
 	@Getter
+	@Setter
 	private Hall hall;
 
 	@Setter
@@ -70,9 +63,17 @@ public class CircuitGenerator {
 	@Setter
 	private Circuit circuit;
 
+	@Getter
+	@Setter
 	private List<PointBinder> listOfSegement;
+	@Getter
+	@Setter
 	private List<Entry> listOfEntrys;
+	@Getter
+	@Setter
 	private List<Point> listOfExits;
+	@Getter
+	@Setter
 	private List<Chariot> listOfChariot;
 
 	public CircuitGenerator(VueHall vh) {
@@ -122,7 +123,7 @@ public class CircuitGenerator {
 
 		railAssocie.setNoeudPrecedent(noeudDebut);
 		railAssocie.setNoeudSuivant(noeudFin);
-		
+
 		circuit.getElements().add(railAssocie);
 		vueR.setRail(railAssocie);
 
@@ -204,7 +205,7 @@ public class CircuitGenerator {
 
 	public Toboggan createExit(Point point) {
 		listOfExits.add(point);
-		
+
 		return generateExit(point);
 	}
 
@@ -236,32 +237,34 @@ public class CircuitGenerator {
 
 		return tobo;
 	}
-	
+
 	public VueChariot addChariot(Noeud noeud, int maxMoveDistance, int length,
 			Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
-		VueChariot vc = generateChariot(noeud, maxMoveDistance, length,destination, bagage,cheminPrevu);
+		VueChariot vc = generateChariot(noeud, maxMoveDistance, length,
+				destination, bagage, cheminPrevu);
 
 		listOfChariot.add(vc.getChariot());
 		return vc;
 	}
-	
+
 	public VueChariot addChariot(Rail rail, int maxMoveDistance, int length,
 			int position, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
-		VueChariot vc = generateChariot(rail, maxMoveDistance, length, 0, destination, bagage, cheminPrevu);
+		VueChariot vc = generateChariot(rail, maxMoveDistance, length, 0,
+				destination, bagage, cheminPrevu);
 
 		listOfChariot.add(vc.getChariot());
 		return vc;
 	}
 
-	public VueChariot generateChariot(Noeud noeud, int maxMoveDistance, int length,
-			Noeud destination, Bagage bagage,
+	public VueChariot generateChariot(Noeud noeud, int maxMoveDistance,
+			int length, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
-		
+
 		Chariot chariot = new Chariot(maxMoveDistance, length, 0, destination,
 				bagage, cheminPrevu);
-		
+
 		// On place les chariots
 		noeud.registerChariot(chariot);
 		chariot.setParent(noeud);
@@ -274,8 +277,8 @@ public class CircuitGenerator {
 		return vueChariot;
 	}
 
-	public VueChariot generateChariot(Rail rail, int maxMoveDistance, int length,
-			int position, Noeud destination, Bagage bagage,
+	public VueChariot generateChariot(Rail rail, int maxMoveDistance,
+			int length, int position, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
 		Chariot chariot = new Chariot(maxMoveDistance, length, position,
 				destination, bagage, cheminPrevu);
@@ -294,7 +297,7 @@ public class CircuitGenerator {
 		// On ajoute les vues
 		hall.getChariotList().add(chariot);
 		ViewSelector.getInstance().setKernelView(chariot, vueChariot);
-		
+
 		return vueChariot;
 	}
 
@@ -317,5 +320,37 @@ public class CircuitGenerator {
 		// Mise à jour du ViewSelector
 		ViewSelector.getInstance().removeKeyValue(ancienNoeud);
 		ViewSelector.getInstance().setKernelView(noeud, vue);
+	}
+
+	//dirty dirty dirty
+	public void generateAll(VueHall vueHall) {
+		this.vueHall = vueHall;
+		listePointsNoeuds = new HashMap<Point, Noeud>();
+		circuit = new Circuit();
+		hall = new Hall();
+		hall.setCircuit(circuit);
+		vueHall.setHall(hall);
+		
+		for (PointBinder pb : listOfSegement) {
+			generateSegment(pb.getP1(), pb.getP2());
+		}
+		for (Entry e : listOfEntrys) {
+			generateEntry(e.point, e.length, e.vitesse, e.distanceEntreBagage,
+					e.autoGeneration);
+		}
+		for (Point p : listOfExits) {
+			generateExit(p);
+		}
+		for (Chariot c : listOfChariot) {
+			if (c.getParent() instanceof Noeud) {
+				generateChariot((Noeud) c.getParent(), c.getMaxMoveDistance(),
+						c.getLength(), c.getDestination(), c.getBagage(),
+						c.getCheminPrevu());
+			} else {
+				generateChariot((Rail) c.getParent(), c.getMaxMoveDistance(),
+						c.getLength(), c.getPosition(), c.getDestination(),
+						c.getBagage(), c.getCheminPrevu());
+			}
+		}
 	}
 }

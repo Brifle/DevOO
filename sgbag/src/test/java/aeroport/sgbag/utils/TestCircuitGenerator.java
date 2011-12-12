@@ -18,6 +18,7 @@ public class TestCircuitGenerator {
 	private Display display;
 	private Shell shell;
 	private VueHall vueHall;
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -30,7 +31,6 @@ public class TestCircuitGenerator {
 		shell.setSize(800, 800);
 		vueHall = new VueHall(shell, SWT.NONE);
 		vueHall.setSize(300, 300);
-
 	}
 	
 	/**
@@ -99,6 +99,10 @@ public class TestCircuitGenerator {
 			if (!display.readAndDispatch())
 				display.sleep();
 		}
+		
+		/*cg.setListePointsNoeuds(new HashMap<Point, Noeud>());
+		cg.setCircuit(new Circuit());
+		cg.setHall(new Hall());*/
 	}
 	
 }
