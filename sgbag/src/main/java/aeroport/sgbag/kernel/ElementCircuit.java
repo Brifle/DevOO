@@ -4,6 +4,7 @@ import java.util.*;
 import lombok.*;
 
 public abstract class ElementCircuit extends KernelObject {
+	protected static String kObjName = "Élement de circuit";
 
 	@Getter
 	protected LinkedList<Chariot> listeChariot;

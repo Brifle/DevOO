@@ -5,6 +5,7 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Toboggan extends FileBagage {
+	protected static String kObjName = "Toboggan";
 
 	@Getter
 	@Setter
