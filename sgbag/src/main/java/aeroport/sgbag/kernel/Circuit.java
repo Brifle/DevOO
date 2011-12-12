@@ -13,7 +13,9 @@ public class Circuit extends KernelObject {
 	@Setter
 	private ArrayList<ElementCircuit>  elements;
 	
-	
+	@Getter
+	@Setter
+	private Hall parent;
 	
 
 	public Circuit() {
