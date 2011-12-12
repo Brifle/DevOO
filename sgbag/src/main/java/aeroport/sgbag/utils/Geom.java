@@ -42,10 +42,34 @@ public class Geom {
 			if (hypo != 0) {
 				angle = Math.acos(adjacent / hypo);
 
+				//Si p1 en haut à droite
+				if (p1.x > centre.x && p1.y < centre.y){
+					angle = angle + Math.PI / 2;
+				}
+				
+				//Si p1 en haut à gauche
+				if (p1.x < centre.x && p1.y < centre.y){
+					angle = angle;
+				}
+				
+				//Si p1 en bas à droite
+				if (p1.x > centre.x && p1.y > centre.y){
+					angle = angle + Math.PI;
+				}
+				
+				//Si p1 en bas à gauche
+				if (p1.x < centre.x && p1.y > centre.y){
+					angle = -angle;
+				}
+				
+				/*
 				if ((p1.x < centre.x && p1.y > centre.y)
 						|| (p2.x < centre.x && p2.y > centre.y)) {
 					angle = -angle;
 				}
+				*/
+				
+				
 				System.out.println(angle);
 			} else {
 				angle = Math.PI / 2;
