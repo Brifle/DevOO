@@ -127,7 +127,7 @@ public class VueHall extends Canvas implements Viewable {
 		for (int i = 0; i < bagagesVues.size(); i++) {
 			boolean found = false;
 			for (int j = 0; j < bagages.size() && !found; j++) {
-				if(bagagesVues.get(i).getBagage().equals(bagages.get(i))) {
+				if(bagagesVues.get(i).getBagage().equals(bagages.get(j))) {
 					found = true;
 				}
 			}
