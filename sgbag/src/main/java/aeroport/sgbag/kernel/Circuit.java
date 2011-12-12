@@ -5,13 +5,19 @@ import lombok.*;
 
 
 @AllArgsConstructor
-@NoArgsConstructor
 public class Circuit extends KernelObject {
 
 	@Getter
 	@Setter
 	private ArrayList<ElementCircuit>  elements;
+	
+	
+	
 
+	public Circuit() {
+		super();
+		elements = new ArrayList<ElementCircuit>();
+	}
 	/**
 	 * Appelle la méthode update de tous les éléments du circuit.
 	 * @return Renvoie true si tous les éléments ont été correctement mis à jour.

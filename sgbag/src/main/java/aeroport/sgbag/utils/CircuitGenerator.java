@@ -34,31 +34,33 @@ public class CircuitGenerator {
 	
 	@Getter
 	@Setter
-	private static VueHall vueHall;
+	private VueHall vueHall;
 	
 	@Getter
-	private static Hall hall = new Hall();
+	private Hall hall = new Hall();
 	
-	private static HashMap<Point, Noeud> listePointsNoeuds = new HashMap<Point, Noeud>();
-	private static ArrayList<ElementCircuit> simpleList = new ArrayList<ElementCircuit>();
-	private static Circuit circuit = new Circuit();
+	@Setter
+	private HashMap<Point, Noeud> listePointsNoeuds;
+	@Setter
+	private ArrayList<ElementCircuit> listElementCircuit;
+	@Setter
+	private Circuit circuit;
 	
-	private CircuitGenerator(){
-	}
-	
-	public static void clear(){
-		hall = new Hall();
+	public CircuitGenerator(){
 		listePointsNoeuds = new HashMap<Point, Noeud>();
-		simpleList = new ArrayList<ElementCircuit>();
+		listElementCircuit = new ArrayList<ElementCircuit>();
 		circuit = new Circuit();
-	}
-	
-	public static void updateCircuit(){
-		circuit.setElements(simpleList);
 		hall.setCircuit(circuit);
 	}
+	
+	public void clear(){
+		hall = new Hall();
+		listePointsNoeuds = new HashMap<Point, Noeud>();
+		listElementCircuit = new ArrayList<ElementCircuit>();
+		circuit = new Circuit();
+	}
 
-	public static VueRail createSegment(Point pointEntree, Point pointSortie){//creer les noeuds si existent pas
+	public VueRail createSegment(Point pointEntree, Point pointSortie){//creer les noeuds si existent pas
 		Noeud noeudDebut = listePointsNoeuds.get(pointEntree);
 		Noeud noeudFin = listePointsNoeuds.get(pointSortie);
 
@@ -83,7 +85,7 @@ public class CircuitGenerator {
 
 		//Création du rail associé
 		Rail railAssocie = new Rail();
-		simpleList.add(railAssocie);
+		circuit.getElements().add(railAssocie);
 		vueR.setRail(railAssocie);
 		
 		// Pour que la methode update view ne casse pas tout, on met la meme longueur
@@ -96,7 +98,7 @@ public class CircuitGenerator {
 		return vueR;
 	}
 	
-	public static VueEmbranchement createNode(Point point){
+	public VueEmbranchement createNode(Point point){
 		Noeud noeud = listePointsNoeuds.get(point);
 		VueEmbranchement vueEmbranchement = null;
 		
@@ -106,7 +108,7 @@ public class CircuitGenerator {
 			listePointsNoeuds.put(point, noeud);
 			
 			//Ajout dans la liste des éléments noyaux
-			simpleList.add(noeud);
+			circuit.getElements().add(noeud);
 			
 			//Création de la vue associée au noeud
 			vueEmbranchement = new VueEmbranchement(vueHall);			
@@ -120,7 +122,7 @@ public class CircuitGenerator {
 		return vueEmbranchement;
 	}
 	
-	public static TapisRoulant createEntry(Point point, int length, int vitesse, int distanceEntreBagage, Boolean autoGeneration){
+	public TapisRoulant createEntry(Point point, int length, int vitesse, int distanceEntreBagage, Boolean autoGeneration){
 		Noeud noeud = listePointsNoeuds.get(point);
 		if(noeud == null){
 			createNode(point);
@@ -148,7 +150,7 @@ public class CircuitGenerator {
 		return tapis;
 	}
 	
-	public static Toboggan createExit(Point point){
+	public Toboggan createExit(Point point){
 		Noeud noeud = listePointsNoeuds.get(point);
 		if(noeud == null){
 			createNode(point);
@@ -176,7 +178,7 @@ public class CircuitGenerator {
 		return tobo;
 	}
 	
-	public static void addChariot(Noeud noeud, int maxMoveDistance, int length, Noeud destination, Bagage bagage, LinkedList<ElementCircuit>  cheminPrevu){
+	public void addChariot(Noeud noeud, int maxMoveDistance, int length, Noeud destination, Bagage bagage, LinkedList<ElementCircuit>  cheminPrevu){
 		Chariot chariot = new Chariot( maxMoveDistance, length, 0, destination, bagage, cheminPrevu);
 
 		// On place les chariots
@@ -190,7 +192,7 @@ public class CircuitGenerator {
 		ViewSelector.getInstance().setKernelView(chariot, vueChariot);
 	}
 	
-	public static void addChariot(Rail rail, int maxMoveDistance, int length, int position, Noeud destination, Bagage bagage, LinkedList<ElementCircuit>  cheminPrevu){
+	public void addChariot(Rail rail, int maxMoveDistance, int length, int position, Noeud destination, Bagage bagage, LinkedList<ElementCircuit>  cheminPrevu){
 		Chariot chariot = new Chariot( maxMoveDistance, length, position, destination, bagage, cheminPrevu);
 		
 		rail.registerChariot(chariot);
@@ -209,7 +211,7 @@ public class CircuitGenerator {
 		ViewSelector.getInstance().setKernelView(chariot, vueChariot);
 	}
 	
-	private static void replaceNode(Point point, Noeud noeud){
+	private void replaceNode(Point point, Noeud noeud){
 		
 		Noeud ancienNoeud = listePointsNoeuds.get(point);
 		Viewable vue = ViewSelector.getInstance().getViewForKernelObject(ancienNoeud);
@@ -221,8 +223,8 @@ public class CircuitGenerator {
 		listePointsNoeuds.remove(point);
 		listePointsNoeuds.put(point, noeud);
 		
-		simpleList.remove(ancienNoeud);	
-		simpleList.add(noeud);
+		circuit.getElements().remove(ancienNoeud);	
+		circuit.getElements().add(noeud);
 		
 		//Mise à jour du ViewSelector
 		ViewSelector.getInstance().removeKeyValue(ancienNoeud);
