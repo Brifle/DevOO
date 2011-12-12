@@ -36,7 +36,6 @@ public class VueHall extends Canvas implements Viewable {
 	public VueHall(Composite parent, int style) {
 		super(parent, style);
 		calques = new TreeMap<Integer, LinkedList<VueElem>>();
-		buffer = new Image(this.getDisplay(), this.getBounds());
 
 		this.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent event) {
