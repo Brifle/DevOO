@@ -2,9 +2,11 @@ package aeroport.sgbag.kernel;
 
 import java.util.*;
 import lombok.*;
+import lombok.extern.log4j.Log4j;
 
 
 @AllArgsConstructor
+@Log4j
 public class Circuit extends KernelObject {
 
 	@Getter
@@ -75,6 +77,9 @@ public class Circuit extends KernelObject {
 					noeudEtPrecedent.put(voisin, n);
 				}
 			}
+		}
+		if(noeudEtPrecedent.get(arrivee) == null) {
+			log.warn("Chemin impossible entre " + depart + " et " + arrivee + ".");
 		}
 		
 		//Reconstruction du chemin
