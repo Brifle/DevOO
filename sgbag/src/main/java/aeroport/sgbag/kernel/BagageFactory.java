@@ -61,9 +61,10 @@ public class BagageFactory {
 		searchTapisAndTobogans();
 	}
 
-	public Bagage generateBagage() {
+	public Bagage generateBagage(Hall hall) {
 		//if (!lTobogan.isEmpty()) {
 			Bagage b = new Bagage();
+			hall.getBagagesList().add(b);
 
 			b.setDestination(getTobogan().getConnexionCircuit());
 
