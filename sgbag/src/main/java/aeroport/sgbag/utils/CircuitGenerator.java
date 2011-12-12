@@ -81,6 +81,7 @@ public class CircuitGenerator {
 		circuit = new Circuit();
 		hall = new Hall();
 		hall.setCircuit(circuit);
+		circuit.setParent(hall);
 		vueHall.setHall(hall);
 		listOfSegement = new LinkedList<CircuitGenerator.PointBinder>();
 		listOfEntrys = new LinkedList<CircuitGenerator.Entry>();
