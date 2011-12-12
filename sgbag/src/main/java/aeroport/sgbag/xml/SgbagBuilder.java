@@ -2,23 +2,13 @@ package aeroport.sgbag.xml;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.LinkedList;
-import java.util.TreeMap;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.extern.log4j.Log4j;
-import aeroport.sgbag.kernel.Hall;
-import aeroport.sgbag.views.VueElem;
-import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.utils.CircuitGenerator;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -27,46 +17,48 @@ import com.thoughtworks.xstream.XStream;
 public class SgbagBuilder {
 
 	private XStream xStream;
-
 	private String path;
 
 	public SgbagBuilder(String path) throws IOException {
 		super();
 		xStream = new XStream();
+
+		xStream.omitField(CircuitGenerator.class, "vueHall");
+		xStream.omitField(CircuitGenerator.class, "hall");
+		xStream.omitField(CircuitGenerator.class, "listePointsNoeuds");
+		xStream.omitField(CircuitGenerator.class, "circuit");
+
+		xStream.setMode(XStream.ID_REFERENCES);
+
 		this.path = path;
 	}
 
-	public VueHallDataBinder deserialize() throws IOException {
+	public CircuitGenerator deserialize() throws IOException {
 		log.debug("Désérialisation");
 		FileReader freader = new FileReader(path);
 		BufferedReader in = new BufferedReader(freader);
 		String tmp = "";
 		String str = "";
-		
-		while((tmp = in.readLine()) != null) {
-			log.debug("->" + tmp);
+
+		while ((tmp = in.readLine()) != null) {
 			str += (tmp + '\n');
 		}
-		
+
 		log.debug(str);
-		
+
 		if (str.length() == 0) {
 			return null;
 		}
-		
-		return (VueHallDataBinder) xStream.fromXML(str);
+
+		return (CircuitGenerator) xStream.fromXML(str);
 	}
 
-	public String serialize(VueHall vh) throws IOException {
+	public String serialize(CircuitGenerator cg) throws IOException {
 		log.debug("Sérialisation");
 		FileWriter fstream = new FileWriter(path);
 		BufferedWriter out = new BufferedWriter(fstream);
-		
-		VueHallDataBinder v = new VueHallDataBinder(vh.getHall(),
-				vh.getCalques());
-		String str = xStream.toXML(v);
 
-		log.debug("xml : \n" + str);
+		String str = xStream.toXML(cg);
 		out.write(str);
 		out.flush();
 

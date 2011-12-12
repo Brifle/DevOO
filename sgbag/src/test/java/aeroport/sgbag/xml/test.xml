@@ -25,6 +25,9 @@
 		</Rail>
 	</kernel>
 	<views>
-		<!-- Insert view objects here -->
+		<VueEmbranchement>
+			<X>22</X>
+			<Y>44</Y>		
+		</VueEmbranchement>
 	</views>
 </root>

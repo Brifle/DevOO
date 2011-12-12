@@ -2,10 +2,7 @@ package aeroport.sgbag.gui;
 
 import java.io.File;
 
-import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.filechooser.FileView;
-import javax.swing.plaf.FileChooserUI;
+import lombok.Getter;
 
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
@@ -16,42 +13,27 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.events.PaintEvent;
+import org.eclipse.swt.events.PaintListener;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
-import aeroport.sgbag.kernel.Bagage;
-import aeroport.sgbag.kernel.Chariot;
-import aeroport.sgbag.kernel.Noeud;
-import aeroport.sgbag.kernel.Rail;
-import aeroport.sgbag.kernel.TapisRoulant;
-import aeroport.sgbag.kernel.Toboggan;
-import aeroport.sgbag.views.VueBagage;
-import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueHall;
-import aeroport.sgbag.views.VueRail;
-import aeroport.sgbag.views.VueTapisRoulant;
-import aeroport.sgbag.views.VueToboggan;
-
-import org.eclipse.wb.swt.ResourceManager;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.events.SelectionAdapter;
-import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.layout.RowLayout;
 
 /**
  * SGBag GUI root window.
@@ -69,7 +51,11 @@ public class MainWindow extends ApplicationWindow {
 	private Action actionSetManuel;
 
 	private VueHall vueHall;
+	
+	// TODO: Remove this (used only in unit tests)
+	@Getter
 	private Simulation simulation;
+	
 	private PropertiesWidget propertiesWidget;
 	private Button btnManuel;
 	private Button btnAutomatique;
@@ -95,7 +81,7 @@ public class MainWindow extends ApplicationWindow {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		
-		vueHall = new VueHall(container, SWT.BORDER);
+		vueHall = new VueHall(container, SWT.NONE);
 		GridData gd_vueHall = new GridData(SWT.FILL, SWT.FILL, false, true, 2, 5);
 		gd_vueHall.heightHint = 150;
 		gd_vueHall.widthHint = 400;
@@ -153,6 +139,14 @@ public class MainWindow extends ApplicationWindow {
 		gd_sclVitesse.minimumWidth = 120;
 		sclVitesse.setLayoutData(gd_sclVitesse);
 		
+		vueHall.addPaintListener(new PaintListener() {
+			
+			@Override
+			public void paintControl(PaintEvent arg0) {
+				vueHall.draw();
+			}
+		});
+		
 		return container;
 	}
 
@@ -174,22 +168,26 @@ public class MainWindow extends ApplicationWindow {
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 				@Override
 				public void run() {
-					super.run();
-					
-					//TODO: DELETE
-					propertiesWidget.setSimulation(simulation);
-					simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
-					propertiesWidget.refresh();
-					//TODO: END DELETE
+
+					simulation.play();
+
 				}
 			};
 		}
 		{
 			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(getClass(), "icons/pause.png") ) {
+				@Override
+				public void run() {
+					simulation.pause();
+				}
 			};
 		}
 		{
 			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
+				@Override
+				public void run() {
+					simulation.stop();
+				}
 			};
 		}
 		{
@@ -211,12 +209,8 @@ public class MainWindow extends ApplicationWindow {
 				    	simulation.init();
 
 				    	propertiesWidget.setSimulation(simulation);
-				    	propertiesWidget.refresh();				    	
-				    	
-				    	// Hard test (TODO: Remove this crap)
-				    	Button b1 = new Button( propertiesWidget, SWT.PUSH );
-				    	   b1.setText( "Button on Composite 1" );
 
+				    	propertiesWidget.refresh();
 				    }
 				}
 			};
@@ -300,7 +294,6 @@ public class MainWindow extends ApplicationWindow {
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		Display display = Display.getDefault();
 		try {
 			MainWindow window = new MainWindow();
 			window.setBlockOnOpen(true);

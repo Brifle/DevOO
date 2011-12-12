@@ -3,7 +3,6 @@ package aeroport.sgbag.kernel;
 import java.util.*;
 import lombok.*;
 
-@ToString(exclude="listeChariot")
 public abstract class ElementCircuit extends KernelObject {
 
 	@Getter
@@ -46,5 +45,12 @@ public abstract class ElementCircuit extends KernelObject {
 	public Boolean hasChariot() {
 		return (listeChariot.size() > 0);
 	}
+	
+	@Override
+	public String toString() {
+		return "<ElementCircuit id=" + super.getId() + "/>";
+	}
+	
+	
 
 }

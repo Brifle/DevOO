@@ -2,8 +2,11 @@ package aeroport.sgbag.controler;
 
 import java.io.File;
 
+import org.eclipse.swt.graphics.Point;
+
 import lombok.*;
 import aeroport.sgbag.kernel.*;
+import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.views.*;
 
 /**
@@ -51,24 +54,36 @@ public class Simulation {
 	public void init() {
 
 		// TODO init vueHall with XML file
-
+		
 		vueHall.setSimulation(this);
 		hall = vueHall.getHall();
+		
+		if(hall != null){
+			hall.update();
+		}
+		vueHall.update();
+		vueHall.draw();
 
 		clock = new Clock(100, hall, vueHall);
 	}
 
 	public void play() {
-		clock.run();
+		if(clock != null){
+			clock.run();
+		}
 	}
 
 	public void pause() {
-		clock.pause();
+		if(clock != null){
+			clock.pause();
+		}
 	}
 
 	public void stop() {
-		clock.pause();
-		// TODO clear all bagages
+		if(clock != null){
+			clock.pause();
+			// TODO clear all bagages
+		}
 	}
 
 	public void setSelectedElem(VueElem _selectedElem) {

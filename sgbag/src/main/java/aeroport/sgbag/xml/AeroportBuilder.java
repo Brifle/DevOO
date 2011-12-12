@@ -22,7 +22,7 @@ import org.xml.sax.SAXException;
 
 @Log4j
 public class AeroportBuilder {
-	
+
 	@AllArgsConstructor
 	public class Pair {
 		@Getter
@@ -30,7 +30,7 @@ public class AeroportBuilder {
 		@Getter
 		Object value;
 	}
-	
+
 	Document document;
 	Element racine;
 
@@ -80,15 +80,16 @@ public class AeroportBuilder {
 		return getElementByName("views");
 	}
 
-	private Pair getObjectFromElement(Element element) {
+	private Pair getObjectFromElement(Element element, String cat) {
 		Object o = null;
-		
+
 		String id = element.getAttribute("id");
-		
+
 		NodeList propertieNodes = element.getChildNodes();
 		Class<?> c = null;
 		try {
-			c = Class.forName("aeroport.sgbag.kernel." + element.getTagName());
+			c = Class.forName("aeroport.sgbag." + cat + "."
+					+ element.getTagName());
 		} catch (ClassNotFoundException e) {
 			return null;
 		}
@@ -96,8 +97,10 @@ public class AeroportBuilder {
 		try {
 			o = c.newInstance();
 		} catch (InstantiationException e1) {
+			log.error(e1);
 			return null;
 		} catch (IllegalAccessException e1) {
+			log.error(e1);
 			return null;
 		}
 
@@ -108,11 +111,14 @@ public class AeroportBuilder {
 
 				Method setter = null;
 				try {
-					setter = c.getDeclaredMethod(
-							"set" + propertieElem.getTagName(), int.class);
+					setter = c.getMethod("set" + propertieElem.getTagName(),
+							int.class);
+
 				} catch (SecurityException e) {
+					log.error(e);
 					return null;
 				} catch (NoSuchMethodException e) {
+					log.error(e);
 					return null;
 				}
 
@@ -121,13 +127,18 @@ public class AeroportBuilder {
 							o,
 							Integer.parseInt(getTagValue(
 									propertieElem.getTagName(), element)));
+					log.debug("Called " + "set" + propertieElem.getTagName());
 				} catch (NumberFormatException e) {
+					log.error(e);
 					return null;
 				} catch (IllegalArgumentException e) {
+					log.error(e);
 					return null;
 				} catch (IllegalAccessException e) {
+					log.error(e);
 					return null;
 				} catch (InvocationTargetException e) {
+					log.error(e);
 					return null;
 				}
 			}
@@ -153,7 +164,7 @@ public class AeroportBuilder {
 		Element currentKernelElement = (Element) currentKernelNode;
 		log.debug(currentKernelElement);
 
-		p = getObjectFromElement(currentKernelElement);
+		p = getObjectFromElement(currentKernelElement, "kernel");
 
 		kernelIndex++;
 
@@ -174,7 +185,7 @@ public class AeroportBuilder {
 		Element currentViewElement = (Element) currentViewNode;
 		log.debug(currentViewElement);
 
-		p = getObjectFromElement(currentViewElement);
+		p = getObjectFromElement(currentViewElement, "views");
 
 		viewIndex++;
 

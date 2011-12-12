@@ -2,16 +2,24 @@ package aeroport.sgbag.kernel;
 
 import java.util.*;
 import lombok.*;
+import lombok.extern.log4j.Log4j;
 
 
 @AllArgsConstructor
-@NoArgsConstructor
+@Log4j
 public class Circuit extends KernelObject {
 
 	@Getter
 	@Setter
 	private ArrayList<ElementCircuit>  elements;
+	
+	
+	
 
+	public Circuit() {
+		super();
+		elements = new ArrayList<ElementCircuit>();
+	}
 	/**
 	 * Appelle la méthode update de tous les éléments du circuit.
 	 * @return Renvoie true si tous les éléments ont été correctement mis à jour.
@@ -69,6 +77,9 @@ public class Circuit extends KernelObject {
 					noeudEtPrecedent.put(voisin, n);
 				}
 			}
+		}
+		if(noeudEtPrecedent.get(arrivee) == null) {
+			log.warn("Chemin impossible entre " + depart + " et " + arrivee + ".");
 		}
 		
 		//Reconstruction du chemin
