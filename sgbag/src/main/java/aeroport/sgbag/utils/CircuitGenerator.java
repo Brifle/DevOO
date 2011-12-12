@@ -85,6 +85,8 @@ public class CircuitGenerator {
 
 		//Création du rail associé
 		Rail railAssocie = new Rail();
+		railAssocie.setNoeudSuivant(noeudFin);
+		railAssocie.setNoeudPrecedent(noeudDebut);
 		circuit.getElements().add(railAssocie);
 		vueR.setRail(railAssocie);
 		
