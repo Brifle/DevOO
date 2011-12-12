@@ -127,6 +127,7 @@ public class MainWindow extends ApplicationWindow {
 		grpProperties.setText("Propriétés");
 		
 		propertiesWidget = new PropertiesWidget(grpProperties, SWT.NONE, null);
+		simulation.setPropertiesWidget(propertiesWidget);
 		
 		CLabel lblVitesse = new CLabel(container, SWT.NONE);
 		lblVitesse.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
