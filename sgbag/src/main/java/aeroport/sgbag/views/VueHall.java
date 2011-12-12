@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.widgets.*;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Hall;
 
 import java.util.*;
@@ -32,10 +33,15 @@ public class VueHall extends Canvas implements Viewable {
 
 	@Getter
 	private TreeMap<Integer, LinkedList<VueElem>> calques;
+	
+	@Getter
+	private ArrayList<VueBagage> bagagesVues;
 
 	public VueHall(Composite parent, int style) {
 		super(parent, style);
 		calques = new TreeMap<Integer, LinkedList<VueElem>>();
+		
+		bagagesVues = new ArrayList<VueBagage>();
 
 		this.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent event) {
@@ -97,9 +103,34 @@ public class VueHall extends Canvas implements Viewable {
 
 	public void updateView() {
 
-		// TODO : add new bagages views
+		// Add new bagages views
+		ArrayList<Bagage> bagages = this.getHall().getBagagesList();
+		for (int i = 0; i < bagages.size(); i++) {
+			boolean found = false;
+			for (int j = 0; j < bagagesVues.size() && !found; j++) {
+				if(bagages.get(i).equals(bagagesVues.get(j).getBagage())) {
+					found = true;
+				}
+			}
+			if(!found) {
+				addBagage(bagages.get(i));
+			}
+		}
 
-		// TODO : remove deleted bagages views
+		// Remove deleted bagages views
+		for (int i = 0; i < bagagesVues.size(); i++) {
+			boolean found = false;
+			for (int j = 0; j < bagages.size() && !found; j++) {
+				if(bagagesVues.get(i).getBagage().equals(bagages.get(i))) {
+					found = true;
+				}
+			}
+			if(!found) {
+				//Remove bagage vue
+				bagagesVues.get(i).destroy();
+				bagagesVues.remove(i);
+			}
+		}
 
 		// Update all the views, ordered by the layers
 		for (Iterator<Integer> iterator = calques.keySet().iterator(); iterator
@@ -109,6 +140,12 @@ public class VueHall extends Canvas implements Viewable {
 				vues.get(j).updateView();
 			}
 		}
+	}
+	
+	public void addBagage(Bagage bagage) {
+		VueBagage vueBagage = new VueBagage(this);
+		vueBagage.setBagage(bagage);
+		bagagesVues.add(vueBagage);
 	}
 
 	public void draw() {
