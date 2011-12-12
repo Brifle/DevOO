@@ -12,6 +12,15 @@ public class ChariotTest {
 	public static void setUpBeforeClass() throws Exception {
 		PropertyConfigurator.configure("log4j.properties");
 	}
+	
+	@Test
+	public void testConstructor() {
+		Chariot c = new Chariot(20, 11, 0, null, null, null);
+		
+		assertEquals(20, c.getMaxMoveDistance());
+		assertEquals(11, c.getLength());
+		assertEquals(0, c.getPosition());
+	}
 
 	@Test
 	public void testCollision() {
