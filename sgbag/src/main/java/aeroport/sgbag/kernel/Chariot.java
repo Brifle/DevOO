@@ -46,7 +46,7 @@ public class Chariot extends KernelObject {
 			LinkedList<ElementCircuit> cheminPrevu) {
 		super();
 		this.maxMoveDistance = maxMoveDistance;
-		this.halfLength = length;
+		this.halfLength = new Double(length) / 2;
 		this.position = position;
 		this.destination = destination;
 		this.bagage = bagage;
