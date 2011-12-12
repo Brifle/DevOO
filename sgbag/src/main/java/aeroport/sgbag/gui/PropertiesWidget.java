@@ -5,7 +5,8 @@ import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Font;
+import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -13,11 +14,8 @@ import org.eclipse.swt.layout.GridLayout;
 import lombok.Getter;
 
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 import aeroport.sgbag.controler.Simulation;
@@ -29,7 +27,6 @@ import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
 import aeroport.sgbag.views.VueBagage;
 import aeroport.sgbag.views.VueChariot;
-import aeroport.sgbag.views.VueElem;
 import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
@@ -97,6 +94,18 @@ public class PropertiesWidget extends Composite {
 
 		canvas.layout();
 		this.layout();
+	}
+
+	private void setCommonProperties(KernelObject o) {
+		new Label(canvas, SWT.NONE).setText("Type : ");
+		Label l = new Label(canvas, SWT.NONE);
+		l.setText(o.getClass().getSimpleName());
+		FontData fontData = l.getFont().getFontData()[0];
+		Font font = new Font(null, new FontData(fontData.getName(), fontData.getHeight(), SWT.BOLD));
+		l.setFont(font);
+		
+		new Label(canvas, SWT.NONE).setText("Nom : " + o.getName());
+		new Label(canvas, SWT.NONE).setText("Id : " + o.getId());
 	}
 	
 	private void setVueBagageMode() {
@@ -167,12 +176,6 @@ public class PropertiesWidget extends Composite {
 			new Label(canvas, SWT.NONE).setText("Noeud suivant : ");
 			new Label(canvas, SWT.NONE).setText(tr.getNoeudSuivant().getName());
 		}
-	}
-
-	private void setCommonProperties(KernelObject o) {
-		new Label(canvas, SWT.NONE).setText("Nom : " + o.getName());
-
-		new Label(canvas, SWT.NONE).setText("Id : " + o.getId());
 	}
 
 	private void setVueToboganMode() {

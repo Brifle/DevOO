@@ -32,9 +32,18 @@ import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.kernel.Bagage;
+import aeroport.sgbag.kernel.Chariot;
+import aeroport.sgbag.kernel.Noeud;
+import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
+import aeroport.sgbag.kernel.Toboggan;
+import aeroport.sgbag.views.VueBagage;
+import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
+import aeroport.sgbag.views.VueToboggan;
 
 import org.eclipse.wb.swt.ResourceManager;
 import org.eclipse.swt.layout.FillLayout;
@@ -163,6 +172,16 @@ public class MainWindow extends ApplicationWindow {
 		}
 		{
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
+				@Override
+				public void run() {
+					super.run();
+					
+					//TODO: DELETE
+					propertiesWidget.setSimulation(simulation);
+					simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
+					propertiesWidget.refresh();
+					//TODO: END DELETE
+				}
 			};
 		}
 		{
@@ -192,11 +211,7 @@ public class MainWindow extends ApplicationWindow {
 				    	simulation.init();
 
 				    	propertiesWidget.setSimulation(simulation);
-				    	propertiesWidget.refresh();
-				    	
-				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
-				    	simulation.setSelectedElem(null);
-				    	
+				    	propertiesWidget.refresh();				    	
 				    	
 				    	// Hard test (TODO: Remove this crap)
 				    	Button b1 = new Button( propertiesWidget, SWT.PUSH );
