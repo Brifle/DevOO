@@ -9,6 +9,7 @@ import lombok.extern.log4j.Log4j;
 @RequiredArgsConstructor
 @Log4j
 public class TapisRoulant extends FileBagage {
+	protected static String kObjName = "Tapis roulant";
 
 	@Getter
 	@Setter

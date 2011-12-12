@@ -12,6 +12,7 @@ import lombok.Setter;
  */
 @NoArgsConstructor
 public class Bagage extends KernelObject {
+	protected static String kObjName = "Bagage";
 
 	public Bagage(Noeud destination) {
 		super();
