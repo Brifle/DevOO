@@ -196,12 +196,6 @@ public class MainWindow extends ApplicationWindow {
 				    	
 				    	//simulation.setSelectedElem(new VueTapisRoulant(vueHall, new TapisRoulant(50, 5, 5, true)));
 				    	simulation.setSelectedElem(null);
-				    	
-				    	
-				    	// Hard test (TODO: Remove this crap)
-				    	Button b1 = new Button( propertiesWidget, SWT.PUSH );
-				    	   b1.setText( "Button on Composite 1" );
-
 				    }
 				}
 			};
