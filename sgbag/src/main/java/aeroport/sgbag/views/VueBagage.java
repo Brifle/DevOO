@@ -79,6 +79,7 @@ public class VueBagage extends VueElem {
 		} else {
 			this.x = vueParent.x;
 			this.y = vueParent.y;
+			this.angle = vueParent.angle;
 		}
 	}
 
