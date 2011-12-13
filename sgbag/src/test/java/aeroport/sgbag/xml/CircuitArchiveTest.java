@@ -87,7 +87,7 @@ public class CircuitArchiveTest {
 		
 		// Sortie du fichier
 		
-		FileWriter fstream = new FileWriter("src/test/java/aeroport/sgbag/xml/archive1.xml");
+		FileWriter fstream = new FileWriter("data/circuit-test.xml");
 		BufferedWriter out = new BufferedWriter(fstream);
 
 		String str = xStream.toXML(ca);
@@ -99,7 +99,7 @@ public class CircuitArchiveTest {
 	public void testUnserialize() {
 		CircuitArchive ca = null;
 		try {
-			ca = CircuitArchive.readFromXML("src/test/java/aeroport/sgbag/xml/archive1.xml");
+			ca = CircuitArchive.readFromXML("data/circuit-test.xml");
 			assertTrue(ca != null);
 		} catch (MalformedCircuitArchiveException e) {
 			assertTrue(false);
