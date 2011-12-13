@@ -50,7 +50,8 @@ public class Rail extends ElementCircuit {
 
 			if (chariotSuivant != null
 					&& c.willCollide(newPosition, chariotSuivant)) {
-				c.setPosition(chariotSuivant.getRearPosition() - 3);
+				//c.setPosition(chariotSuivant.getRearPosition() - 3);
+				c.setPosition(chariotSuivant.getRearPosition()-c.getLength()/2-10);
 				log.debug("Collision entre deux chariots : " + c + " et "
 						+ chariotSuivant);
 			} else {
