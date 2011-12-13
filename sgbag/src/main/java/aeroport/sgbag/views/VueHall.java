@@ -5,6 +5,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
 
 import aeroport.sgbag.controler.Simulation;
@@ -48,6 +49,7 @@ public class VueHall extends Canvas implements Viewable {
 
 		this.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent event) {
+				
 				// Create the image to fill the canvas
 				buffer = new Image(getDisplay(), getBounds());
 
@@ -68,6 +70,18 @@ public class VueHall extends Canvas implements Viewable {
 
 				// Draw the offscreen buffer to the screen
 				event.gc.drawImage(buffer, 0, 0);
+				
+				// Scroll
+		        Rectangle rect = buffer.getBounds();
+		        Rectangle client = getClientArea();
+		        int marginWidth = client.width - rect.width;
+		        if (marginWidth > 0) {
+		        	event.gc.fillRectangle(rect.width, 0, marginWidth, client.height);
+		        }
+		        int marginHeight = client.height - rect.height;
+		        if (marginHeight > 0) {
+		        	event.gc.fillRectangle(0, rect.height, client.width, marginHeight);
+		        }
 
 				// Clean up
 				buffer.dispose();
