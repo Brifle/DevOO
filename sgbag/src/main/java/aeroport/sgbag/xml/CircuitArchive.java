@@ -218,6 +218,8 @@ public class CircuitArchive {
 				}
 			}
 		}
+		
+		vueHall.getHall().init();
 	}
 	
 	/**
