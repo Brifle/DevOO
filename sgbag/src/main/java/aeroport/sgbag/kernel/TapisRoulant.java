@@ -1,5 +1,6 @@
 package aeroport.sgbag.kernel;
 
+import aeroport.sgbag.utils.UtilsCircuit;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -69,7 +70,7 @@ public class TapisRoulant extends FileBagage {
 					|| this.listBagages.get(this.listBagages.size() - 1)
 							.getPosition() >= distanceEntreBagages) {
 				
-				Bagage b = BagageFactory.getBagageFactory().generateBagage(
+				Bagage b = UtilsCircuit.getBagageFactory().generateBagage(
 						this.getConnexionCircuit().getParent().getParent());
 				this.addBagage(b);
 				b.setParent(this);

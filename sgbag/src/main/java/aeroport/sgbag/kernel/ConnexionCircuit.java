@@ -1,5 +1,6 @@
 package aeroport.sgbag.kernel;
 
+import aeroport.sgbag.utils.UtilsCircuit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
@@ -63,7 +64,7 @@ public class ConnexionCircuit extends Noeud {
 
 					chariot.moveBagageToFile(fileBagage);
 					
-					Noeud nouvelleDestination = BagageFactory.getBagageFactory().getTapis().getConnexionCircuit();
+					Noeud nouvelleDestination = UtilsCircuit.getBagageFactory().getTapis().getConnexionCircuit();
 					chariot.setCheminPrevu(
 							this.getParent().calculChemin(
 									this,

@@ -1,5 +1,7 @@
 package aeroport.sgbag.gui;
 
+import java.util.LinkedList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
@@ -15,18 +17,23 @@ import lombok.Getter;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
+import aeroport.sgbag.kernel.ElementCircuit;
 import aeroport.sgbag.kernel.KernelObject;
+import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
 import aeroport.sgbag.views.VueBagage;
 import aeroport.sgbag.views.VueChariot;
+import aeroport.sgbag.views.VueEmbranchement;
 import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
@@ -88,6 +95,8 @@ public class PropertiesWidget extends Composite {
 					setVueToboganMode();
 				} else if (this.simulation.getSelectedElem() instanceof VueTapisRoulant) {
 					setVueTapisRoulantViewMode();
+				} else if (this.simulation.getSelectedElem() instanceof VueEmbranchement) {
+					setVueEmbranchementViewMode();
 				}
 			}
 		}
@@ -106,6 +115,13 @@ public class PropertiesWidget extends Composite {
 		
 		new Label(canvas, SWT.NONE).setText("Nom : " + o.getName());
 		new Label(canvas, SWT.NONE).setText("Id : " + o.getId());
+	}
+	
+	private void setVueEmbranchementViewMode(){
+		 Noeud tr = ((VueEmbranchement) this.simulation.getSelectedElem())
+				.getNoeud();
+
+		setCommonProperties(tr);
 	}
 	
 	private void setVueBagageMode() {
@@ -176,6 +192,21 @@ public class PropertiesWidget extends Composite {
 			new Label(canvas, SWT.NONE).setText("Noeud suivant : ");
 			new Label(canvas, SWT.NONE).setText(tr.getNoeudSuivant().getName());
 		}
+		
+		Button button = new Button(canvas, SWT.PUSH);
+		button.setText("Nouveau charriot");
+
+		button.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event arg0) {
+				Rail tr = ((VueRail) simulation.getSelectedElem()).getRail();
+				Noeud dest = tr.getParent().getParent().getOptimalNextTapisRoulant();
+				LinkedList<ElementCircuit> ll = tr.getParent().calculChemin(tr.getNoeudPrecedent(), dest);
+				tr.getListeChariot().add(new Chariot(15, dest, ll));
+			}
+		});
+
+		
 	}
 
 	private void setVueToboganMode() {

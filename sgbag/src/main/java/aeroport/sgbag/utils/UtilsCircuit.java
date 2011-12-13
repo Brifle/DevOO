@@ -1,25 +1,34 @@
-package aeroport.sgbag.kernel;
+package aeroport.sgbag.utils;
 
 import java.util.ArrayList;
+
+import aeroport.sgbag.kernel.Bagage;
+import aeroport.sgbag.kernel.Circuit;
+import aeroport.sgbag.kernel.ConnexionCircuit;
+import aeroport.sgbag.kernel.ElementCircuit;
+import aeroport.sgbag.kernel.FileBagage;
+import aeroport.sgbag.kernel.Hall;
+import aeroport.sgbag.kernel.TapisRoulant;
+import aeroport.sgbag.kernel.Toboggan;
 
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-public class BagageFactory {
+public class UtilsCircuit {
 
-	private static BagageFactory instance = null;
+	private static UtilsCircuit instance = null;
 
 	private Circuit circuit;
 
 	private ArrayList<TapisRoulant> lTapis = new ArrayList<TapisRoulant>();
 	private ArrayList<Toboggan> lTobogan = new ArrayList<Toboggan>();
 
-	private BagageFactory() {
+	private UtilsCircuit() {
 	}
 
-	public static BagageFactory getBagageFactory() {
+	public static UtilsCircuit getBagageFactory() {
 		if (instance == null) {
-			instance = new BagageFactory();
+			instance = new UtilsCircuit();
 		}
 
 		return instance;
