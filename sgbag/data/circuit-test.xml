@@ -3,7 +3,7 @@
     <toboggan id="3" x="400" y="200" angle="270"/>
   </toboggans>
   <tapisRoulants id="4">
-    <tapis id="5" x="200" y="300" length="100" vitesse="30" distanceEntreBagage="20" angle="270" autoGeneration="false"/>
+    <tapis id="5" x="200" y="300" length="100" vitesse="2" distanceEntreBagage="20" angle="270" autoGeneration="false"/>
   </tapisRoulants>
   <noeuds id="6">
     <noeud id="7" x="300" y="100"/>
