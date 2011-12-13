@@ -43,33 +43,39 @@ public class ConnexionCircuit extends Noeud {
 						
 						log.debug("Bagage du chariot : " + chariot.getBagage()
 								+ " destination : " + chariot.getBagage().getDestination());
-						chariot.setCheminPrevu(
-								this.getParent().calculChemin(
-										this,
-										chariot.getBagage().getDestination()));
-						chariot.setDestination(chariot.getBagage().getDestination());
 						
-						String logstr = "Chemin prévu pour aller à " + chariot.getBagage().getDestination() + " :";
-						for(int i=0; i<chariot.getCheminPrevu().size(); i++) {
-							logstr += chariot.getCheminPrevu().get(i) + " ";
+						//Mode automatique
+						if(getParent().getParent().isAutomatique()) {
+							chariot.setCheminPrevu(
+									this.getParent().calculChemin(
+											this,
+											chariot.getBagage().getDestination()));
+							chariot.setDestination(chariot.getBagage().getDestination());
+							
+							String logstr = "Chemin prévu pour aller à " + chariot.getBagage().getDestination() + " :";
+							for(int i=0; i<chariot.getCheminPrevu().size(); i++) {
+								logstr += chariot.getCheminPrevu().get(i) + " ";
+							}
+							log.debug(logstr);
 						}
-						log.debug(logstr);
 								
 						moveToNextRail();
 					}
 				} else if (getListeChariot().getFirst().hasBagage()) {
 
 					// On retire le bagage
-
 					chariot.moveBagageToFile(fileBagage);
 					
-					Noeud nouvelleDestination = BagageFactory.getBagageFactory().getTapis().getConnexionCircuit();
-					chariot.setCheminPrevu(
-							this.getParent().calculChemin(
-									this,
-									nouvelleDestination));
-					chariot.setDestination(nouvelleDestination);
-					
+					//Mode automatique
+					if(getParent().getParent().isAutomatique()) {
+						Noeud nouvelleDestination = BagageFactory.getBagageFactory().getTapis().getConnexionCircuit();
+						chariot.setCheminPrevu(
+								this.getParent().calculChemin(
+										this,
+										nouvelleDestination));
+						chariot.setDestination(nouvelleDestination);
+					}
+						
 					moveToNextRail();
 				} else {
 
