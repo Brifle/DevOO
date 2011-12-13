@@ -144,7 +144,7 @@ public class CircuitGenerator {
 		// longueur
 		railAssocie.setLength((int) (Math.sqrt(Math.pow(centre.x
 				- pointEntree.x, 2)
-				+ Math.pow(centre.y - pointEntree.y, 2))) * 4);
+				+ Math.pow(centre.y - pointEntree.y, 2))) * 4 - 2*VueEmbranchement.defaultSizeOfNode);
 
 		noeudDebut.addRailSortie(railAssocie);
 

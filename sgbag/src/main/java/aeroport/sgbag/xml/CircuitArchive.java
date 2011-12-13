@@ -1,5 +1,9 @@
 package aeroport.sgbag.xml;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.LinkedList;
 
 import lombok.AllArgsConstructor;
@@ -15,14 +19,17 @@ import aeroport.sgbag.kernel.ElementCircuit;
 import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.utils.CircuitGenerator;
+import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
+import aeroport.sgbag.views.VueToboggan;
 
+import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -109,6 +116,7 @@ public class CircuitArchive {
 	
 	@Data
 	@XStreamAlias("chariot")
+	@AllArgsConstructor
 	public static class ChariotSaved {
 		final public static int DEFAULT_WIDTH = 20;
 		final public static int DEFAULT_SPEED = 20;
@@ -123,7 +131,7 @@ public class CircuitArchive {
 		private int maxMoveDistance;
 		
 		@XStreamAsAttribute
-		private Noeud to;
+		private NoeudSaved to;
 		
 		@XStreamAsAttribute
 		private int length = DEFAULT_WIDTH;
@@ -134,27 +142,22 @@ public class CircuitArchive {
 	
 	@Getter
 	@Setter
-	@XStreamImplicit
 	private LinkedList<TobogganSaved> toboggans = new LinkedList<CircuitArchive.TobogganSaved>();
 	
 	@Getter
 	@Setter
-	@XStreamImplicit
 	private LinkedList<TapisRoulantSaved> tapisRoulants = new LinkedList<CircuitArchive.TapisRoulantSaved>();
 	
 	@Getter
 	@Setter
-	@XStreamImplicit
 	private LinkedList<NoeudSaved> noeuds = new LinkedList<CircuitArchive.NoeudSaved>();
 	
 	@Getter
 	@Setter
-	@XStreamImplicit
 	private LinkedList<RailSaved> rails = new LinkedList<CircuitArchive.RailSaved>();
 	
 	@Getter
 	@Setter
-	@XStreamImplicit
 	private LinkedList<ChariotSaved> chariots = new LinkedList<CircuitArchive.ChariotSaved>();
 	
 	/**
@@ -165,35 +168,95 @@ public class CircuitArchive {
 	public void unpackTo(VueHall vueHall) {
 		CircuitGenerator cg = new CircuitGenerator(vueHall);
 		
-		for(RailSaved railp: rails){
-			VueRail vr = cg.createSegment(new Point(railp.from.x, railp.from.y), 
-						                  new Point(railp.to.x, railp.to.y));
-			
-			railp.getFrom().setUnpackedObject(vr.getRail().getNoeudPrecedent());
-			railp.getTo().setUnpackedObject(vr.getRail().getNoeudSuivant());
-		}
-		
-		for(TapisRoulantSaved tapisRoulant: tapisRoulants){
-			VueTapisRoulant vtr = cg.createEntry(new Point(tapisRoulant.x, tapisRoulant.y),
-												 tapisRoulant.length, tapisRoulant.vitesse,
-												 tapisRoulant.distanceEntreBagage, 
-												 tapisRoulant.autoGeneration);
-			
-			
-		}
-		
-		for(TobogganSaved tobogganp: toboggans){
-			cg.createExit(new Point(tobogganp.x, tobogganp.y));
-		}
-		
-		for(ChariotSaved chariotp: chariots){
-			if(chariotp.on instanceof RailSaved){
-				cg.addChariot((Rail) chariotp.on.unpackedObject, chariotp.maxSpeed,
-								chariotp.length, chariotp.position, chariotp.to, null, null);  
-			}else if(chariotp.on instanceof NoeudSaved){
-				cg.addChariot((Noeud) chariotp.on.unpackedObject, chariotp.maxSpeed,
-						chariotp.length, chariotp.to, null, null);
+		if(rails != null){
+			for(RailSaved railp: rails){
+				VueRail vr = cg.createSegment(new Point(railp.from.x, railp.from.y), 
+							                  new Point(railp.to.x, railp.to.y));
+				
+				railp.getFrom().setUnpackedObject(vr.getRail().getNoeudPrecedent());
+				railp.getTo().setUnpackedObject(vr.getRail().getNoeudSuivant());
+				railp.setUnpackedObject(vr.getRail());
 			}
 		}
+		
+		if(tapisRoulants != null){
+			for(TapisRoulantSaved tapisRoulant: tapisRoulants){
+				VueTapisRoulant vtr = cg.createEntry(new Point(tapisRoulant.x, tapisRoulant.y),
+													 tapisRoulant.length, tapisRoulant.vitesse,
+													 tapisRoulant.distanceEntreBagage, 
+													 tapisRoulant.autoGeneration);
+				
+				vtr.setAngle(tapisRoulant.angle);
+				vtr.updateView();
+				
+				tapisRoulant.setUnpackedObject((ElementCircuit) vtr.getTapisRoulant().getConnexionCircuit());
+			}
+		}
+		
+		if(toboggans != null){
+			for(TobogganSaved tobogganp: toboggans){
+				VueToboggan vt = cg.createExit(new Point(tobogganp.x, tobogganp.y));
+				
+				vt.setAngle(tobogganp.angle);
+				vt.updateView();
+				
+				tobogganp.setUnpackedObject((ElementCircuit) vt.getToboggan().getConnexionCircuit());
+			}
+		}
+		
+		if(chariots != null){
+			for(ChariotSaved chariotp: chariots){
+				if(chariotp.on instanceof RailSaved){
+					VueChariot vc = cg.addChariot((Rail) chariotp.on.unpackedObject, chariotp.maxSpeed,
+											      chariotp.length, chariotp.position, (Noeud) chariotp.to.unpackedObject, 
+											      null, null);
+					vc.updateView();
+				}else if(chariotp.on instanceof NoeudSaved){
+					VueChariot vc = cg.addChariot((Noeud) chariotp.on.unpackedObject, chariotp.maxSpeed,
+												  chariotp.length, (Noeud) chariotp.to.unpackedObject, null, null);
+					vc.updateView();
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Méthode utilitaire permettant de créer rapidement un CircuitArchive depuis
+	 * un fichier.	
+	 * @throws {@link IOException} 
+	 * @throws {@link MalformedCircuitArchiveException}
+	 */
+	public static CircuitArchive readFromXML(String path) throws MalformedCircuitArchiveException, 
+																 FileNotFoundException,
+															     IOException {
+		XStream xStream = new XStream();
+		
+		xStream.processAnnotations(CircuitArchive.class);
+	
+		xStream.setMode(XStream.ID_REFERENCES);
+		
+		String xmlContent = "";
+		
+		FileReader freader = new FileReader(path);
+		BufferedReader in = new BufferedReader(freader);
+		String tmp = "";
+	
+		while ((tmp = in.readLine()) != null) {
+			xmlContent += (tmp + '\n');
+		}
+		
+		CircuitArchive ca = null;
+		
+		try {
+			ca = (CircuitArchive) xStream.fromXML(xmlContent);
+		} catch (CannotResolveClassException e){
+			throw new MalformedCircuitArchiveException();
+		}
+		
+		if(ca == null){
+			throw new MalformedCircuitArchiveException();
+		}
+		
+		return ca;
 	}
 }

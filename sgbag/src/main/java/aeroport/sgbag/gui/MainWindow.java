@@ -1,6 +1,8 @@
 package aeroport.sgbag.gui;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import lombok.Getter;
 
@@ -27,6 +29,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Tree;
@@ -34,6 +37,8 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.xml.MalformedCircuitArchiveException;
+
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.jface.viewers.TreeViewer;
 
@@ -197,9 +202,27 @@ public class MainWindow extends ApplicationWindow {
 				    String fileName = fd.open();
 				    
 				    if(fileName != null){
+						MessageBox msgb = new MessageBox(getShell());
 
 				    	simulation.setXmlFile(new File(fileName));
-				    	simulation.init();
+				    	
+				    	try {
+							simulation.init();
+						} catch (FileNotFoundException e) {
+							msgb.setMessage("Le fichier sélectionné n'existe pas, ou ne peut être accédé.");
+							msgb.open();
+							return;
+						} catch (MalformedCircuitArchiveException e) {
+							msgb.setMessage("Le fichier sélectionné n'arrive pas à être lu (mal formé)." + 
+											" Est-ce bien un fichier de configuration SGBag ?");
+							msgb.open();
+							return;
+						} catch (IOException e) {
+							msgb.setMessage("Le fichier sélectionné n'est pas accessible (erreur d'entrée/sortie).");
+							msgb.open();
+							return;
+						}
+				    	
 				    	simulation.setMode(Simulation.Mode.AUTO);
 				    	btnAutomatique.setSelection(true);
 
