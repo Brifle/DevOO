@@ -15,7 +15,6 @@ import org.junit.Test;
 import aeroport.sgbag.controler.Clock;
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
-import aeroport.sgbag.kernel.BagageFactory;
 import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.Circuit;
 import aeroport.sgbag.kernel.ConnexionCircuit;
@@ -26,6 +25,7 @@ import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
+import aeroport.sgbag.utils.UtilsCircuit;
 import aeroport.sgbag.utils.Geom;
 
 public class VuesIntegrationTest {
@@ -98,7 +98,7 @@ public class VuesIntegrationTest {
 		hall.setBagagesList(bagages);
 		
 		
-		BagageFactory.getBagageFactory().setCircuit(circuit);
+		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
 	@Test

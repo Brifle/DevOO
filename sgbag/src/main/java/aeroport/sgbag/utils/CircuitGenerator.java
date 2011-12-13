@@ -137,6 +137,7 @@ public class CircuitGenerator {
 		railAssocie.setNoeudSuivant(noeudFin);
 
 		circuit.getElements().add(railAssocie);
+		railAssocie.setParent(circuit);
 		vueR.setRail(railAssocie);
 
 		// Pour que la methode update view ne casse pas tout, on met la meme
@@ -214,7 +215,7 @@ public class CircuitGenerator {
 		VueTapisRoulant vTapis = new VueTapisRoulant(vueHall, tapis);
 		vTapis.setX(point.x);
 		vTapis.setY(point.y);
-		vueHall.ajouterVue(vTapis, 3);
+		vueHall.ajouterVue(vTapis, 2);
 		ViewSelector.getInstance().setKernelView(tapis, vTapis);
 
 		return vTapis;
@@ -249,7 +250,7 @@ public class CircuitGenerator {
 		VueToboggan vTobo = new VueToboggan(vueHall, tobo);
 		vTobo.setX(point.x);
 		vTobo.setY(point.y);
-		vueHall.ajouterVue(vTobo, 3);
+		vueHall.ajouterVue(vTobo, 2);
 		ViewSelector.getInstance().setKernelView(tobo, vTobo);
 
 		return vTobo;

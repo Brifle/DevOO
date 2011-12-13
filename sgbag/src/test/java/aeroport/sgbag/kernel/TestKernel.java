@@ -11,6 +11,8 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import aeroport.sgbag.utils.UtilsCircuit;
+
 @Log4j
 public class TestKernel {
 
@@ -192,7 +194,7 @@ public class TestKernel {
 		Chariot c = new Chariot(5, n2, chemin);
 		n3.registerChariot(c);
 		
-		BagageFactory.getBagageFactory().setCircuit(circuit);
+		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
 	@Test

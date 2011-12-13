@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j;
 import aeroport.sgbag.gui.PropertiesWidget;
 import aeroport.sgbag.kernel.*;
 import aeroport.sgbag.utils.CircuitGenerator;
+import aeroport.sgbag.utils.UtilsCircuit;
 import aeroport.sgbag.views.*;
 
 /**
@@ -27,7 +28,8 @@ public class Simulation {
 	}
 
 	public enum Etat {
-		NORMAL, SELECTION, CHOIX_DESTINATION
+		NORMAL, SELECTION, CHOIX_DESTINATION_BAGAGE,
+		CHOIX_DESTINATION_CHARIOT
 	}
 
 	@Getter
@@ -112,8 +114,7 @@ public class Simulation {
 		VueTapisRoulant vueTapisRoulant = (VueTapisRoulant) depart;
 		
 		// Create the bagage in kernel :
-		Bagage b = new Bagage();
-		b.setDestination(vueToboggan.getToboggan().getConnexionCircuit());
+		Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage(vueToboggan.getToboggan().getConnexionCircuit());
 		vueTapisRoulant.getTapisRoulant().addBagage(b);
 		b.setParent(vueTapisRoulant.getTapisRoulant());
 
@@ -135,15 +136,19 @@ public class Simulation {
 			}
 		} else if(mode == Mode.AUTO) {
 			vueHall.getHall().setAutomatique(true);
+			
+			UtilsCircuit.getUtilsCircuit().resetTapisRoulantIncomingChariotsNumber();
+			
 			ArrayList<Chariot> chariots = vueHall.getHall().getChariotList();
+			
 			for (int i = 0; i < chariots.size(); i++) {
 				Noeud nouvelleDestination;
 				if(chariots.get(i).getBagage() == null) {
 					//Get prochain tapis
-					nouvelleDestination = BagageFactory.getBagageFactory().getTapis().getConnexionCircuit();
+					nouvelleDestination = UtilsCircuit.getUtilsCircuit().getTapisRoulantOptimalNext().getConnexionCircuit();
 				} else {
 					//Get prochain toboggan
-					nouvelleDestination = BagageFactory.getBagageFactory().getTobogan().getConnexionCircuit();
+					nouvelleDestination = UtilsCircuit.getUtilsCircuit().getRandomExistingTobogan().getConnexionCircuit();
 				}
 				//Y aller !
 				Noeud noeudChariot = null;
