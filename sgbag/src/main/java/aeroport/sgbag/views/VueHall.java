@@ -50,8 +50,6 @@ public class VueHall extends Canvas implements Viewable {
 		this.addPaintListener(new PaintListener() {
 			public void paintControl(PaintEvent event) {
 				
-				log.debug("WTF");
-				
 				// Create the image to fill the canvas
 				buffer = new Image(getDisplay(), getBounds());
 
