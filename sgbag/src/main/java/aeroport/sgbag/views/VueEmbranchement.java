@@ -13,18 +13,26 @@ public class VueEmbranchement extends VueElem {
 	@Getter
 	@Setter
 	private Noeud noeud;
+	
+	@Getter
+	@Setter
+	private double coeffiscientImage;
 
 	public VueEmbranchement(VueHall parent) {
 		super(parent);
 		image = new Image(parent.getDisplay(), "data/img/embranchement.png");
 		
 		Rectangle rect = image.getBounds();
-		this.width = rect.width;
-		this.height = rect.height;
+		coeffiscientImage = 1.6;
+		
+		this.width = (int) (rect.width*coeffiscientImage);
+		this.height = (int) (rect.height*coeffiscientImage);
 	}
 
 	@Override
 	public void updateView() {
-		// Nothing
+		Rectangle rect = image.getBounds();
+		this.width = (int) (coeffiscientImage*rect.width);
+		this.height = (int) (coeffiscientImage*rect.height);
 	}
 }
