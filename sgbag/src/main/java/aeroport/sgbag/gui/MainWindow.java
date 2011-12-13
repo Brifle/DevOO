@@ -133,8 +133,7 @@ public class MainWindow extends ApplicationWindow {
 		sclVitesse.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				int newInterval = (sclVitesse.getMaximum() + 1) - sclVitesse.getSelection();
-				simulation.setSpeed(newInterval);
+				setSpeedFromScale();
 			}
 		});
 		GridData gd_sclVitesse = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -163,8 +162,8 @@ public class MainWindow extends ApplicationWindow {
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 				@Override
 				public void run() {
-					simulation.play();
-
+					setSpeedFromScale();
+					simulation.play();					
 				}
 			};
 		}
@@ -311,5 +310,12 @@ public class MainWindow extends ApplicationWindow {
 		super.configureShell(shell);
 		shell.setText("SGBag - Interface de simulation");
 		shell.setMinimumSize(600,500);
+	}
+	
+	private int setSpeedFromScale() {
+		int newInterval = (sclVitesse.getMaximum() + 1) - sclVitesse.getSelection();
+		simulation.setSpeed(newInterval);
+		
+		return newInterval;
 	}
 }

@@ -13,6 +13,7 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 
 import aeroport.sgbag.kernel.Rail;
+import aeroport.sgbag.utils.Rectangle2D;
 
 /**
  * @author Arnaud Lahache
@@ -58,7 +59,7 @@ public class VueRail extends VueElem {
 			GC gc = this.parent.getGcBuffer();
 
 			// We get the size of the original image :
-			Rectangle rect = imageFleche.getBounds();
+			Rectangle rectFleche = imageFleche.getBounds();
 
 			// We create a transform in order to rotate and translate the image:
 			Transform trImage = new Transform(parent.getDisplay());
@@ -74,8 +75,9 @@ public class VueRail extends VueElem {
 			}
 
 			// Then we just draw the image on the GC :
-			gc.drawImage(this.imageFleche, 0, 0, rect.width, rect.height,
-					-rect.width / 2, -rect.width / 2, rect.width, rect.width);
+			gc.drawImage(this.imageFleche, 0, 0, rectFleche.width,
+					rectFleche.height, -this.width / 2,
+					-rectFleche.height / 2, rectFleche.width, rectFleche.height);
 
 			// We no longer need the transform :
 			gc.setTransform(null);
