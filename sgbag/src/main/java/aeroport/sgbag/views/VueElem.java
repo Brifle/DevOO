@@ -135,7 +135,7 @@ public abstract class VueElem implements Viewable {
 		Point centre = new Point(x + offsetX, y + offsetY);
 		Point rotatedPoint = Geom.getRotatedPoint(point, centre, -angle);
 		
-		if(rotatedPoint.x >= x+ offsetX - width / 2 && rotatedPoint.x <= x+ offsetX + width ){
+		if(rotatedPoint.x >= x+ offsetX - width / 2 && rotatedPoint.x <= x+ offsetX + width/2 ){
 			if(rotatedPoint.y >= y+ offsetY - height / 2 && rotatedPoint.y <=   y+ offsetY + height / 2){
 				return true;
 			}
