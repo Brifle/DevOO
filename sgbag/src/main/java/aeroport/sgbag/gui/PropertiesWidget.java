@@ -31,6 +31,7 @@ import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
+import aeroport.sgbag.utils.UtilsCircuit;
 import aeroport.sgbag.views.VueBagage;
 import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueEmbranchement;
@@ -110,32 +111,32 @@ public class PropertiesWidget extends Composite {
 		Label l = new Label(canvas, SWT.NONE);
 		l.setText(o.getClass().getSimpleName());
 		FontData fontData = l.getFont().getFontData()[0];
-		Font font = new Font(null, new FontData(fontData.getName(), fontData.getHeight(), SWT.BOLD));
+		Font font = new Font(null, new FontData(fontData.getName(),
+				fontData.getHeight(), SWT.BOLD));
 		l.setFont(font);
-		
+
 		new Label(canvas, SWT.NONE).setText("Nom : " + o.getName());
 		new Label(canvas, SWT.NONE).setText("Id : " + o.getId());
 	}
-	
-	private void setVueEmbranchementViewMode(){
-		 Noeud tr = ((VueEmbranchement) this.simulation.getSelectedElem())
+
+	private void setVueEmbranchementViewMode() {
+		Noeud tr = ((VueEmbranchement) this.simulation.getSelectedElem())
 				.getNoeud();
 
 		setCommonProperties(tr);
 	}
-	
+
 	private void setVueBagageMode() {
-		Bagage tr = ((VueBagage) this.simulation.getSelectedElem())
-				.getBagage();
+		Bagage tr = ((VueBagage) this.simulation.getSelectedElem()).getBagage();
 
 		setCommonProperties(tr);
-		
-		if (tr.getDestination() != null && tr.getDestination().getName() != null) {
+
+		if (tr.getDestination() != null
+				&& tr.getDestination().getName() != null) {
 			new Label(canvas, SWT.NONE).setText("Noeud destination : ");
-			new Label(canvas, SWT.NONE).setText(tr.getDestination()
-					.getName());
+			new Label(canvas, SWT.NONE).setText(tr.getDestination().getName());
 		}
-		
+
 		new Label(canvas, SWT.NONE).setText("Position relative : ");
 		new Label(canvas, SWT.NONE).setText("" + tr.getPosition());
 	}
@@ -158,14 +159,14 @@ public class PropertiesWidget extends Composite {
 			}
 		});
 		s1.setValues(tr.getMaxMoveDistance(), 0, 100, 0, 1, 10);
-		
+
 		new Label(canvas, SWT.NONE).setText("Position relative : ");
 		new Label(canvas, SWT.NONE).setText("" + tr.getPosition());
 
-		if (tr.getDestination() != null && tr.getDestination().getName() != null) {
+		if (tr.getDestination() != null
+				&& tr.getDestination().getName() != null) {
 			new Label(canvas, SWT.NONE).setText("Noeud destination : ");
-			new Label(canvas, SWT.NONE).setText(tr.getDestination()
-					.getName());
+			new Label(canvas, SWT.NONE).setText(tr.getDestination().getName());
 		}
 
 		if (tr.getBagage() != null && tr.getBagage().getName() != null) {
@@ -192,7 +193,7 @@ public class PropertiesWidget extends Composite {
 			new Label(canvas, SWT.NONE).setText("Noeud suivant : ");
 			new Label(canvas, SWT.NONE).setText(tr.getNoeudSuivant().getName());
 		}
-		
+
 		Button button = new Button(canvas, SWT.PUSH);
 		button.setText("Nouveau charriot");
 
@@ -200,15 +201,9 @@ public class PropertiesWidget extends Composite {
 			@Override
 			public void handleEvent(Event arg0) {
 				simulation.createChariot(simulation.getSelectedElem());
-				
-//				Rail tr = ((VueRail) simulation.getSelectedElem()).getRail();
-//				Noeud dest = tr.getParent().getParent().getOptimalNextTapisRoulant();
-//				LinkedList<ElementCircuit> ll = tr.getParent().calculChemin(tr.getNoeudPrecedent(), dest);
-//				tr.getListeChariot().add(new Chariot(15, dest, ll));
 			}
 		});
 
-		
 	}
 
 	private void setVueToboganMode() {
@@ -289,8 +284,32 @@ public class PropertiesWidget extends Composite {
 		});
 		s2.setValues(tr.getDistanceEntreBagages(), 0, 100, 0, 1, 10);
 
-		Label l5 = new Label(canvas, SWT.NONE);
-		l5.setText("Longueur du tapis : " + tr.getLength());
+		new Label(canvas, SWT.NONE).setText("Longueur du tapis : ");
+		new Label(canvas, SWT.NONE).setText(""+tr.getLength());
+		
+		new Label(canvas, SWT.NONE).setText("Génération automatique : ");
+		Button button = new Button(canvas, SWT.CHECK);
+		button.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				TapisRoulant tr = ((VueTapisRoulant) simulation.getSelectedElem())
+						.getTapisRoulant();
+
+				tr.setAutoBagageGeneration(((Button) e.widget).getSelection());
+			}
+		});
+		button.setSelection(tr.isAutoBagageGeneration());
+
+		Button button2 = new Button(canvas, SWT.PUSH);
+		button2.setEnabled(tr.hasPlaceForBagage());
+		button2.setText("Nouveau bagage");
+
+		button2.addListener(SWT.Selection, new Listener() {
+			@Override
+			public void handleEvent(Event arg0) {
+				simulation.createBagage(simulation.getSelectedElem());
+			}
+		});
 	}
 
 }
