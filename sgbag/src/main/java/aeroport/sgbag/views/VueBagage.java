@@ -46,8 +46,8 @@ public class VueBagage extends VueElem {
 				.getViewForKernelObject(parent);
 
 		if (parent instanceof Chariot) {
-			this.x = vueParent.x;
-			this.y = vueParent.y;
+			this.x = vueParent.x + vueParent.getOffsetX();
+			this.y = vueParent.y +  vueParent.getOffsetY();
 			this.angle = vueParent.angle;
 		} else if (parent instanceof TapisRoulant) {
 			TapisRoulant tapisParent = (TapisRoulant) parent;
@@ -77,9 +77,25 @@ public class VueBagage extends VueElem {
 
 			this.angle = vueParent.angle;
 		} else {
-			this.x = vueParent.x;
-			this.y = vueParent.y;
+			
+			// Calculate the Bagage's position :
+
+			Rectangle2D rect = vueParent.getRectangle2D();
+			double rapport = 0.79;
+
+			int xDebutTobo = (rect.getBasDroit().x + rect.getBasGauche().x) / 2;
+			int yDebutTobo = (rect.getBasDroit().y + rect.getBasGauche().y) / 2;
+			int xFinTobo = (rect.getHautGauche().x + rect.getHautDroit().x) / 2;
+			int yFinTobo = (rect.getHautGauche().y + rect.getHautDroit().y) / 2;
+
+			int offsetX = (int) (rapport * (xFinTobo - xDebutTobo));
+			int offsetY = (int) (rapport * (yFinTobo - yDebutTobo));
+
+			this.x = xDebutTobo + offsetX;
+			this.y = yDebutTobo + offsetY;
+			
 			this.angle = vueParent.angle;
+
 		}
 	}
 

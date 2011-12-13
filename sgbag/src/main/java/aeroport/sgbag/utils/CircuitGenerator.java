@@ -137,6 +137,7 @@ public class CircuitGenerator {
 		railAssocie.setNoeudSuivant(noeudFin);
 
 		circuit.getElements().add(railAssocie);
+		railAssocie.setParent(circuit);
 		vueR.setRail(railAssocie);
 
 		// Pour que la methode update view ne casse pas tout, on met la meme
@@ -180,7 +181,7 @@ public class CircuitGenerator {
 		return vueEmbranchement;
 	}
 
-	public TapisRoulant createEntry(Point point, int length, int vitesse,
+	public VueTapisRoulant createEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
 		listOfEntrys.add(new Entry(point, length, vitesse, distanceEntreBagage,
 				autoGeneration));
@@ -189,7 +190,7 @@ public class CircuitGenerator {
 				autoGeneration);
 	}
 
-	public TapisRoulant generateEntry(Point point, int length, int vitesse,
+	public VueTapisRoulant generateEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if (noeud == null) {
@@ -214,19 +215,19 @@ public class CircuitGenerator {
 		VueTapisRoulant vTapis = new VueTapisRoulant(vueHall, tapis);
 		vTapis.setX(point.x);
 		vTapis.setY(point.y);
-		vueHall.ajouterVue(vTapis, 3);
+		vueHall.ajouterVue(vTapis, 2);
 		ViewSelector.getInstance().setKernelView(tapis, vTapis);
 
-		return tapis;
+		return vTapis;
 	}
 
-	public Toboggan createExit(Point point) {
+	public VueToboggan createExit(Point point) {
 		listOfExits.add(point);
 
 		return generateExit(point);
 	}
 
-	public Toboggan generateExit(Point point) {
+	public VueToboggan generateExit(Point point) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if (noeud == null) {
 			createNode(point);
@@ -249,10 +250,10 @@ public class CircuitGenerator {
 		VueToboggan vTobo = new VueToboggan(vueHall, tobo);
 		vTobo.setX(point.x);
 		vTobo.setY(point.y);
-		vueHall.ajouterVue(vTobo, 3);
+		vueHall.ajouterVue(vTobo, 2);
 		ViewSelector.getInstance().setKernelView(tobo, vTobo);
 
-		return tobo;
+		return vTobo;
 	}
 
 	public VueChariot addChariot(Noeud noeud, int maxMoveDistance, int length,

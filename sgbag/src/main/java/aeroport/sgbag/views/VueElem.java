@@ -39,6 +39,14 @@ public abstract class VueElem implements Viewable {
 	@Getter
 	@Setter
 	protected int y;
+	
+	@Getter
+	@Setter
+	protected int offsetX;
+	
+	@Getter
+	@Setter
+	protected int offsetY;
 
 	@Getter
 	@Setter
@@ -62,6 +70,8 @@ public abstract class VueElem implements Viewable {
 	
 	public VueElem(VueHall parent) {
 		this.parent = parent;
+		offsetY = 0;
+		offsetX = 0;
 	}
 	
 	public void destroy() {
@@ -71,11 +81,11 @@ public abstract class VueElem implements Viewable {
 	}
 
 	public Rectangle2D getRectangle2D() {
-		Point centre = new Point(x, y);
-		Point p1 = new Point(x - width / 2, y - height / 2);
-		Point p2 = new Point(x + width / 2, y - height / 2);
-		Point p3 = new Point(x - width / 2, y + height / 2);
-		Point p4 = new Point(x + width / 2, y + height / 2);
+		Point centre = new Point(x + offsetX, y + offsetY);
+		Point p1 = new Point(x + offsetX - width / 2, y + offsetY - height / 2);
+		Point p2 = new Point(x + offsetX + width / 2, y + offsetY - height / 2);
+		Point p3 = new Point(x + offsetX - width / 2, y + offsetY + height / 2);
+		Point p4 = new Point(x + offsetX + width / 2, y + offsetY + height / 2);
 		return new Rectangle2D(Geom.getRotatedPoint(p1, centre, angle),
 				Geom.getRotatedPoint(p2, centre, angle),
 				Geom.getRotatedPoint(p3, centre, angle),
@@ -98,7 +108,7 @@ public abstract class VueElem implements Viewable {
 
 		// We create a transform in order to rotate and translate the image :
 		Transform trImage = new Transform(parent.getDisplay());
-		trImage.translate(this.x, this.y);
+		trImage.translate(this.x + offsetX , this.y + offsetY);
 		trImage.rotate(this.angle);
 		gc.setTransform(trImage);
 		
@@ -122,11 +132,11 @@ public abstract class VueElem implements Viewable {
 	 * @see aeroport.sgbag.views.Viewable#isClicked(Point p)
 	 */
 	public boolean isClicked(Point point){
-		Point centre = new Point(x, y);
+		Point centre = new Point(x + offsetX, y + offsetY);
 		Point rotatedPoint = Geom.getRotatedPoint(point, centre, -angle);
 		
-		if(rotatedPoint.x >= x - width / 2 && rotatedPoint.x <= x + width ){
-			if(rotatedPoint.y >= y - height / 2 && rotatedPoint.y <=   y + height / 2){
+		if(rotatedPoint.x >= x+ offsetX - width / 2 && rotatedPoint.x <= x+ offsetX + width ){
+			if(rotatedPoint.y >= y+ offsetY - height / 2 && rotatedPoint.y <=   y+ offsetY + height / 2){
 				return true;
 			}
 		}

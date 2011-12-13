@@ -2,6 +2,8 @@ package aeroport.sgbag.kernel;
 
 import java.util.*;
 
+import aeroport.sgbag.utils.UtilsCircuit;
+
 import lombok.*;
 
 @AllArgsConstructor
@@ -21,6 +23,10 @@ public class Hall extends KernelObject {
 	
 	@Getter 
 	private ArrayList<Chariot> chariotList;
+	
+	@Getter
+	@Setter
+	private boolean isAutomatique = true;
 
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();
@@ -29,7 +35,7 @@ public class Hall extends KernelObject {
 	}
 
 	public void init() {
-		BagageFactory.getBagageFactory().setCircuit(circuit);
+		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
 	public boolean update() {
