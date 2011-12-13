@@ -1,7 +1,0 @@
-<aeroport.sgbag.utils.CircuitGenerator id="1">
-  <listOfSegement class="linked-list" id="2"/>
-  <listOfEntrys class="linked-list" id="3"/>
-  <listOfExits class="linked-list" id="4"/>
-  <listOfChariot class="linked-list" id="5"/>
-  <mapOfChariot id="6"/>
-</aeroport.sgbag.utils.CircuitGenerator>

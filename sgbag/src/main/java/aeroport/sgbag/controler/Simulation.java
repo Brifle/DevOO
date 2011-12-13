@@ -146,6 +146,31 @@ public class Simulation {
 
 		return true;
 	}
+	
+	public boolean createBagage(VueElem depart) {
+
+		if (!(depart instanceof VueTapisRoulant)) {
+			return false;
+		}
+		
+		VueTapisRoulant vueTapisRoulant = (VueTapisRoulant) depart;
+
+		if(!vueTapisRoulant.getTapisRoulant().hasPlaceForBagage()){
+			return false;
+		}
+		// Create the bagage in kernel :
+		Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage();
+		vueTapisRoulant.getTapisRoulant().addBagage(b);
+		b.setParent(vueTapisRoulant.getTapisRoulant());
+
+		// Create the vueBagage :
+		VueBagage v = new VueBagage(vueHall);
+		v.setBagage(b);
+		vueHall.ajouterVue(v, 4);
+		ViewSelector.getInstance().setKernelView(b, v);
+
+		return true;
+	}
 
 	public boolean createChariot(VueElem depart) {
 
@@ -248,6 +273,10 @@ public class Simulation {
 			return;
 		}
 		this.mode = mode;
+	}
+	
+	public void refreshProperties(){
+		this.propertiesWidget.refresh();
 	}
 
 }
