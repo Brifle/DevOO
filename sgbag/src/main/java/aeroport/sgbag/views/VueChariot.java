@@ -22,6 +22,14 @@ public class VueChariot extends VueElem {
 	@Getter
 	@Setter
 	private Chariot chariot;
+	
+	@Getter
+	@Setter
+	private double relativeCoefOffsetX;
+	
+	@Getter
+	@Setter
+	private double relativeCoefOffsetY;
 
 	private float lastRailAngle;
 
@@ -33,6 +41,8 @@ public class VueChariot extends VueElem {
 		Rectangle rect = image.getBounds();
 		width = chariot.getLength() / 2;
 		height = width * rect.height / rect.width;
+		relativeCoefOffsetX = 1.5;
+		relativeCoefOffsetY = 0;
 
 	}
 
@@ -88,14 +98,14 @@ public class VueChariot extends VueElem {
 			double rapport = ((double) chariot.getPosition())
 					/ ((double) railParent.getLength());
 
-			int xDebutRail = rect.getBasGauche().x
-					+ (rect.getHautGauche().x - rect.getBasGauche().x) / 2;
-			int yDebutRail = rect.getBasGauche().y
-					+ (rect.getHautGauche().y - rect.getBasGauche().y) / 2;
-			int xFinRail = rect.getBasDroit().x
-					+ (rect.getHautDroit().x - rect.getBasDroit().x) / 2;
-			int yFinRail = rect.getBasDroit().y
-					+ (rect.getHautDroit().y - rect.getBasDroit().y) / 2;
+			int xDebutRail = (int) (rect.getBasGauche().x
+					+ (rect.getHautGauche().x - rect.getBasGauche().x)/2 * (relativeCoefOffsetX + 1));
+			int yDebutRail = (int) (rect.getBasGauche().y
+					+ (rect.getHautGauche().y - rect.getBasGauche().y) / 2 * (relativeCoefOffsetY + 1));
+			int xFinRail = (int) (rect.getBasDroit().x
+					+ (rect.getHautDroit().x - rect.getBasDroit().x) / 2 * (relativeCoefOffsetX + 1));
+			int yFinRail = (int) (rect.getBasDroit().y
+					+ (rect.getHautDroit().y - rect.getBasDroit().y) / 2 * (relativeCoefOffsetY + 1));
 
 			int offsetX = (int) (rapport * (xFinRail - xDebutRail));
 			int offsetY = (int) (rapport * (yFinRail - yDebutRail));

@@ -92,7 +92,12 @@ public class Simulation {
 	public void stop() {
 		if(clock != null){
 			clock.pause();
-			// TODO clear all bagages
+
+			getHall().getBagagesList().clear();
+			
+			for(FileBagage fb : getHall().getFileBagageList()) {
+				fb.removeAllBagage();
+			}
 		}
 	}
 	
