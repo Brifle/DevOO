@@ -21,6 +21,10 @@ public class Hall extends KernelObject {
 	
 	@Getter 
 	private ArrayList<Chariot> chariotList;
+	
+	@Getter
+	@Setter
+	private boolean isAutomatique = true;
 
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();
