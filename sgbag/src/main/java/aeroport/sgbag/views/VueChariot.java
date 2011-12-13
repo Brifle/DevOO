@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Canvas;
 
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.*;
+import aeroport.sgbag.utils.ParticleManager;
 import aeroport.sgbag.utils.Rectangle2D;
 
 @NoArgsConstructor
@@ -50,7 +51,7 @@ public class VueChariot extends VueElem {
 		ElementCircuit parent = chariot.getParent();
 		VueElem vueParent = (VueElem) ViewSelector.getInstance()
 				.getViewForKernelObject(parent);
-
+		
 		if (parent instanceof Noeud) {
 			Noeud noeudParent = (Noeud) parent;
 
@@ -118,6 +119,7 @@ public class VueChariot extends VueElem {
 			this.angle = vueParent.angle;
 			this.lastRailAngle = vueParent.angle;
 		}
+		ParticleManager.getParticleManager().throwParticle(x, y);
 
 	}
 

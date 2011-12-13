@@ -12,6 +12,7 @@ import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Hall;
+import aeroport.sgbag.utils.ParticleManager;
 
 import java.util.*;
 
@@ -67,6 +68,8 @@ public class VueHall extends Canvas implements Viewable {
 						vues.get(j).draw();
 					}
 				}
+				
+				ParticleManager.getParticleManager().draw(gcBuffer);
 
 				// Draw the offscreen buffer to the screen
 				event.gc.drawImage(buffer, 0, 0);
@@ -161,6 +164,8 @@ public class VueHall extends Canvas implements Viewable {
 				vues.get(j).updateView();
 			}
 		}
+		
+		ParticleManager.getParticleManager().update();
 	}
 	
 	public void addBagage(Bagage bagage) {
