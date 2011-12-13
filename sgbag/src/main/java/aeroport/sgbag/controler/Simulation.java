@@ -28,7 +28,8 @@ public class Simulation {
 	}
 
 	public enum Etat {
-		NORMAL, SELECTION, CHOIX_DESTINATION
+		NORMAL, SELECTION, CHOIX_DESTINATION_BAGAGE,
+		CHOIX_DESTINATION_CHARIOT
 	}
 
 	@Getter
