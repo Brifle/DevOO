@@ -67,6 +67,7 @@ public abstract class VueElem implements Viewable {
 	public void destroy() {
 		parent.retirerVue(this);
 		ViewSelector.getInstance().removeByView(this);
+		image.dispose();
 	}
 
 	public Rectangle2D getRectangle2D() {
