@@ -8,11 +8,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.utils.Geom;
@@ -114,7 +116,12 @@ public abstract class VueElem implements Viewable {
 		
 		// If the element is selected :
 		if(selected) {
-			gc.setAlpha(100);
+			//gc.setAlpha(100);
+			gc.setForeground(SWTResourceManager.getColor(50, 50, 230));
+			gc.setLineWidth(2);
+			gc.setLineStyle(SWT.LINE_DOT);
+			gc.setAlpha(200);
+			gc.drawRoundRectangle(-this.width / 2-3, -this.height / 2-3, this.width+6, this.height+6, 15, 15);
 		} else {
 			gc.setAlpha(255);
 		}
