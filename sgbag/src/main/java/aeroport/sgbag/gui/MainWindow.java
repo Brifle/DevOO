@@ -83,7 +83,7 @@ public class MainWindow extends ApplicationWindow {
 		Composite container = new Composite(parent, SWT.NONE);
 		container.setLayout(new GridLayout(3, false));
 		
-		vueHall = new VueHall(container, SWT.NONE);
+		vueHall = new VueHall(container, SWT.NONE | SWT.NO_BACKGROUND);
 		vueHall.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, true, 2, 3));
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		simulation = new Simulation(vueHall);
