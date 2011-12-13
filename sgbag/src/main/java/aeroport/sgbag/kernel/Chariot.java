@@ -37,7 +37,7 @@ public class Chariot extends KernelObject {
 
 	public Chariot(int maxMoveDistance,
 			Noeud destination, LinkedList<ElementCircuit> cheminPrevu) {
-		this(maxMoveDistance, 50, maxMoveDistance, destination, null,
+		this(maxMoveDistance, 80, maxMoveDistance, destination, null,
 				cheminPrevu);
 	}
 
