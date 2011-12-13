@@ -28,8 +28,7 @@ public class Simulation {
 	}
 
 	public enum Etat {
-		NORMAL, SELECTION, CHOIX_DESTINATION_BAGAGE,
-		CHOIX_DESTINATION_CHARIOT
+		NORMAL, SELECTION, CHOIX_DESTINATION_BAGAGE, CHOIX_DESTINATION_CHARIOT
 	}
 
 	@Getter
@@ -55,18 +54,18 @@ public class Simulation {
 
 	@Getter
 	private VueElem selectedElem;
-	
+
 	@Setter
 	private PropertiesWidget propertiesWidget;
 
 	public void init() {
 
 		// TODO init vueHall with XML file
-		
+
 		vueHall.setSimulation(this);
 		hall = vueHall.getHall();
-		
-		if(hall != null){
+
+		if (hall != null) {
 			hall.update();
 		}
 		vueHall.update();
@@ -76,19 +75,19 @@ public class Simulation {
 	}
 
 	public void play() {
-		if(clock != null){
+		if (clock != null) {
 			clock.run();
 		}
 	}
 
 	public void pause() {
-		if(clock != null){
+		if (clock != null) {
 			clock.pause();
 		}
 	}
 
 	public void stop() {
-		if(clock != null){
+		if (clock != null) {
 			clock.pause();
 			// TODO clear all bagages
 		}
@@ -100,7 +99,7 @@ public class Simulation {
 		selectedElem = _selectedElem;
 		if (selectedElem != null)
 			selectedElem.setSelected(true);
-		
+
 		propertiesWidget.refresh();
 	}
 
@@ -112,9 +111,10 @@ public class Simulation {
 		}
 		VueToboggan vueToboggan = (VueToboggan) destination;
 		VueTapisRoulant vueTapisRoulant = (VueTapisRoulant) depart;
-		
+
 		// Create the bagage in kernel :
-		Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage(vueToboggan.getToboggan().getConnexionCircuit());
+		Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage(
+				vueToboggan.getToboggan().getConnexionCircuit());
 		vueTapisRoulant.getTapisRoulant().addBagage(b);
 		b.setParent(vueTapisRoulant.getTapisRoulant());
 
@@ -125,52 +125,87 @@ public class Simulation {
 
 		return true;
 	}
-	
+
+	public boolean createChariot(VueElem depart) {
+
+		if (!(depart instanceof VueRail)) {
+			return false;
+		}
+
+		VueRail vueRail = (VueRail) depart;
+
+		Chariot c = null;
+		
+		// Create the bagage in kernel :
+		if (this.mode == Simulation.Mode.AUTO) {
+			c = UtilsCircuit.getUtilsCircuit().generateChariot();
+			c.setCheminPrevu(this.hall.getCircuit().calculChemin(vueRail.getRail().getNoeudSuivant(), c.getDestination()));
+			
+		} else if (this.mode == Simulation.Mode.MANUEL) {
+			c = UtilsCircuit.getUtilsCircuit().generateChariot(null);
+		} else {
+			return false;
+		}
+
+		vueRail.getRail().getListeChariot().add(c);
+		c.setParent(vueRail.getRail());
+
+		VueChariot v = new VueChariot(vueHall, c);
+		vueHall.ajouterVue(v, 3);
+		ViewSelector.getInstance().setKernelView(c, v);
+		
+		return true;
+	}
+
 	public void setMode(Mode mode) {
-		if(mode == Mode.MANUEL) {
-			//Passer en mode manuel
+		if (mode == Mode.MANUEL) {
+			// Passer en mode manuel
 			vueHall.getHall().setAutomatique(false);
 			ArrayList<Chariot> chariots = vueHall.getHall().getChariotList();
 			for (int i = 0; i < chariots.size(); i++) {
 				chariots.get(i).setCheminPrevu(null);
 			}
-		} else if(mode == Mode.AUTO) {
+		} else if (mode == Mode.AUTO) {
 			vueHall.getHall().setAutomatique(true);
-			
-			UtilsCircuit.getUtilsCircuit().resetTapisRoulantIncomingChariotsNumber();
-			
+
+			UtilsCircuit.getUtilsCircuit()
+					.resetTapisRoulantIncomingChariotsNumber();
+
 			ArrayList<Chariot> chariots = vueHall.getHall().getChariotList();
-			
+
 			for (int i = 0; i < chariots.size(); i++) {
 				Noeud nouvelleDestination;
-				if(chariots.get(i).getBagage() == null) {
-					//Get prochain tapis
-					nouvelleDestination = UtilsCircuit.getUtilsCircuit().getTapisRoulantOptimalNext().getConnexionCircuit();
+				if (chariots.get(i).getBagage() == null) {
+					// Get prochain tapis
+					nouvelleDestination = UtilsCircuit.getUtilsCircuit()
+							.getTapisRoulantOptimalNext().getConnexionCircuit();
 				} else {
-					//Get prochain toboggan
-					nouvelleDestination = UtilsCircuit.getUtilsCircuit().getRandomExistingTobogan().getConnexionCircuit();
+					// Get prochain toboggan
+					nouvelleDestination = UtilsCircuit.getUtilsCircuit()
+							.getRandomExistingTobogan().getConnexionCircuit();
 				}
-				//Y aller !
+				// Y aller !
 				Noeud noeudChariot = null;
-				if(chariots.get(i).getParent() instanceof Noeud) {
-					noeudChariot = (Noeud)chariots.get(i).getParent();
+				if (chariots.get(i).getParent() instanceof Noeud) {
+					noeudChariot = (Noeud) chariots.get(i).getParent();
 				} else {
-					noeudChariot = ((Rail)chariots.get(i).getParent()).getNoeudSuivant();
+					noeudChariot = ((Rail) chariots.get(i).getParent())
+							.getNoeudSuivant();
 				}
-				chariots.get(i).setCheminPrevu(
-						vueHall.getHall().getCircuit().calculChemin(
-								noeudChariot,
-								nouvelleDestination));
+				chariots.get(i)
+						.setCheminPrevu(
+								vueHall.getHall()
+										.getCircuit()
+										.calculChemin(noeudChariot,
+												nouvelleDestination));
 				chariots.get(i).setDestination(nouvelleDestination);
 			}
-			
+
 		} else {
 			log.warn("Mode non existant.");
 			return;
 		}
 		this.mode = mode;
 	}
-	
-	
 
 }

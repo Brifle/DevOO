@@ -3,6 +3,7 @@ package aeroport.sgbag.utils;
 import java.util.ArrayList;
 
 import aeroport.sgbag.kernel.Bagage;
+import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.Circuit;
 import aeroport.sgbag.kernel.ConnexionCircuit;
 import aeroport.sgbag.kernel.ElementCircuit;
@@ -91,6 +92,31 @@ public class UtilsCircuit {
 		this.circuit.getParent().getBagagesList().add(b);
 
 		log.debug("Ajout d'un bagage métier.");
+		b.setDestination(destination);
+
+		return b;
+	}
+	
+	/**
+	 * Genere un chariot avec comme destination le tapisRoulant qui a le plus besoin de bagages
+	 * @return le bagage generé
+	 */
+	public Chariot generateChariot() {
+		return generateChariot(getTapisRoulantOptimalNext().getConnexionCircuit());
+	}
+
+	/**
+	 * Genere un bagage avec une destination donnée
+	 * @param destination la destination du bagage
+	 * @return le bagage generé
+	 */
+	public Chariot generateChariot(Noeud destination) {
+		Chariot b = new Chariot();
+		b.setMaxMoveDistance(30);
+		this.circuit.getParent().getChariotList().add(b);
+
+		log.debug("Ajout d'un chariot métier.");
+		
 		b.setDestination(destination);
 
 		return b;
