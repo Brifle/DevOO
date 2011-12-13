@@ -49,6 +49,28 @@ public class TraitementClic extends MouseAdapter {
 		log.debug("Clicked @ x=" + mouse.x + ", y=" + mouse.y);
 
 		if (clickedView == vueHall) {
+			
+			// On clique sur la fenêtre principale
+			
+			if (s.getMode() == Mode.MANUEL) {
+				
+				// mode MANUEL :
+				
+				if (s.getEtat() == Etat.CHOIX_DESTINATION_CHARIOT) {
+					chariotADeplacer = null;
+					
+					// Supprimer les flèches sur les rails disponibles :
+					for (Rail r : railsSortie) {
+						VueRail vueR = (VueRail) ViewSelector
+								.getInstance()
+								.getViewForKernelObject(r);
+						vueR.setDisplayingArrow(false);
+					}
+					railsSortie = null;
+				}
+				
+			}
+			
 			s.setEtat(Etat.NORMAL);
 			s.setSelectedElem(null);
 		} else {
@@ -63,12 +85,15 @@ public class TraitementClic extends MouseAdapter {
 					if (elem instanceof VueChariot) {
 
 						VueChariot vueChariot = (VueChariot) elem;
-						log.debug("Click sur un chariot.");
-						chariotADeplacer = vueChariot;
-						s.setEtat(Etat.CHOIX_DESTINATION_CHARIOT);
 
-						// Afficher les flèches sur les rails disponibles :
 						if (vueChariot.getChariot().getParent() instanceof Noeud) {
+							
+							log.debug("Click sur un chariot.");
+							
+							chariotADeplacer = vueChariot;
+							s.setEtat(Etat.CHOIX_DESTINATION_CHARIOT);
+							
+							// Afficher les flèches :
 							Noeud n = (Noeud) vueChariot.getChariot()
 									.getParent();
 							railsSortie = n.getRailsSortie();
@@ -128,12 +153,21 @@ public class TraitementClic extends MouseAdapter {
 										.getViewForKernelObject(r);
 								vueR.setDisplayingArrow(false);
 							}
-							railsSortie.clear();
+							railsSortie = null;
 						} else {
 							log.debug("Element non adjacent au chariot.");
 						}
 					} else {
 						log.debug("Clic sur autre chose qu'un chariot...");
+						
+						// Supprimer les flèches sur les rails disponibles :
+						for (Rail r : railsSortie) {
+							VueRail vueR = (VueRail) ViewSelector
+									.getInstance()
+									.getViewForKernelObject(r);
+							vueR.setDisplayingArrow(false);
+						}
+						railsSortie = null;
 					}
 					chariotADeplacer = null;
 					s.setEtat(Etat.NORMAL);
