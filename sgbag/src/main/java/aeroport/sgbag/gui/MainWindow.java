@@ -88,14 +88,6 @@ public class MainWindow extends ApplicationWindow {
 		vueHall.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		simulation = new Simulation(vueHall);
 		
-		vueHall.addPaintListener(new PaintListener() {
-			
-			@Override
-			public void paintControl(PaintEvent arg0) {
-				vueHall.draw();
-			}
-		});
-		
 		Composite composite = new Composite(container, SWT.NONE);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 2));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
@@ -205,6 +197,8 @@ public class MainWindow extends ApplicationWindow {
 
 				    	propertiesWidget.refresh();
 				    }
+				    
+				    vueHall.draw();
 				}
 			};
 		}
