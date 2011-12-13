@@ -137,6 +137,7 @@ public class CircuitGenerator {
 		railAssocie.setNoeudSuivant(noeudFin);
 
 		circuit.getElements().add(railAssocie);
+		railAssocie.setParent(circuit);
 		vueR.setRail(railAssocie);
 
 		// Pour que la methode update view ne casse pas tout, on met la meme
