@@ -25,6 +25,7 @@ import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.views.VueRail;
+import aeroport.sgbag.views.VueTapisRoulant;
 
 @Log4j
 public class SimulationAndCircuitGenerator {
@@ -115,7 +116,9 @@ public class SimulationAndCircuitGenerator {
 		cg.createSegment(p7, p1);
 		cg.createExit(p3);
 		
-		TapisRoulant tapis = cg.createEntry(p5, 100, 10, 20, true).getTapisRoulant();
+		VueTapisRoulant vueTapis = cg.createEntry(p5, 100, 10, 20, true);
+		vueTapis.setAngle(0);
+		TapisRoulant tapis = vueTapis.getTapisRoulant();
 		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
