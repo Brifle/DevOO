@@ -124,7 +124,7 @@ public class SimulationAndCircuitGenerator {
 		vueTapis.setAngle(150);
 		
 		TapisRoulant tapis = vueTapis.getTapisRoulant();
-		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 40, 80, tapis.getConnexionCircuit(),
+		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
 		
