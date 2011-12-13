@@ -102,7 +102,7 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnManuel.setText("Manuel");
 		
-		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique = new Button(composite, SWT.TOGGLE);		
 		btnAutomatique.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -163,7 +163,6 @@ public class MainWindow extends ApplicationWindow {
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 				@Override
 				public void run() {
-
 					simulation.play();
 
 				}
@@ -181,7 +180,7 @@ public class MainWindow extends ApplicationWindow {
 			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
 				@Override
 				public void run() {
-					simulation.stop();
+				simulation.stop();
 				}
 			};
 		}
@@ -202,6 +201,8 @@ public class MainWindow extends ApplicationWindow {
 
 				    	simulation.setXmlFile(new File(fileName));
 				    	simulation.init();
+				    	simulation.setMode(Simulation.Mode.AUTO);
+				    	btnAutomatique.setSelection(true);
 
 				    	propertiesWidget.setSimulation(simulation);
 

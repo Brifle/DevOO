@@ -61,13 +61,15 @@ public class VueChariot extends VueElem {
 
 			// Get the next rail :
 			VueRail next = null;
-			for (Iterator<ElementCircuit> it = chariot.getCheminPrevu()
-					.iterator(); it.hasNext();) {
-				ElementCircuit e = it.next();
-				if (e instanceof Rail) {
-					next = (VueRail) ViewSelector.getInstance()
-							.getViewForKernelObject(e);
-					break;
+			if(chariot.getCheminPrevu() != null) {
+				for (Iterator<ElementCircuit> it = chariot.getCheminPrevu()
+						.iterator(); it.hasNext();) {
+					ElementCircuit e = it.next();
+					if (e instanceof Rail) {
+						next = (VueRail) ViewSelector.getInstance()
+								.getViewForKernelObject(e);
+						break;
+					}
 				}
 			}
 

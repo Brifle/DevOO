@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.utils.CircuitGenerator;
+import aeroport.sgbag.views.VueHall;
 
 import com.thoughtworks.xstream.XStream;
 
@@ -57,12 +58,12 @@ public class SgbagBuilder {
 		return (CircuitGenerator) xStream.fromXML(str);
 	}
 
-	public String serialize(CircuitGenerator cg) throws IOException {
+	public String serialize(VueHall vueHall) throws IOException {
 		log.debug("Sérialisation");
 		FileWriter fstream = new FileWriter(path);
 		BufferedWriter out = new BufferedWriter(fstream);
 
-		String str = xStream.toXML(cg);
+		String str = xStream.toXML(null);
 		out.write(str);
 		out.flush();
 
