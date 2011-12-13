@@ -59,10 +59,6 @@ public class Chariot extends KernelObject {
 		if(cheminPrevu == null 
 				|| cheminPrevu.size() == 0) {
 			
-			// Le chariot n'a pas de chemin : on recalcule un chemin.
-			
-			// TODO amener chariot vers tapis roulant
-			
 			return null;
 		}
 		

@@ -1,0 +1,32 @@
+<circuit id="1">
+  <toboggan id="2" x="400" y="100" angle="90"/>
+  <tapis id="3" x="200" y="300" length="100" vitesse="30" distanceEntreBagage="20" angle="90" autoGeneration="false"/>
+  <noeud id="4" x="300" y="100"/>
+  <noeud id="5" x="300" y="300"/>
+  <noeud id="6" x="100" y="300"/>
+  <noeud id="7" x="100" y="100"/>
+  <rail id="8">
+    <from reference="4"/>
+    <to reference="7"/>
+  </rail>
+  <rail id="9">
+    <from class="toboggan" reference="2"/>
+    <to reference="4"/>
+  </rail>
+  <rail id="10">
+    <from reference="5"/>
+    <to class="toboggan" reference="2"/>
+  </rail>
+  <rail id="11">
+    <from class="tapis" reference="3"/>
+    <to reference="5"/>
+  </rail>
+  <rail id="12">
+    <from reference="6"/>
+    <to class="tapis" reference="3"/>
+  </rail>
+  <rail id="13">
+    <from reference="7"/>
+    <to reference="6"/>
+  </rail>
+</circuit>

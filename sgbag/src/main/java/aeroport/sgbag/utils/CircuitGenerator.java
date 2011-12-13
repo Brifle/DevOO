@@ -278,7 +278,7 @@ public class CircuitGenerator {
 		return vc;
 	}
 
-	public VueChariot generateChariot(Noeud noeud, int maxMoveDistance,
+	private VueChariot generateChariot(Noeud noeud, int maxMoveDistance,
 			int length, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
 
@@ -297,7 +297,7 @@ public class CircuitGenerator {
 		return vueChariot;
 	}
 
-	public VueChariot generateChariot(Rail rail, int maxMoveDistance,
+	private VueChariot generateChariot(Rail rail, int maxMoveDistance,
 			int length, int position, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
 		Chariot chariot = new Chariot(maxMoveDistance, length, position,

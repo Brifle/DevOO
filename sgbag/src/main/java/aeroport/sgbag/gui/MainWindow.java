@@ -61,6 +61,7 @@ public class MainWindow extends ApplicationWindow {
 	private PropertiesWidget propertiesWidget;
 	private Button btnManuel;
 	private Button btnAutomatique;
+	private Scale sclVitesse;
 	
 	/**
 	 * Create the application window.
@@ -101,7 +102,7 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnManuel.setText("Manuel");
 		
-		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique = new Button(composite, SWT.TOGGLE);		
 		btnAutomatique.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -126,7 +127,16 @@ public class MainWindow extends ApplicationWindow {
 		lblVitesse.setAlignment(SWT.RIGHT);
 		lblVitesse.setText("Vitesse de la simulation");
 		
-		Scale sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse.setMaximum(200);
+		sclVitesse.setSelection(100);
+		sclVitesse.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int newInterval = (sclVitesse.getMaximum() + 1) - sclVitesse.getSelection();
+				simulation.setSpeed(newInterval);
+			}
+		});
 		GridData gd_sclVitesse = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_sclVitesse.widthHint = 100;
 		gd_sclVitesse.minimumWidth = 100;
@@ -153,7 +163,6 @@ public class MainWindow extends ApplicationWindow {
 			actionDemarrer = new Action("Démarrer", ImageDescriptor.createFromFile(getClass(), "icons/play.png") ) {
 				@Override
 				public void run() {
-
 					simulation.play();
 
 				}
@@ -171,7 +180,7 @@ public class MainWindow extends ApplicationWindow {
 			actionArreter = new Action("Arrêter", ImageDescriptor.createFromFile(getClass(), "icons/stop.png") ) {
 				@Override
 				public void run() {
-					simulation.stop();
+				simulation.stop();
 				}
 			};
 		}
@@ -192,6 +201,8 @@ public class MainWindow extends ApplicationWindow {
 
 				    	simulation.setXmlFile(new File(fileName));
 				    	simulation.init();
+				    	simulation.setMode(Simulation.Mode.AUTO);
+				    	btnAutomatique.setSelection(true);
 
 				    	propertiesWidget.setSimulation(simulation);
 

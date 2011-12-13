@@ -111,8 +111,7 @@ public class UtilsCircuit {
 	 * @return le bagage generé
 	 */
 	public Chariot generateChariot(Noeud destination) {
-		Chariot b = new Chariot();
-		b.setMaxMoveDistance(30);
+		Chariot b = new Chariot(30, null, null);
 		this.circuit.getParent().getChariotList().add(b);
 
 		log.debug("Ajout d'un chariot métier.");

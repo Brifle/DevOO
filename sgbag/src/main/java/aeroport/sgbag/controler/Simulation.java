@@ -2,6 +2,7 @@ package aeroport.sgbag.controler;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import org.eclipse.swt.graphics.Point;
 
@@ -92,6 +93,11 @@ public class Simulation {
 			// TODO clear all bagages
 		}
 	}
+	
+	public void setSpeed(int refreshInterval) {
+		clock.setInterval(refreshInterval);
+		log.debug("Set interval to "+refreshInterval+"ms.");
+	}
 
 	public void setSelectedElem(VueElem _selectedElem) {
 		if (selectedElem != null)
@@ -147,7 +153,7 @@ public class Simulation {
 			return false;
 		}
 
-		vueRail.getRail().getListeChariot().add(c);
+		vueRail.getRail().registerChariot(c);
 		c.setParent(vueRail.getRail());
 
 		VueChariot v = new VueChariot(vueHall, c);
@@ -161,16 +167,37 @@ public class Simulation {
 		if (mode == Mode.MANUEL) {
 			// Passer en mode manuel
 			vueHall.getHall().setAutomatique(false);
+			for (int i = 0; i < vueHall.getHall().getFileBagageList().size(); i++) {
+				if(vueHall.getHall().getFileBagageList().get(i) instanceof TapisRoulant) {
+					TapisRoulant tapis = (TapisRoulant) vueHall.getHall().getFileBagageList().get(i);
+					tapis.setAutoBagageGeneration(false);
+				}
+			}
 			ArrayList<Chariot> chariots = vueHall.getHall().getChariotList();
+			//On arrête les chariots au prochain noeud
 			for (int i = 0; i < chariots.size(); i++) {
-				chariots.get(i).setCheminPrevu(null);
+				if(chariots.get(i).getCheminPrevu().size() > 0 && chariots.get(i).getCheminPrevu().peek() instanceof Noeud) {
+					//On va arriver sur un noeud
+					LinkedList<ElementCircuit> newChemin = new LinkedList<ElementCircuit>();
+					newChemin.add(chariots.get(i).getCheminPrevu().peek());
+					chariots.get(i).setCheminPrevu(newChemin);
+				} else {
+					//On est sur un noeud
+					chariots.get(i).setCheminPrevu(null);
+				}
 			}
 		} else if (mode == Mode.AUTO) {
 			vueHall.getHall().setAutomatique(true);
-
-			UtilsCircuit.getUtilsCircuit()
-					.resetTapisRoulantIncomingChariotsNumber();
-
+			
+			for (int i = 0; i < vueHall.getHall().getFileBagageList().size(); i++) {
+				if(vueHall.getHall().getFileBagageList().get(i) instanceof TapisRoulant) {
+					TapisRoulant tapis = (TapisRoulant) vueHall.getHall().getFileBagageList().get(i);
+					tapis.setAutoBagageGeneration(true);
+				}
+			}
+			
+			UtilsCircuit.getUtilsCircuit().resetTapisRoulantIncomingChariotsNumber();
+			
 			ArrayList<Chariot> chariots = vueHall.getHall().getChariotList();
 
 			for (int i = 0; i < chariots.size(); i++) {
