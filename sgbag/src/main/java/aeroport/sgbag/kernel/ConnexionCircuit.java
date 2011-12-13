@@ -43,6 +43,7 @@ public class ConnexionCircuit extends Noeud {
 						
 						log.debug("Bagage du chariot : " + chariot.getBagage()
 								+ " destination : " + chariot.getBagage().getDestination());
+						chariot.setDestination(chariot.getBagage().getDestination());
 						
 						//Mode automatique
 						if(getParent().getParent().isAutomatique()) {
@@ -50,7 +51,6 @@ public class ConnexionCircuit extends Noeud {
 									this.getParent().calculChemin(
 											this,
 											chariot.getBagage().getDestination()));
-							chariot.setDestination(chariot.getBagage().getDestination());
 							
 							String logstr = "Chemin prévu pour aller à " + chariot.getBagage().getDestination() + " :";
 							for(int i=0; i<chariot.getCheminPrevu().size(); i++) {
