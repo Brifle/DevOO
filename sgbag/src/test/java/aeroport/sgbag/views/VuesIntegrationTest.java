@@ -98,7 +98,7 @@ public class VuesIntegrationTest {
 		hall.setBagagesList(bagages);
 		
 		
-		UtilsCircuit.getBagageFactory().setCircuit(circuit);
+		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
 	@Test

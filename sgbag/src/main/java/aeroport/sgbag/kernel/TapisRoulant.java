@@ -70,8 +70,7 @@ public class TapisRoulant extends FileBagage {
 					|| this.listBagages.get(this.listBagages.size() - 1)
 							.getPosition() >= distanceEntreBagages) {
 				
-				Bagage b = UtilsCircuit.getBagageFactory().generateBagage(
-						this.getConnexionCircuit().getParent().getParent());
+				Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage();
 				this.addBagage(b);
 				b.setParent(this);
 			}
@@ -109,6 +108,13 @@ public class TapisRoulant extends FileBagage {
 	 */
 	public void chariotIncoming(){
 		nbCharriotsEnChemin++;
+	}
+	
+	/**
+	 * Remet a zero le nombre de charriots qui se dirigent vers le tapis.
+	 */
+	public void resetChariotIncomingNumber(){
+		nbCharriotsEnChemin = 0;
 	}
 
 }

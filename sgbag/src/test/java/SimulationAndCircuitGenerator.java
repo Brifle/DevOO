@@ -25,6 +25,7 @@ import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.views.VueRail;
+import aeroport.sgbag.views.VueTapisRoulant;
 
 @Log4j
 public class SimulationAndCircuitGenerator {
@@ -63,8 +64,8 @@ public class SimulationAndCircuitGenerator {
 		//cg.createSegment(p3, p5);
 		cg.createExit(p3);
 		
-		TapisRoulant tapis = cg.createEntry(p5, 100, 1, 25, true);
-		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 20, tapis.getConnexionCircuit(),
+		TapisRoulant tapis = cg.createEntry(p5, 100, 1, 25, true).getTapisRoulant();
+		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
 		
@@ -115,12 +116,16 @@ public class SimulationAndCircuitGenerator {
 		cg.createSegment(p7, p1);
 		cg.createExit(p3);
 		
-		TapisRoulant tapis = cg.createEntry(p5, 100, 10, 20, true);
-		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 40, tapis.getConnexionCircuit(),
+		VueTapisRoulant vueTapis = cg.createEntry(p5, 100, 10, 20, true);
+		
+		vueTapis.setAngle(150);
+		
+		TapisRoulant tapis = vueTapis.getTapisRoulant();
+		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
 		
-		cg.addChariot(vueRail2.getRail().getNoeudSuivant(), 50, 40, tapis.getConnexionCircuit(),
+		cg.addChariot(vueRail2.getRail().getNoeudSuivant(), 50, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
 		

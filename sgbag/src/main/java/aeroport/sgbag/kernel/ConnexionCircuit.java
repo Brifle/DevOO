@@ -15,7 +15,7 @@ public class ConnexionCircuit extends Noeud {
 	public ConnexionCircuit(FileBagage f) {
 		this(f, null);
 	}
-	
+
 	public ConnexionCircuit(FileBagage f, Circuit parent) {
 		super(parent);
 		this.fileBagage = f;
@@ -30,53 +30,65 @@ public class ConnexionCircuit extends Noeud {
 			if (chariot.getDestination().getId() == this.getId()) {
 
 				// Le chariot est arrivé à destination
-				log.debug("Chariot arrivé à destination " + getListeChariot().getFirst());
+				log.debug("Chariot arrivé à destination "
+						+ getListeChariot().getFirst());
 
 				if (fileBagage instanceof TapisRoulant) {
-					
+
 					if (((TapisRoulant) fileBagage).hasReadyBagage()
 							&& getListeChariot().getFirst().getBagage() == null) {
-						
-						chariot.setBagage(
-										((TapisRoulant) fileBagage)
-												.getBagageIfReady());
-						chariot.getBagage().setParent(getListeChariot().getFirst());
-						
+
+						chariot.setBagage(((TapisRoulant) fileBagage)
+								.getBagageIfReady());
+						chariot.getBagage().setParent(
+								getListeChariot().getFirst());
+
 						log.debug("Bagage du chariot : " + chariot.getBagage()
-								+ " destination : " + chariot.getBagage().getDestination());
-						chariot.setCheminPrevu(
-								this.getParent().calculChemin(
-										this,
-										chariot.getBagage().getDestination()));
-						chariot.setDestination(chariot.getBagage().getDestination());
-						
-						String logstr = "Chemin prévu pour aller à " + chariot.getBagage().getDestination() + " :";
-						for(int i=0; i<chariot.getCheminPrevu().size(); i++) {
-							logstr += chariot.getCheminPrevu().get(i) + " ";
+								+ " destination : "
+								+ chariot.getBagage().getDestination());
+
+						// Mode automatique
+						if (getParent().getParent().isAutomatique()) {
+							chariot.setCheminPrevu(this.getParent()
+									.calculChemin(
+											this,
+											chariot.getBagage()
+													.getDestination()));
+							chariot.setDestination(chariot.getBagage()
+									.getDestination());
+
+							String logstr = "Chemin prévu pour aller à "
+									+ chariot.getBagage().getDestination()
+									+ " :";
+							for (int i = 0; i < chariot.getCheminPrevu().size(); i++) {
+								logstr += chariot.getCheminPrevu().get(i) + " ";
+							}
+							log.debug(logstr);
 						}
-						log.debug(logstr);
-								
+
 						moveToNextRail();
 					}
 				} else if (getListeChariot().getFirst().hasBagage()) {
 
 					// On retire le bagage
-
 					chariot.moveBagageToFile(fileBagage);
-					
-					Noeud nouvelleDestination = UtilsCircuit.getBagageFactory().getTapis().getConnexionCircuit();
-					chariot.setCheminPrevu(
-							this.getParent().calculChemin(
-									this,
-									nouvelleDestination));
-					chariot.setDestination(nouvelleDestination);
-					
+
+					// Mode automatique
+					if (getParent().getParent().isAutomatique()) {
+						Noeud nouvelleDestination = UtilsCircuit
+								.getUtilsCircuit().getTapisRoulantRandom()
+								.getConnexionCircuit();
+						chariot.setCheminPrevu(this.getParent().calculChemin(
+								this, nouvelleDestination));
+						chariot.setDestination(nouvelleDestination);
+					}
+
 					moveToNextRail();
 				} else {
 
 					// Le chariot est arrivé à destination mais n'a pas de
 					// bagage à retirer
-					
+
 					moveToNextRail();
 
 				}

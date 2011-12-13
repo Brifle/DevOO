@@ -194,7 +194,7 @@ public class TestKernel {
 		Chariot c = new Chariot(5, n2, chemin);
 		n3.registerChariot(c);
 		
-		UtilsCircuit.getBagageFactory().setCircuit(circuit);
+		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
 	@Test

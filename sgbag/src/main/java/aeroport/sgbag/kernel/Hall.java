@@ -23,6 +23,10 @@ public class Hall extends KernelObject {
 	
 	@Getter 
 	private ArrayList<Chariot> chariotList;
+	
+	@Getter
+	@Setter
+	private boolean isAutomatique = true;
 
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();
@@ -31,7 +35,7 @@ public class Hall extends KernelObject {
 	}
 
 	public void init() {
-		UtilsCircuit.getBagageFactory().setCircuit(circuit);
+		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
 	public boolean update() {
