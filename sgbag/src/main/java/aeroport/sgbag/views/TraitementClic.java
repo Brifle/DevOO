@@ -69,7 +69,11 @@ public class TraitementClic extends MouseAdapter {
 										nextVueRail.getRail().getNoeudSuivant()
 										)
 								);
-						chariotADeplacer.getChariot().setDestination(nextVueRail.getRail().getNoeudSuivant());
+						if(chariotADeplacer.getChariot().getBagage() == null) {
+							chariotADeplacer.getChariot().setDestination(nextVueRail.getRail().getNoeudSuivant());
+						} else {
+							chariotADeplacer.getChariot().setDestination(chariotADeplacer.getChariot().getBagage().getDestination());
+						}
 						log.debug("Chariot deplacé");
 					} else {
 						log.debug("Element non adjacent au chariot.");
