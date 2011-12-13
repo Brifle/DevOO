@@ -180,7 +180,7 @@ public class CircuitGenerator {
 		return vueEmbranchement;
 	}
 
-	public TapisRoulant createEntry(Point point, int length, int vitesse,
+	public VueTapisRoulant createEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
 		listOfEntrys.add(new Entry(point, length, vitesse, distanceEntreBagage,
 				autoGeneration));
@@ -189,7 +189,7 @@ public class CircuitGenerator {
 				autoGeneration);
 	}
 
-	public TapisRoulant generateEntry(Point point, int length, int vitesse,
+	public VueTapisRoulant generateEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if (noeud == null) {
@@ -217,16 +217,16 @@ public class CircuitGenerator {
 		vueHall.ajouterVue(vTapis, 3);
 		ViewSelector.getInstance().setKernelView(tapis, vTapis);
 
-		return tapis;
+		return vTapis;
 	}
 
-	public Toboggan createExit(Point point) {
+	public VueToboggan createExit(Point point) {
 		listOfExits.add(point);
 
 		return generateExit(point);
 	}
 
-	public Toboggan generateExit(Point point) {
+	public VueToboggan generateExit(Point point) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if (noeud == null) {
 			createNode(point);
@@ -252,7 +252,7 @@ public class CircuitGenerator {
 		vueHall.ajouterVue(vTobo, 3);
 		ViewSelector.getInstance().setKernelView(tobo, vTobo);
 
-		return tobo;
+		return vTobo;
 	}
 
 	public VueChariot addChariot(Noeud noeud, int maxMoveDistance, int length,

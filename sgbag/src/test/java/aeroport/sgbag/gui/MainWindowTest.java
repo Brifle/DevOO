@@ -75,7 +75,7 @@ public class MainWindowTest {
 		cg.createSegment(p6, p4);
 		cg.createExit(p3);
 		
-		TapisRoulant tapis = cg.createEntry(p5, 100, 1, 25, true);
+		TapisRoulant tapis = cg.createEntry(p5, 100, 1, 25, true).getTapisRoulant();
 		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 30, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));

@@ -63,7 +63,7 @@ public class SimulationAndCircuitGenerator {
 		//cg.createSegment(p3, p5);
 		cg.createExit(p3);
 		
-		TapisRoulant tapis = cg.createEntry(p5, 100, 1, 25, true);
+		TapisRoulant tapis = cg.createEntry(p5, 100, 1, 25, true).getTapisRoulant();
 		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));
@@ -115,7 +115,7 @@ public class SimulationAndCircuitGenerator {
 		cg.createSegment(p7, p1);
 		cg.createExit(p3);
 		
-		TapisRoulant tapis = cg.createEntry(p5, 100, 10, 20, true);
+		TapisRoulant tapis = cg.createEntry(p5, 100, 10, 20, true).getTapisRoulant();
 		cg.addChariot(vueRail1.getRail().getNoeudSuivant(), 10, 80, tapis.getConnexionCircuit(),
 				null,
 				vueHall.getHall().getCircuit().calculChemin(vueRail1.getRail().getNoeudSuivant(), tapis.getConnexionCircuit()));

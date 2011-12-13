@@ -40,7 +40,12 @@ public abstract class VueElem implements Viewable {
 	@Setter
 	protected int y;
 	
+	@Getter
+	@Setter
 	protected int offsetX;
+	
+	@Getter
+	@Setter
 	protected int offsetY;
 
 	@Getter
