@@ -33,8 +33,8 @@ public class VueTapisRoulant extends VueElem {
 
 	@Override
 	public void updateView() {
-		offsetX = (int) (-Math.cos(this.angle) * this.width/2);
-		offsetY = (int) (-Math.sin(this.angle) * this.width/2);
+		offsetX = (int) (-Math.cos(this.angle/180*Math.PI) * this.width/2);
+		offsetY = (int) (-Math.sin(this.angle/180*Math.PI) * this.width/2);
 	}
 
 }
