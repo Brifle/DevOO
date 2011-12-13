@@ -29,6 +29,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.annotations.XStreamAlias;
 import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -222,8 +223,12 @@ public class CircuitArchive {
 	/**
 	 * Méthode utilitaire permettant de créer rapidement un CircuitArchive depuis
 	 * un fichier.	
+	 * @throws {@link IOException} 
+	 * @throws {@link MalformedCircuitArchiveException}
 	 */
-	public static CircuitArchive readFromXML(String path){
+	public static CircuitArchive readFromXML(String path) throws MalformedCircuitArchiveException, 
+																 FileNotFoundException,
+															     IOException {
 		XStream xStream = new XStream();
 		
 		xStream.processAnnotations(CircuitArchive.class);
@@ -232,20 +237,26 @@ public class CircuitArchive {
 		
 		String xmlContent = "";
 		
-		try {
-			FileReader freader = new FileReader(path);
-			BufferedReader in = new BufferedReader(freader);
-			String tmp = "";
-		
-			while ((tmp = in.readLine()) != null) {
-				xmlContent += (tmp + '\n');
-			}
-		} catch (FileNotFoundException e1) {
-			return null;
-		} catch (IOException e1) {
-			return null;
+		FileReader freader = new FileReader(path);
+		BufferedReader in = new BufferedReader(freader);
+		String tmp = "";
+	
+		while ((tmp = in.readLine()) != null) {
+			xmlContent += (tmp + '\n');
 		}
 		
-		return (CircuitArchive) xStream.fromXML(xmlContent);
+		CircuitArchive ca = null;
+		
+		try {
+			ca = (CircuitArchive) xStream.fromXML(xmlContent);
+		} catch (CannotResolveClassException e){
+			throw new MalformedCircuitArchiveException();
+		}
+		
+		if(ca == null){
+			throw new MalformedCircuitArchiveException();
+		}
+		
+		return ca;
 	}
 }
