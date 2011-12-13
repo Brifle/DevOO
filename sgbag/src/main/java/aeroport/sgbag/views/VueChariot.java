@@ -25,7 +25,7 @@ public class VueChariot extends VueElem {
 
 		this.chariot = chariot;
 		Rectangle rect = image.getBounds();
-		width = chariot.getLength();
+		width = chariot.getLength()/2;
 		height = width * rect.height / rect.width;
 
 	}
