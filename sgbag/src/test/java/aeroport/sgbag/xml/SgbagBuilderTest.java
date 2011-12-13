@@ -36,7 +36,7 @@ public class SgbagBuilderTest {
 		CircuitGenerator vh = new CircuitGenerator(new VueHall(new Shell(),
 				SWT.NONE));
 
-		String xml = builder.serialize(vh);
+		String xml = builder.serialize(vh.getVueHall());
 
 		log.debug(xml);
 	}
@@ -117,7 +117,7 @@ public class SgbagBuilderTest {
 		}
 
 		try {
-			builder.serialize(cg);
+			builder.serialize(cg.getVueHall());
 		} catch (IOException e) {
 			log.error(e);
 			fail();
