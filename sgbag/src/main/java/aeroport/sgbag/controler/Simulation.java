@@ -93,6 +93,11 @@ public class Simulation {
 			// TODO clear all bagages
 		}
 	}
+	
+	public void setSpeed(int refreshInterval) {
+		clock.setInterval(refreshInterval);
+		log.debug("Set interval to "+refreshInterval+"ms.");
+	}
 
 	public void setSelectedElem(VueElem _selectedElem) {
 		if (selectedElem != null)

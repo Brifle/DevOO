@@ -61,6 +61,7 @@ public class MainWindow extends ApplicationWindow {
 	private PropertiesWidget propertiesWidget;
 	private Button btnManuel;
 	private Button btnAutomatique;
+	private Scale sclVitesse;
 	
 	/**
 	 * Create the application window.
@@ -126,7 +127,16 @@ public class MainWindow extends ApplicationWindow {
 		lblVitesse.setAlignment(SWT.RIGHT);
 		lblVitesse.setText("Vitesse de la simulation");
 		
-		Scale sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse.setMaximum(200);
+		sclVitesse.setSelection(100);
+		sclVitesse.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				int newInterval = (sclVitesse.getMaximum() + 1) - sclVitesse.getSelection();
+				simulation.setSpeed(newInterval);
+			}
+		});
 		GridData gd_sclVitesse = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_sclVitesse.widthHint = 100;
 		gd_sclVitesse.minimumWidth = 100;
