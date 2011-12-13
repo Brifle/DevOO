@@ -13,6 +13,7 @@ import org.eclipse.swt.widgets.Canvas;
 
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.*;
+import aeroport.sgbag.utils.ParticleManager;
 import aeroport.sgbag.utils.Rectangle2D;
 
 @NoArgsConstructor
@@ -32,6 +33,9 @@ public class VueChariot extends VueElem {
 	private double relativeCoefOffsetY;
 
 	private float lastRailAngle;
+	
+	private int lastX;
+	private int lastY;
 
 	public VueChariot(Canvas parent, Chariot chariot) {
 		super((VueHall) parent);
@@ -43,6 +47,8 @@ public class VueChariot extends VueElem {
 		height = width * rect.height / rect.width;
 		relativeCoefOffsetX = 1.5;
 		relativeCoefOffsetY = 0;
+		lastX = x;
+		lastY = y;
 
 	}
 
@@ -50,7 +56,7 @@ public class VueChariot extends VueElem {
 		ElementCircuit parent = chariot.getParent();
 		VueElem vueParent = (VueElem) ViewSelector.getInstance()
 				.getViewForKernelObject(parent);
-
+		
 		if (parent instanceof Noeud) {
 			Noeud noeudParent = (Noeud) parent;
 
@@ -118,6 +124,11 @@ public class VueChariot extends VueElem {
 			this.angle = vueParent.angle;
 			this.lastRailAngle = vueParent.angle;
 		}
+		if((x-lastX)*(x-lastX)+(y-lastY)*(y-lastY) < chariot.getMaxMoveDistance()/2) {
+			ParticleManager.getParticleManager().throwParticle(x, y);
+		}
+		lastX = x;
+		lastY = y;
 
 	}
 

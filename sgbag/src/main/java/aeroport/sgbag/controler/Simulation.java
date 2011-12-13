@@ -1,9 +1,12 @@
 package aeroport.sgbag.controler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Point;
 
 import lombok.*;
@@ -13,6 +16,8 @@ import aeroport.sgbag.kernel.*;
 import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.utils.UtilsCircuit;
 import aeroport.sgbag.views.*;
+import aeroport.sgbag.xml.CircuitArchive;
+import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 
 /**
  * Create things like kernel instances and views.
@@ -59,9 +64,13 @@ public class Simulation {
 	@Setter
 	private PropertiesWidget propertiesWidget;
 
-	public void init() {
+	public void init() throws MalformedCircuitArchiveException, FileNotFoundException, IOException {
 
-		// TODO init vueHall with XML file
+		if(xmlFile != null){
+			CircuitArchive ca = CircuitArchive.readFromXML(xmlFile.getPath());
+		
+			ca.unpackTo(vueHall);
+		}
 
 		vueHall.setSimulation(this);
 		hall = vueHall.getHall();
