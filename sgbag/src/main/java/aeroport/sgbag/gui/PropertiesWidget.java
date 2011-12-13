@@ -301,7 +301,6 @@ public class PropertiesWidget extends Composite {
 		button.setSelection(tr.isAutoBagageGeneration());
 
 		Button button2 = new Button(canvas, SWT.PUSH);
-		button2.setEnabled(tr.hasPlaceForBagage());
 		button2.setText("Nouveau bagage");
 
 		button2.addListener(SWT.Selection, new Listener() {

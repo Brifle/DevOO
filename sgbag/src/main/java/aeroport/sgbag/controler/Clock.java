@@ -6,19 +6,19 @@ import aeroport.sgbag.views.VueHall;
 
 @AllArgsConstructor
 public class Clock implements Runnable {
-	
+
 	@Getter
 	@Setter
 	private int interval;
-	
+
 	@Getter
 	@Setter
 	private Hall hall;
-	
+
 	@Getter
 	@Setter
 	private VueHall vueHall;
-	
+
 	public void init() {
 		vueHall.getDisplay().timerExec(interval, this);
 	}
@@ -32,7 +32,7 @@ public class Clock implements Runnable {
 		
 		vueHall.getDisplay().timerExec(interval, this);
 	}
-	
+
 	public void pause() {
 		vueHall.getDisplay().timerExec(-1, this);
 	}

@@ -265,5 +265,9 @@ public class Simulation {
 		}
 		this.mode = mode;
 	}
+	
+	public void refreshProperties(){
+		this.propertiesWidget.refresh();
+	}
 
 }
