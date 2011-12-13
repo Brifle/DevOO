@@ -33,6 +33,9 @@ public class VueChariot extends VueElem {
 	private double relativeCoefOffsetY;
 
 	private float lastRailAngle;
+	
+	private int lastX;
+	private int lastY;
 
 	public VueChariot(Canvas parent, Chariot chariot) {
 		super((VueHall) parent);
@@ -44,6 +47,8 @@ public class VueChariot extends VueElem {
 		height = width * rect.height / rect.width;
 		relativeCoefOffsetX = 1.5;
 		relativeCoefOffsetY = 0;
+		lastX = x;
+		lastY = y;
 
 	}
 
@@ -119,7 +124,11 @@ public class VueChariot extends VueElem {
 			this.angle = vueParent.angle;
 			this.lastRailAngle = vueParent.angle;
 		}
-		ParticleManager.getParticleManager().throwParticle(x, y);
+		if((x-lastX)*(x-lastX)+(y-lastY)*(y-lastY) < chariot.getMaxMoveDistance()/2) {
+			ParticleManager.getParticleManager().throwParticle(x, y);
+		}
+		lastX = x;
+		lastY = y;
 
 	}
 

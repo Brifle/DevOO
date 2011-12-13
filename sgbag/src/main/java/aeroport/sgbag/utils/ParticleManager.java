@@ -22,7 +22,7 @@ public class ParticleManager {
 	private ParticleManager(int number) {
 		particles = new Particle[number];
 		for (int i = 0; i < particles.length; i++) {
-			particles[i] = new Particle(3, 0.6f, 0.6f, 0.6f, 700);
+			particles[i] = new Particle(2, 1f, 0.8f, 0f, 700);
 		}
 		next = -1;
 	}
@@ -41,6 +41,10 @@ public class ParticleManager {
 	
 	public void throwParticle(float x, float y) {
 		next = (++next) % particles.length;
-		particles[next].initialize(x, y, x+((int)(Math.random()*11-5)), y+((int)(Math.random()*11-5)), 0, 0);
+		int sensx = (Math.random() < 0.5 ? 1 : -1);
+		int dx = sensx*((int)(Math.random()*7));
+		int sensy = (Math.random() < 0.5 ? 1 : -1);
+		int dy = sensy*((int)(Math.random()*7));
+		particles[next].initialize(x+2*dx, y+2*dy, x+dx, y+dy, 0, 0);
 	}
 }

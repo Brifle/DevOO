@@ -71,9 +71,9 @@ public class Particle {
 	public void draw(GC buffer) {
 		
 		if(visible) {
-			a = (System.currentTimeMillis()-init)/(float)life;
+			a = 1-(System.currentTimeMillis()-init)/(float)life;
 			
-			buffer.setBackground(SWTResourceManager.getColor(((int)r*255), ((int)g*255), ((int)b*255)));
+			buffer.setBackground(SWTResourceManager.getColor((int)(r*255), (int)(g*255), (int)(b*255)));
 			buffer.setAlpha((int)(a*255));
 			buffer.fillOval((int)x, (int)y, (int)(radius*2), (int)(radius*2));
 		}
