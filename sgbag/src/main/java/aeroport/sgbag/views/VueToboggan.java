@@ -29,7 +29,8 @@ public class VueToboggan extends VueElem {
 	
 	@Override
 	public void updateView() {
-		// Nothing
+		offsetX = (int) (-Math.sin(this.angle/180*Math.PI) * this.width/2);
+		offsetY = (int) (+Math.cos(this.angle/180*Math.PI) * this.width/2);
 	}
 	
 }

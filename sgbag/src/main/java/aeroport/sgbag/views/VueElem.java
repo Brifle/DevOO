@@ -81,11 +81,11 @@ public abstract class VueElem implements Viewable {
 	}
 
 	public Rectangle2D getRectangle2D() {
-		Point centre = new Point(x, y);
-		Point p1 = new Point(x - width / 2, y - height / 2);
-		Point p2 = new Point(x + width / 2, y - height / 2);
-		Point p3 = new Point(x - width / 2, y + height / 2);
-		Point p4 = new Point(x + width / 2, y + height / 2);
+		Point centre = new Point(x + offsetX, y + offsetY);
+		Point p1 = new Point(x + offsetX - width / 2, y + offsetY - height / 2);
+		Point p2 = new Point(x + offsetX + width / 2, y + offsetY - height / 2);
+		Point p3 = new Point(x + offsetX - width / 2, y + offsetY + height / 2);
+		Point p4 = new Point(x + offsetX + width / 2, y + offsetY + height / 2);
 		return new Rectangle2D(Geom.getRotatedPoint(p1, centre, angle),
 				Geom.getRotatedPoint(p2, centre, angle),
 				Geom.getRotatedPoint(p3, centre, angle),
