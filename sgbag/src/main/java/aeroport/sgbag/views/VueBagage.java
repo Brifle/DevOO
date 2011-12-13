@@ -59,13 +59,13 @@ public class VueBagage extends VueElem {
 					/ ((double) tapisParent.getLength());
 
 			int xDebutTapis = rect.getBasGauche().x
-					+ (rect.getHautGauche().x - rect.getBasGauche().x) / 2 + vueParent.getOffsetX();
+					+ (rect.getHautGauche().x - rect.getBasGauche().x) / 2;
 			int yDebutTapis = rect.getBasGauche().y
-					+ (rect.getHautGauche().y - rect.getBasGauche().y) / 2 + vueParent.getOffsetY();
+					+ (rect.getHautGauche().y - rect.getBasGauche().y) / 2;
 			int xFinTapis = rect.getBasDroit().x
-					+ (rect.getHautDroit().x - rect.getBasDroit().x) / 2 + vueParent.getOffsetX();
+					+ (rect.getHautDroit().x - rect.getBasDroit().x) / 2;
 			int yFinTapis = rect.getBasDroit().y
-					+ (rect.getHautDroit().y - rect.getBasDroit().y) / 2 + vueParent.getOffsetY();
+					+ (rect.getHautDroit().y - rect.getBasDroit().y) / 2;
 
 			int offsetX = (int) (rapport * (xFinTapis - xDebutTapis));
 			int offsetY = (int) (rapport * (yFinTapis - yDebutTapis));
@@ -77,8 +77,25 @@ public class VueBagage extends VueElem {
 
 			this.angle = vueParent.angle;
 		} else {
-			this.x = vueParent.x;
-			this.y = vueParent.y;
+			
+			// Calculate the Bagage's position :
+
+			Rectangle2D rect = vueParent.getRectangle2D();
+			double rapport = 0.79;
+
+			int xDebutTobo = (rect.getBasDroit().x + rect.getBasGauche().x) / 2;
+			int yDebutTobo = (rect.getBasDroit().y + rect.getBasGauche().y) / 2;
+			int xFinTobo = (rect.getHautGauche().x + rect.getHautDroit().x) / 2;
+			int yFinTobo = (rect.getHautGauche().y + rect.getHautDroit().y) / 2;
+
+			int offsetX = (int) (rapport * (xFinTobo - xDebutTobo));
+			int offsetY = (int) (rapport * (yFinTobo - yDebutTobo));
+
+			this.x = xDebutTobo + offsetX;
+			this.y = yDebutTobo + offsetY;
+			
+			this.angle = vueParent.angle;
+
 		}
 	}
 
