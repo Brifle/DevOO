@@ -28,12 +28,13 @@ public class VueTapisRoulant extends VueElem {
 		Rectangle rect = image.getBounds();
 		this.width = rect.width;
 		this.height = rect.height;
-		this.x = this.x - 30;
+
 	}
 
 	@Override
 	public void updateView() {
-		// Nothing
+		offsetX = (int) (-Math.cos(this.angle) * this.width/2);
+		offsetY = (int) (-Math.sin(this.angle) * this.width/2);
 	}
 
 }
