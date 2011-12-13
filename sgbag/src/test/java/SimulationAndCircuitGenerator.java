@@ -2,6 +2,8 @@
 
 import static org.junit.Assert.*;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -27,6 +29,7 @@ import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
+import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 
 @Log4j
 public class SimulationAndCircuitGenerator {
@@ -76,7 +79,19 @@ public class SimulationAndCircuitGenerator {
 		vueHall.updateView();
 		vueHall.draw();
 		
-		s.init();
+		try {
+			s.init();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedCircuitArchiveException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		s.play();
 		
 		while (!shell.isDisposed()) {
@@ -139,7 +154,18 @@ public class SimulationAndCircuitGenerator {
 		vueHall.updateView();
 		vueHall.draw();
 		
-		s.init();
+		try {
+			s.init();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (MalformedCircuitArchiveException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		s.play();
 		
 /*		ArrayList<ElementCircuit> list = vueHall.getHall().getCircuit().getElements();
