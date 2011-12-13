@@ -199,10 +199,12 @@ public class PropertiesWidget extends Composite {
 		button.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
-				Rail tr = ((VueRail) simulation.getSelectedElem()).getRail();
-				Noeud dest = tr.getParent().getParent().getOptimalNextTapisRoulant();
-				LinkedList<ElementCircuit> ll = tr.getParent().calculChemin(tr.getNoeudPrecedent(), dest);
-				tr.getListeChariot().add(new Chariot(15, dest, ll));
+				simulation.createChariot(simulation.getSelectedElem());
+				
+//				Rail tr = ((VueRail) simulation.getSelectedElem()).getRail();
+//				Noeud dest = tr.getParent().getParent().getOptimalNextTapisRoulant();
+//				LinkedList<ElementCircuit> ll = tr.getParent().calculChemin(tr.getNoeudPrecedent(), dest);
+//				tr.getListeChariot().add(new Chariot(15, dest, ll));
 			}
 		});
 
