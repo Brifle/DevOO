@@ -24,7 +24,9 @@ public class Toboggan extends FileBagage {
 			}
 
 			if (remainingNbTics == 0) {
-				this.listBagages.remove(0);
+				Bagage b = this.listBagages.get(0);
+				this.listBagages.remove(b);
+				this.getConnexionCircuit().getParent().getParent().getBagagesList().remove(b);
 				remainingNbTics = nbTicsBagagesRemains;
 			}
 		} else if(autoDeleteBagages) { // Si on a pas de bagages, on remet le tic à 0
