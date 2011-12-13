@@ -46,8 +46,8 @@ public class VueBagage extends VueElem {
 				.getViewForKernelObject(parent);
 
 		if (parent instanceof Chariot) {
-			this.x = vueParent.x;
-			this.y = vueParent.y;
+			this.x = vueParent.x + vueParent.getOffsetX();
+			this.y = vueParent.y +  vueParent.getOffsetY();
 			this.angle = vueParent.angle;
 		} else if (parent instanceof TapisRoulant) {
 			TapisRoulant tapisParent = (TapisRoulant) parent;
@@ -59,13 +59,13 @@ public class VueBagage extends VueElem {
 					/ ((double) tapisParent.getLength());
 
 			int xDebutTapis = rect.getBasGauche().x
-					+ (rect.getHautGauche().x - rect.getBasGauche().x) / 2;
+					+ (rect.getHautGauche().x - rect.getBasGauche().x) / 2 + vueParent.getOffsetX();
 			int yDebutTapis = rect.getBasGauche().y
-					+ (rect.getHautGauche().y - rect.getBasGauche().y) / 2;
+					+ (rect.getHautGauche().y - rect.getBasGauche().y) / 2 + vueParent.getOffsetY();
 			int xFinTapis = rect.getBasDroit().x
-					+ (rect.getHautDroit().x - rect.getBasDroit().x) / 2;
+					+ (rect.getHautDroit().x - rect.getBasDroit().x) / 2 + vueParent.getOffsetX();
 			int yFinTapis = rect.getBasDroit().y
-					+ (rect.getHautDroit().y - rect.getBasDroit().y) / 2;
+					+ (rect.getHautDroit().y - rect.getBasDroit().y) / 2 + vueParent.getOffsetY();
 
 			int offsetX = (int) (rapport * (xFinTapis - xDebutTapis));
 			int offsetY = (int) (rapport * (yFinTapis - yDebutTapis));
