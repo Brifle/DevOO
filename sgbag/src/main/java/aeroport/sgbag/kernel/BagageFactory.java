@@ -49,7 +49,7 @@ public class BagageFactory {
 		return null;
 	}
 
-	private Toboggan getTobogan() {
+	public Toboggan getTobogan() {
 		if (!this.lTobogan.isEmpty()) {
 			int random = (int) (Math.random() * this.lTobogan.size());
 
