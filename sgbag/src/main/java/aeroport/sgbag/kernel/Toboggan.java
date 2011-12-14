@@ -11,6 +11,7 @@ public class Toboggan extends FileBagage {
 	@Setter
 	private int nbTicsBagagesRemains = 10;
 
+	@Getter
 	private int remainingNbTics = 10;
 
 	@Getter

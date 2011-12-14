@@ -70,6 +70,10 @@ public abstract class VueElem implements Viewable {
 	@Setter
 	protected boolean selected;
 	
+	@Getter
+	@Setter
+	protected float opacity = 1.0f;
+	
 	public VueElem(VueHall parent) {
 		this.parent = parent;
 		offsetY = 0;
@@ -123,7 +127,7 @@ public abstract class VueElem implements Viewable {
 			gc.setAlpha(200);
 			gc.drawRoundRectangle(-this.width / 2-3, -this.height / 2-3, this.width+6, this.height+6, 15, 15);
 		} else {
-			gc.setAlpha(255);
+			gc.setAlpha(Math.round(255 * opacity));
 		}
 
 		// Then we just draw the image on the GC :

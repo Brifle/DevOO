@@ -14,6 +14,7 @@ import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.TapisRoulant;
+import aeroport.sgbag.kernel.Toboggan;
 import aeroport.sgbag.utils.Rectangle2D;
 
 /**
@@ -77,6 +78,10 @@ public class VueBagage extends VueElem {
 
 			this.angle = vueParent.angle;
 		} else {
+			
+			if (parent instanceof Toboggan) {
+				opacity = ((float) ((Toboggan) parent).getRemainingNbTics() / (float) ((Toboggan) parent).getNbTicsBagagesRemains());
+			} 
 			
 			// Calculate the Bagage's position :
 
