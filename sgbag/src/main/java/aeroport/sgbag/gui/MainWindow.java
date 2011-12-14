@@ -16,12 +16,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,23 +26,17 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.controler.Simulation.Mode;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.xml.MalformedCircuitArchiveException;
-
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * SGBag GUI root window.
@@ -108,7 +99,8 @@ public class MainWindow extends ApplicationWindow {
 				1, 2));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel = new Button(composite, SWT.NONE);
+		btnManuel.setEnabled(false);
 		btnManuel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -117,7 +109,8 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnManuel.setText("Manuel");
 
-		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique = new Button(composite, SWT.NONE);
+		btnAutomatique.setEnabled(false);
 		btnAutomatique.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -129,8 +122,8 @@ public class MainWindow extends ApplicationWindow {
 		Group grpProperties = new Group(container, SWT.NONE);
 		GridData gd_grpProperties = new GridData(SWT.FILL, SWT.FILL, false,
 				false, 1, 2);
-		gd_grpProperties.minimumWidth = 150;
-		gd_grpProperties.widthHint = 200;
+		gd_grpProperties.minimumWidth = 325;
+		gd_grpProperties.widthHint = 325;
 		grpProperties.setLayoutData(gd_grpProperties);
 		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
 		grpProperties.setText("Propriétés");
@@ -145,6 +138,7 @@ public class MainWindow extends ApplicationWindow {
 		lblVitesse.setText("Vitesse de la simulation");
 
 		sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse.setEnabled(false);
 		sclVitesse.setMaximum(200);
 		sclVitesse.setSelection(100);
 		sclVitesse.addSelectionListener(new SelectionAdapter() {
@@ -184,8 +178,17 @@ public class MainWindow extends ApplicationWindow {
 				public void run() {
 					setSpeedFromScale();
 					simulation.play();
+
+					if (simulation.getMode() == Mode.AUTO) {
+						btnAutomatique.setEnabled(false);
+						btnManuel.setEnabled(true);
+					} else {
+						btnAutomatique.setEnabled(true);
+						btnManuel.setEnabled(false);
+					}
 				}
 			};
+			actionDemarrer.setEnabled(false);
 		}
 		{
 			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(
@@ -195,6 +198,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.pause();
 				}
 			};
+			actionPauser.setEnabled(false);
 		}
 		{
 			actionArreter = new Action("Arrêter",
@@ -205,6 +209,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.stop();
 				}
 			};
+			actionArreter.setEnabled(false);
 		}
 		{
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(
@@ -243,11 +248,13 @@ public class MainWindow extends ApplicationWindow {
 						}
 
 						simulation.setMode(Simulation.Mode.AUTO);
-						btnAutomatique.setSelection(true);
-
 						propertiesWidget.setSimulation(simulation);
 
 						propertiesWidget.refresh();
+						actionDemarrer.setEnabled(true);
+						actionPauser.setEnabled(true);
+						actionArreter.setEnabled(true);
+						sclVitesse.setEnabled(true);
 					}
 
 					vueHall.draw();
@@ -260,11 +267,13 @@ public class MainWindow extends ApplicationWindow {
 				public void run() {
 					super.run();
 
+					btnAutomatique.setEnabled(false);
+					btnManuel.setEnabled(true);
+
 					simulation.setMode(Simulation.Mode.AUTO);
 					setChecked(true);
 					actionSetManuel.setChecked(false);
-					btnManuel.setSelection(false);
-					btnAutomatique.setSelection(true);
+
 				}
 			};
 		}
@@ -274,11 +283,13 @@ public class MainWindow extends ApplicationWindow {
 				public void run() {
 					super.run();
 
+					btnAutomatique.setEnabled(true);
+					btnManuel.setEnabled(false);
+
 					simulation.setMode(Simulation.Mode.MANUEL);
 					setChecked(true);
 					actionSetAuto.setChecked(false);
-					btnManuel.setSelection(true);
-					btnAutomatique.setSelection(false);
+
 				}
 			};
 		}

@@ -281,7 +281,7 @@ public class VuesIntegrationTest {
 		// }
 		initializeKernel(listeElem, null, null);
 		
-		Clock clock = new Clock(200, hall, vueHall);
+		Clock clock = new Clock(200, hall, vueHall, true);
 		clock.run();
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
