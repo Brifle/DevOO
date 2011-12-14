@@ -78,5 +78,9 @@
       <from reference="14"/>
       <to class="tapis" reference="11"/>
     </rail>
+    <rail id="33">
+      <from class="toboggan" reference="4"/>
+      <to reference="16"/>
+    </rail>
   </rails>
 </circuit>

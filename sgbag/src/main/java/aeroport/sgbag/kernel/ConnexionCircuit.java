@@ -80,7 +80,7 @@ public class ConnexionCircuit extends Noeud {
 					// Mode automatique
 					if (getParent().getParent().isAutomatique()) {
 						Noeud nouvelleDestination = UtilsCircuit
-								.getUtilsCircuit().getTapisRoulantRandom()
+								.getUtilsCircuit().getTapisRoulantOptimalNext()
 								.getConnexionCircuit();
 						chariot.setCheminPrevu(this.getParent().calculChemin(
 								this, nouvelleDestination));
