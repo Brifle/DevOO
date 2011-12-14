@@ -1,9 +1,12 @@
 package aeroport.sgbag.controler;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.graphics.Point;
 
 import lombok.*;
@@ -13,6 +16,8 @@ import aeroport.sgbag.kernel.*;
 import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.utils.UtilsCircuit;
 import aeroport.sgbag.views.*;
+import aeroport.sgbag.xml.CircuitArchive;
+import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 
 /**
  * Create things like kernel instances and views.
@@ -59,9 +64,13 @@ public class Simulation {
 	@Setter
 	private PropertiesWidget propertiesWidget;
 
-	public void init() {
+	public void init() throws MalformedCircuitArchiveException, FileNotFoundException, IOException {
 
-		// TODO init vueHall with XML file
+		if(xmlFile != null){
+			CircuitArchive ca = CircuitArchive.readFromXML(xmlFile.getPath());
+		
+			ca.unpackTo(vueHall);
+		}
 
 		vueHall.setSimulation(this);
 		hall = vueHall.getHall();
@@ -132,6 +141,31 @@ public class Simulation {
 
 		// Create the vueBagage :
 		VueBagage v = new VueBagage(vueHall);
+		vueHall.ajouterVue(v, 4);
+		ViewSelector.getInstance().setKernelView(b, v);
+
+		return true;
+	}
+	
+	public boolean createBagage(VueElem depart) {
+
+		if (!(depart instanceof VueTapisRoulant)) {
+			return false;
+		}
+		
+		VueTapisRoulant vueTapisRoulant = (VueTapisRoulant) depart;
+
+		if(!vueTapisRoulant.getTapisRoulant().hasPlaceForBagage()){
+			return false;
+		}
+		// Create the bagage in kernel :
+		Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage();
+		vueTapisRoulant.getTapisRoulant().addBagage(b);
+		b.setParent(vueTapisRoulant.getTapisRoulant());
+
+		// Create the vueBagage :
+		VueBagage v = new VueBagage(vueHall);
+		v.setBagage(b);
 		vueHall.ajouterVue(v, 4);
 		ViewSelector.getInstance().setKernelView(b, v);
 
@@ -239,6 +273,10 @@ public class Simulation {
 			return;
 		}
 		this.mode = mode;
+	}
+	
+	public void refreshProperties(){
+		this.propertiesWidget.refresh();
 	}
 
 }

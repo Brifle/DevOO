@@ -20,18 +20,18 @@ public class TapisRoulant extends FileBagage {
 	@Getter
 	@Setter
 	@NonNull
-	private int vitesseTapis; //Ex:5
+	private int vitesseTapis; // Ex:5
 
 	@Getter
 	@Setter
 	@NonNull
-	private int distanceEntreBagages; //Ex:30
+	private int distanceEntreBagages; // Ex:30
 
 	@Getter
 	@Setter
 	@NonNull
-	private boolean autoBagageGeneration; //Ex:true
-	
+	private boolean autoBagageGeneration; // Ex:true
+
 	private int nbCharriotsEnChemin = 0;
 
 	public boolean hasReadyBagage() {
@@ -44,10 +44,16 @@ public class TapisRoulant extends FileBagage {
 		return false;
 	}
 
+	public boolean hasPlaceForBagage(){
+		return this.listBagages.isEmpty()
+				|| this.listBagages.get(this.listBagages.size() - 1)
+				.getPosition() >= distanceEntreBagages;
+	}
+
 	public boolean update() {
 		log.trace("Update tapis roulant");
 		if (!hasReadyBagage()) {
-			
+
 			if (!this.listBagages.isEmpty()) {
 				int delta = this.length - this.listBagages.get(0).getPosition();
 
@@ -66,10 +72,8 @@ public class TapisRoulant extends FileBagage {
 		}
 
 		if (this.autoBagageGeneration) {
-			if (this.listBagages.isEmpty()
-					|| this.listBagages.get(this.listBagages.size() - 1)
-							.getPosition() >= distanceEntreBagages) {
-				
+			if (hasPlaceForBagage()) {
+
 				Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage();
 				this.addBagage(b);
 				b.setParent(this);
@@ -83,37 +87,38 @@ public class TapisRoulant extends FileBagage {
 		for (Bagage b : this.listBagages) {
 			if (b.getPosition() == this.length) {
 				this.removeBagage(b);
-				
+
 				nbCharriotsEnChemin--;
-				
+
 				return b;
 			}
 		}
 
 		return null;
 	}
-	
+
 	/**
-	 * Retourne une note correspondant au besoin en charriots du tapis en question.
-	 * Plus un tapis a des bagages et moins il y a des charriots qui se dirigent actuellement vers ce tapis,
-	 * plus cette note sera elevée.
+	 * Retourne une note correspondant au besoin en charriots du tapis en
+	 * question. Plus un tapis a des bagages et moins il y a des charriots qui
+	 * se dirigent actuellement vers ce tapis, plus cette note sera elevée.
+	 * 
 	 * @return La note du tapis.
 	 */
-	public int getNoteBesoinBagages(){
+	public int getNoteBesoinBagages() {
 		return this.listBagages.size() - nbCharriotsEnChemin;
 	}
-	
+
 	/**
 	 * Notifie au tapis qu'un charriot est en chemin.
 	 */
-	public void chariotIncoming(){
+	public void chariotIncoming() {
 		nbCharriotsEnChemin++;
 	}
-	
+
 	/**
 	 * Remet a zero le nombre de charriots qui se dirigent vers le tapis.
 	 */
-	public void resetChariotIncomingNumber(){
+	public void resetChariotIncomingNumber() {
 		nbCharriotsEnChemin = 0;
 	}
 
