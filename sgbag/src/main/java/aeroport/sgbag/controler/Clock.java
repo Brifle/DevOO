@@ -1,5 +1,7 @@
 package aeroport.sgbag.controler;
 
+import org.eclipse.swt.SWTException;
+
 import lombok.*;
 import aeroport.sgbag.kernel.Hall;
 import aeroport.sgbag.views.VueHall;
@@ -26,13 +28,18 @@ public class Clock implements Runnable {
 	}
 
 	public void run() {
-		if(hall != null && !isPaused){
-			hall.update();
-		}		
-		vueHall.updateView();
-		vueHall.draw();
-		
-		vueHall.getDisplay().timerExec(interval, this);
+		try {
+			if(hall != null && !isPaused){
+				hall.update();
+			}		
+			vueHall.updateView();
+			vueHall.draw();
+
+			vueHall.getDisplay().timerExec(interval, this);
+		} catch(SWTException e) {
+			// Exception lancé à la sortie de l'application
+			// Elle n'est pas importante, elle est donc juste catchée
+		}
 	}
 
 	public void pause() {

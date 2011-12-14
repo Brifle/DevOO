@@ -245,12 +245,7 @@ public class VueHall extends Canvas implements Viewable {
 
 	public void draw() {
 		// Force a redraw event :
-		try {
-			redraw();
-		} catch(SWTException e) {
-			// Exception lancé à la sortie de l'application
-			// Elle n'est pas importante, elle est donc juste catchée
-		}
+		redraw();
 	}
 
 	public boolean isClicked(Point p) {
