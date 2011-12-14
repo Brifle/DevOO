@@ -16,12 +16,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.window.ApplicationWindow;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.CLabel;
-import org.eclipse.swt.events.PaintEvent;
-import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -29,23 +26,16 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Scale;
-import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Tree;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.xml.MalformedCircuitArchiveException;
-
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.jface.viewers.TreeViewer;
 
 /**
  * SGBag GUI root window.
@@ -244,6 +234,7 @@ public class MainWindow extends ApplicationWindow {
 
 						simulation.setMode(Simulation.Mode.AUTO);
 						btnAutomatique.setSelection(true);
+						btnAutomatique.setEnabled(false);
 
 						propertiesWidget.setSimulation(simulation);
 
@@ -259,12 +250,16 @@ public class MainWindow extends ApplicationWindow {
 				@Override
 				public void run() {
 					super.run();
-
+					
+					btnAutomatique.setEnabled(false);
+					btnManuel.setEnabled(true);
+					
 					simulation.setMode(Simulation.Mode.AUTO);
 					setChecked(true);
-					actionSetManuel.setChecked(false);
+					actionSetManuel.setChecked(false);					
 					btnManuel.setSelection(false);
 					btnAutomatique.setSelection(true);
+					
 				}
 			};
 		}
@@ -273,12 +268,16 @@ public class MainWindow extends ApplicationWindow {
 				@Override
 				public void run() {
 					super.run();
-
+					
+					btnAutomatique.setEnabled(true);
+					btnManuel.setEnabled(false);		
+					
 					simulation.setMode(Simulation.Mode.MANUEL);
 					setChecked(true);
 					actionSetAuto.setChecked(false);
 					btnManuel.setSelection(true);
 					btnAutomatique.setSelection(false);
+								
 				}
 			};
 		}
