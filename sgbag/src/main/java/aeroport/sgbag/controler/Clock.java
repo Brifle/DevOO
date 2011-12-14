@@ -19,14 +19,16 @@ public class Clock implements Runnable {
 	@Setter
 	private VueHall vueHall;
 
+	private boolean isPaused = true;
+
 	public void init() {
 		vueHall.getDisplay().timerExec(interval, this);
 	}
 
 	public void run() {
-		if(hall != null){
+		if(hall != null && !isPaused){
 			hall.update();
-		}
+		}		
 		vueHall.updateView();
 		vueHall.draw();
 		
@@ -34,7 +36,11 @@ public class Clock implements Runnable {
 	}
 
 	public void pause() {
-		vueHall.getDisplay().timerExec(-1, this);
+		isPaused = true;
+	}
+	public void unpause() {
+		isPaused = false;
+		
 	}
 
 }

@@ -85,13 +85,14 @@ public class Simulation {
 		vueHall.update();
 		vueHall.draw();
 
-		clock = new Clock(100, hall, vueHall);
+		clock = new Clock(100, hall, vueHall, true);
 		etat = Etat.NORMAL;
 		mode = Mode.AUTO;
 	}
 
 	public void play() {
 		if (clock != null) {
+			clock.unpause();
 			clock.run();
 		}
 	}
