@@ -334,12 +334,10 @@ public class CircuitGenerator {
 			ancienNoeud.getRailsSortie().get(i).setNoeudPrecedent(noeud);
 		}
 
-		boolean trouve = false;
-		for (int i = 0; i < circuit.getElements().size() && !trouve; i++) {
+		for (int i = 0; i < circuit.getElements().size(); i++) {
 			ElementCircuit e = circuit.getElements().get(i);
 			if (e instanceof Rail
 					&& ((Rail) e).getNoeudSuivant().equals(ancienNoeud)) {
-				trouve = true;
 				((Rail) e).setNoeudSuivant(noeud);
 			}
 		}
