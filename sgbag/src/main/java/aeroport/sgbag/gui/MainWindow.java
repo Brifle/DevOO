@@ -119,8 +119,8 @@ public class MainWindow extends ApplicationWindow {
 		Group grpProperties = new Group(container, SWT.NONE);
 		GridData gd_grpProperties = new GridData(SWT.FILL, SWT.FILL, false,
 				false, 1, 2);
-		gd_grpProperties.minimumWidth = 150;
-		gd_grpProperties.widthHint = 200;
+		gd_grpProperties.minimumWidth = 325;
+		gd_grpProperties.widthHint = 325;
 		grpProperties.setLayoutData(gd_grpProperties);
 		grpProperties.setLayout(new FillLayout(SWT.HORIZONTAL));
 		grpProperties.setText("Propriétés");
