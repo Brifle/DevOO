@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.controler.Simulation.Etat;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.ElementCircuit;
@@ -213,7 +214,7 @@ public class PropertiesWidget extends Composite {
 		setCommonProperties(tr);
 
 		Label l1 = new Label(canvas, SWT.NONE);
-		l1.setText("Temps avant la disparition du bagage :");
+		l1.setText("Temps disparition bagage :");
 
 		Spinner s1 = new Spinner(canvas, SWT.WRAP);
 		s1.addModifyListener(new ModifyListener() {
@@ -230,7 +231,7 @@ public class PropertiesWidget extends Composite {
 		s1.setValues(tr.getNbTicsBagagesRemains(), 0, 100, 0, 1, 10);
 
 		Label l2 = new Label(canvas, SWT.NONE);
-		l2.setText("Generation automatique de bagages :");
+		l2.setText("Suppression auto. :");
 
 		Button button = new Button(canvas, SWT.CHECK);
 		button.addSelectionListener(new SelectionAdapter() {
@@ -287,7 +288,7 @@ public class PropertiesWidget extends Composite {
 		new Label(canvas, SWT.NONE).setText("Longueur du tapis : ");
 		new Label(canvas, SWT.NONE).setText(""+tr.getLength());
 		
-		new Label(canvas, SWT.NONE).setText("Génération automatique : ");
+		new Label(canvas, SWT.NONE).setText("Génération auto. : ");
 		Button button = new Button(canvas, SWT.CHECK);
 		button.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -306,7 +307,9 @@ public class PropertiesWidget extends Composite {
 		button2.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
-				simulation.createBagage(simulation.getSelectedElem());
+				//simulation.createBagage(simulation.getSelectedElem()); //Bagage crée directement
+				
+				simulation.setEtat(Etat.CHOIX_DESTINATION_BAGAGE);
 			}
 		});
 	}

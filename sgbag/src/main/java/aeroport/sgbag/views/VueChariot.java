@@ -92,7 +92,7 @@ public class VueChariot extends VueElem {
 
 				this.angle = lastRailAngle + delta;
 			}
-
+			
 			this.x = vueParent.x;
 			this.y = vueParent.y;
 		} else if (parent instanceof Rail) {

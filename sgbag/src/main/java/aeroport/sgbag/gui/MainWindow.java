@@ -255,6 +255,7 @@ public class MainWindow extends ApplicationWindow {
 						actionPauser.setEnabled(true);
 						actionArreter.setEnabled(true);
 						sclVitesse.setEnabled(true);
+						actionOuvrir.setEnabled(false);
 					}
 
 					vueHall.draw();

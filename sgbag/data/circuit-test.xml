@@ -47,7 +47,7 @@
       <to reference="8"/>
     </chariot>
     <chariot id="21" maxMoveDistance="10" length="80" maxSpeed="20">
-      <on reference="9"/>
+      <on reference="7"/>
       <to reference="8"/>
     </chariot>
   </chariots>
