@@ -141,6 +141,7 @@ public class Simulation {
 
 		// Create the vueBagage :
 		VueBagage v = new VueBagage(vueHall);
+		v.setBagage(b);
 		vueHall.ajouterVue(v, 4);
 		ViewSelector.getInstance().setKernelView(b, v);
 

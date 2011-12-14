@@ -23,6 +23,7 @@ import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Spinner;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.controler.Simulation.Etat;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.ElementCircuit;
@@ -306,7 +307,9 @@ public class PropertiesWidget extends Composite {
 		button2.addListener(SWT.Selection, new Listener() {
 			@Override
 			public void handleEvent(Event arg0) {
-				simulation.createBagage(simulation.getSelectedElem());
+				//simulation.createBagage(simulation.getSelectedElem()); //Bagage crée directement
+				
+				simulation.setEtat(Etat.CHOIX_DESTINATION_BAGAGE);
 			}
 		});
 	}
