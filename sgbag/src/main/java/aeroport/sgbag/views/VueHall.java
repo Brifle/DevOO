@@ -1,6 +1,7 @@
 package aeroport.sgbag.views;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
@@ -244,7 +245,12 @@ public class VueHall extends Canvas implements Viewable {
 
 	public void draw() {
 		// Force a redraw event :
-		redraw();
+		try {
+			redraw();
+		} catch(SWTException e) {
+			// Exception lancé à la sortie de l'application
+			// Elle n'est pas importante, elle est donc juste catchée
+		}
 	}
 
 	public boolean isClicked(Point p) {
