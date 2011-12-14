@@ -60,6 +60,10 @@ public class Simulation {
 
 	@Getter
 	private VueElem selectedElem;
+	
+	@Getter
+	@Setter
+	private LinkedList<Rail> railsFleches;
 
 	@Setter
 	private PropertiesWidget propertiesWidget;
@@ -205,6 +209,8 @@ public class Simulation {
 	}
 
 	public void setMode(Mode mode) {
+		deleteFleches();
+		
 		if (mode == Mode.MANUEL) {
 			// Passer en mode manuel
 			vueHall.getHall().setAutomatique(false);
@@ -278,6 +284,27 @@ public class Simulation {
 	
 	public void refreshProperties(){
 		this.propertiesWidget.refresh();
+	}
+	
+	public void displayFleches(LinkedList<Rail> rails) {
+		railsFleches = rails;
+		for (Rail r : railsFleches) {
+			VueRail vueR = (VueRail) ViewSelector
+					.getInstance()
+					.getViewForKernelObject(r);
+			vueR.setDisplayingArrow(true);
+		}
+	}
+	
+	public void deleteFleches() {
+		if(railsFleches == null) return;
+		for (Rail r : railsFleches) {
+			VueRail vueR = (VueRail) ViewSelector
+					.getInstance()
+					.getViewForKernelObject(r);
+			vueR.setDisplayingArrow(false);
+		}
+		railsFleches = null;
 	}
 
 }
