@@ -63,7 +63,7 @@ public class CircuitArchiveTest {
 		RailSaved r6 = new RailSaved(n4, n1);
 		RailSaved r7 = new RailSaved(n4, n2);
 		
-		ChariotSaved chr1 = new ChariotSaved(n2, 10, n3);
+		ChariotSaved chr1 = new ChariotSaved(n4, 10, n3);
 		ChariotSaved chr2 = new ChariotSaved(t1, 10, n3);
 
 		// Remplissage de l'élément de sauvegarde par les éléments
