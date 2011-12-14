@@ -14,9 +14,6 @@ public class VueEmbranchement extends VueElem {
 	@Setter
 	private Noeud noeud;
 	
-	@Getter
-	@Setter
-	private double coeffiscientImage;
 	
 	public static int defaultSizeOfNode = 50;
 
@@ -24,17 +21,11 @@ public class VueEmbranchement extends VueElem {
 		super(parent);
 		image = new Image(parent.getDisplay(), "data/img/embranchement.png");
 		
-		Rectangle rect = image.getBounds();
-		//coeffiscientImage = 1.6;
-		
-		this.width = defaultSizeOfNode;//(int) (rect.width*coeffiscientImage);
-		this.height = defaultSizeOfNode;//(int) (rect.height*coeffiscientImage);
+		this.width = defaultSizeOfNode;
+		this.height = defaultSizeOfNode;
 	}
 
 	@Override
 	public void updateView() {
-		Rectangle rect = image.getBounds();
-		//this.width = ;//(int) (coeffiscientImage*rect.width);
-		//this.height = (int) (coeffiscientImage*rect.height);
 	}
 }
