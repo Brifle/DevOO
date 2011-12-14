@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
@@ -118,7 +119,7 @@ public class CircuitArchive {
 	@XStreamAlias("chariot")
 	@AllArgsConstructor
 	public static class ChariotSaved {
-		final public static int DEFAULT_WIDTH = 20;
+		final public static int DEFAULT_WIDTH = 80;
 		final public static int DEFAULT_SPEED = 20;
 		
 		@XStreamAsAttribute
@@ -138,6 +139,15 @@ public class CircuitArchive {
 		
 		@XStreamAsAttribute
 		private int maxSpeed = DEFAULT_SPEED;
+		
+		public ChariotSaved(ElementCircuitSaved on, int position,
+				int maxMoveDistance, NoeudSaved to) {
+			super();
+			this.on = on;
+			this.position = position;
+			this.maxMoveDistance = maxMoveDistance;
+			this.to = to;
+		}
 	}
 	
 	@Getter
