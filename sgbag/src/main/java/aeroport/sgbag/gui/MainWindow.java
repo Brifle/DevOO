@@ -109,6 +109,7 @@ public class MainWindow extends ApplicationWindow {
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
 		btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel.setEnabled(false);
 		btnManuel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -118,6 +119,7 @@ public class MainWindow extends ApplicationWindow {
 		btnManuel.setText("Manuel");
 
 		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique.setEnabled(false);
 		btnAutomatique.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -145,6 +147,7 @@ public class MainWindow extends ApplicationWindow {
 		lblVitesse.setText("Vitesse de la simulation");
 
 		sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse.setEnabled(false);
 		sclVitesse.setMaximum(200);
 		sclVitesse.setSelection(100);
 		sclVitesse.addSelectionListener(new SelectionAdapter() {
@@ -186,6 +189,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.play();
 				}
 			};
+			actionDemarrer.setEnabled(false);
 		}
 		{
 			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(
@@ -195,6 +199,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.pause();
 				}
 			};
+			actionPauser.setEnabled(false);
 		}
 		{
 			actionArreter = new Action("Arrêter",
@@ -205,6 +210,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.stop();
 				}
 			};
+			actionArreter.setEnabled(false);
 		}
 		{
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(
@@ -248,6 +254,10 @@ public class MainWindow extends ApplicationWindow {
 						propertiesWidget.setSimulation(simulation);
 
 						propertiesWidget.refresh();
+						actionDemarrer.setEnabled(true);
+						actionPauser.setEnabled(true);
+						actionArreter.setEnabled(true);
+						sclVitesse.setEnabled(true);
 					}
 
 					vueHall.draw();
