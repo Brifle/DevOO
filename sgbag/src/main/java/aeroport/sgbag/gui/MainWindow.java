@@ -34,6 +34,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
+import aeroport.sgbag.controler.Simulation.Mode;
 import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 
@@ -98,7 +99,8 @@ public class MainWindow extends ApplicationWindow {
 				1, 2));
 		composite.setLayout(new FillLayout(SWT.HORIZONTAL));
 
-		btnManuel = new Button(composite, SWT.TOGGLE);
+		btnManuel = new Button(composite, SWT.NONE);
+		btnManuel.setEnabled(false);
 		btnManuel.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -107,7 +109,8 @@ public class MainWindow extends ApplicationWindow {
 		});
 		btnManuel.setText("Manuel");
 
-		btnAutomatique = new Button(composite, SWT.TOGGLE);
+		btnAutomatique = new Button(composite, SWT.NONE);
+		btnAutomatique.setEnabled(false);
 		btnAutomatique.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -135,6 +138,7 @@ public class MainWindow extends ApplicationWindow {
 		lblVitesse.setText("Vitesse de la simulation");
 
 		sclVitesse = new Scale(container, SWT.NONE);
+		sclVitesse.setEnabled(false);
 		sclVitesse.setMaximum(200);
 		sclVitesse.setSelection(100);
 		sclVitesse.addSelectionListener(new SelectionAdapter() {
@@ -174,8 +178,17 @@ public class MainWindow extends ApplicationWindow {
 				public void run() {
 					setSpeedFromScale();
 					simulation.play();
+
+					if (simulation.getMode() == Mode.AUTO) {
+						btnAutomatique.setEnabled(false);
+						btnManuel.setEnabled(true);
+					} else {
+						btnAutomatique.setEnabled(true);
+						btnManuel.setEnabled(false);
+					}
 				}
 			};
+			actionDemarrer.setEnabled(false);
 		}
 		{
 			actionPauser = new Action("Pauser", ImageDescriptor.createFromFile(
@@ -185,6 +198,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.pause();
 				}
 			};
+			actionPauser.setEnabled(false);
 		}
 		{
 			actionArreter = new Action("Arrêter",
@@ -195,6 +209,7 @@ public class MainWindow extends ApplicationWindow {
 					simulation.stop();
 				}
 			};
+			actionArreter.setEnabled(false);
 		}
 		{
 			actionOuvrir = new Action("Ouvrir", ImageDescriptor.createFromFile(
@@ -233,12 +248,13 @@ public class MainWindow extends ApplicationWindow {
 						}
 
 						simulation.setMode(Simulation.Mode.AUTO);
-						btnAutomatique.setSelection(true);
-						btnAutomatique.setEnabled(false);
-
 						propertiesWidget.setSimulation(simulation);
 
 						propertiesWidget.refresh();
+						actionDemarrer.setEnabled(true);
+						actionPauser.setEnabled(true);
+						actionArreter.setEnabled(true);
+						sclVitesse.setEnabled(true);
 					}
 
 					vueHall.draw();
@@ -250,16 +266,14 @@ public class MainWindow extends ApplicationWindow {
 				@Override
 				public void run() {
 					super.run();
-					
+
 					btnAutomatique.setEnabled(false);
 					btnManuel.setEnabled(true);
-					
+
 					simulation.setMode(Simulation.Mode.AUTO);
 					setChecked(true);
-					actionSetManuel.setChecked(false);					
-					btnManuel.setSelection(false);
-					btnAutomatique.setSelection(true);
-					
+					actionSetManuel.setChecked(false);
+
 				}
 			};
 		}
@@ -268,16 +282,14 @@ public class MainWindow extends ApplicationWindow {
 				@Override
 				public void run() {
 					super.run();
-					
+
 					btnAutomatique.setEnabled(true);
-					btnManuel.setEnabled(false);		
-					
+					btnManuel.setEnabled(false);
+
 					simulation.setMode(Simulation.Mode.MANUEL);
 					setChecked(true);
 					actionSetAuto.setChecked(false);
-					btnManuel.setSelection(true);
-					btnAutomatique.setSelection(false);
-								
+
 				}
 			};
 		}
