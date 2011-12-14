@@ -53,7 +53,7 @@ public class CircuitArchiveTest {
 		NoeudSaved n4 = new NoeudSaved(300, 100);
 		
 		TobogganSaved x1 = new TobogganSaved(400, 200, 270);
-		TapisRoulantSaved t1 = new TapisRoulantSaved(200, 300, 100, 30, 20, 3*90, false);
+		TapisRoulantSaved t1 = new TapisRoulantSaved(200, 300, 100, 2, 20, 3*90, false);
 		
 		RailSaved r1 = new RailSaved(n1, n2);
 		RailSaved r2 = new RailSaved(n2, t1);
@@ -63,7 +63,8 @@ public class CircuitArchiveTest {
 		RailSaved r6 = new RailSaved(n4, n1);
 		RailSaved r7 = new RailSaved(n4, n2);
 		
-		ChariotSaved chr1 = new ChariotSaved(r1, 50, 0, n3, 80, 10);
+		ChariotSaved chr1 = new ChariotSaved(n2, 10, n3);
+		ChariotSaved chr2 = new ChariotSaved(t1, 10, n3);
 
 		// Remplissage de l'élément de sauvegarde par les éléments
 		// à sauvegarder (dans leur forme sauvegardable)
@@ -84,6 +85,7 @@ public class CircuitArchiveTest {
 		ca.getTapisRoulants().push(t1);
 		
 		ca.getChariots().push(chr1);
+		ca.getChariots().push(chr2);
 		
 		// Sortie du fichier
 		
@@ -119,12 +121,12 @@ public class CircuitArchiveTest {
 		
 		ca.unpackTo(vueHall);
 		
-		shell.open();
+		//shell.open();
 		
-		while (!shell.isDisposed()) {
+		/*while (!shell.isDisposed()) {
 			if (!display.readAndDispatch())
 				display.sleep();
-		}
+		}*/
 		
 		vueHall.dispose();
 		shell.dispose();

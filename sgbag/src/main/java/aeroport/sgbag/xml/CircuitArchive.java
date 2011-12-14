@@ -11,6 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
@@ -118,14 +119,11 @@ public class CircuitArchive {
 	@XStreamAlias("chariot")
 	@AllArgsConstructor
 	public static class ChariotSaved {
-		final public static int DEFAULT_WIDTH = 20;
+		final public static int DEFAULT_WIDTH = 80;
 		final public static int DEFAULT_SPEED = 20;
 		
 		@XStreamAsAttribute
-		private ElementCircuitSaved on;
-		
-		@XStreamAsAttribute
-		private int position = 0;
+		private NoeudSaved on;
 		
 		@XStreamAsAttribute
 		private int maxMoveDistance;
@@ -138,6 +136,14 @@ public class CircuitArchive {
 		
 		@XStreamAsAttribute
 		private int maxSpeed = DEFAULT_SPEED;
+		
+		public ChariotSaved(NoeudSaved on,
+				int maxMoveDistance, NoeudSaved to) {
+			super();
+			this.on = on;
+			this.maxMoveDistance = maxMoveDistance;
+			this.to = to;
+		}
 	}
 	
 	@Getter
@@ -206,14 +212,10 @@ public class CircuitArchive {
 		
 		if(chariots != null){
 			for(ChariotSaved chariotp: chariots){
-				if(chariotp.on instanceof RailSaved){
-					VueChariot vc = cg.addChariot((Rail) chariotp.on.unpackedObject, chariotp.maxSpeed,
-											      chariotp.length, chariotp.position, (Noeud) chariotp.to.unpackedObject, 
-											      null, null);
-					vc.updateView();
-				}else if(chariotp.on instanceof NoeudSaved){
+				if(chariotp.on != null){
 					VueChariot vc = cg.addChariot((Noeud) chariotp.on.unpackedObject, chariotp.maxSpeed,
-												  chariotp.length, (Noeud) chariotp.to.unpackedObject, null, null);
+												  chariotp.length, (Noeud) chariotp.to.unpackedObject, 
+												  null, null);
 					vc.updateView();
 				}
 			}
