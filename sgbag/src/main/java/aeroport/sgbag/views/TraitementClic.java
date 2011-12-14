@@ -31,8 +31,6 @@ public class TraitementClic extends MouseAdapter {
 
 	private VueChariot chariotADeplacer;
 
-	private LinkedList<Rail> railsSortie;
-
 	public TraitementClic(VueHall vueHall) {
 		this.vueHall = vueHall;
 	}
@@ -45,34 +43,30 @@ public class TraitementClic extends MouseAdapter {
 	@Override
 	public void mouseUp(MouseEvent mouse) {
 		Simulation s = vueHall.getSimulation();
-		Point clickedPoint = new Point(mouse.x - vueHall.getOrigin().x, mouse.y - vueHall.getOrigin().y);
-		Viewable clickedView = vueHall.getClickedView(clickedPoint.x, clickedPoint.y);
+		Point clickedPoint = new Point(mouse.x - vueHall.getOrigin().x, mouse.y
+				- vueHall.getOrigin().y);
+		Viewable clickedView = vueHall.getClickedView(clickedPoint.x,
+				clickedPoint.y);
 
 		log.debug("Clicked @ x=" + clickedPoint.x + ", y=" + clickedPoint.y);
 
 		if (clickedView == vueHall) {
-			
+
 			// On clique sur la fenêtre principale
-			
+
 			if (s.getMode() == Mode.MANUEL) {
-				
+
 				// mode MANUEL :
-				
+
 				if (s.getEtat() == Etat.CHOIX_DESTINATION_CHARIOT) {
 					chariotADeplacer = null;
-					
+
 					// Supprimer les flèches sur les rails disponibles :
-					for (Rail r : railsSortie) {
-						VueRail vueR = (VueRail) ViewSelector
-								.getInstance()
-								.getViewForKernelObject(r);
-						vueR.setDisplayingArrow(false);
-					}
-					railsSortie = null;
+					s.deleteFleches();
 				}
-				
+
 			}
-			
+
 			s.setEtat(Etat.NORMAL);
 			s.setSelectedElem(null);
 		} else {
@@ -89,22 +83,16 @@ public class TraitementClic extends MouseAdapter {
 						VueChariot vueChariot = (VueChariot) elem;
 
 						if (vueChariot.getChariot().getParent() instanceof Noeud) {
-							
+
 							log.debug("Click sur un chariot.");
-							
+
 							chariotADeplacer = vueChariot;
 							s.setEtat(Etat.CHOIX_DESTINATION_CHARIOT);
-							
+
 							// Afficher les flèches :
 							Noeud n = (Noeud) vueChariot.getChariot()
 									.getParent();
-							railsSortie = n.getRailsSortie();
-							for (Rail r : railsSortie) {
-								VueRail vueR = (VueRail) ViewSelector
-										.getInstance()
-										.getViewForKernelObject(r);
-								vueR.setDisplayingArrow(true);
-							}
+							s.displayFleches(n.getRailsSortie());
 						}
 
 					} else {
@@ -147,30 +135,13 @@ public class TraitementClic extends MouseAdapter {
 												.getBagage().getDestination());
 							}
 							log.debug("Chariot deplacé");
-
-							// Supprimer les flèches sur les rails disponibles :
-							for (Rail r : railsSortie) {
-								VueRail vueR = (VueRail) ViewSelector
-										.getInstance()
-										.getViewForKernelObject(r);
-								vueR.setDisplayingArrow(false);
-							}
-							railsSortie = null;
 						} else {
 							log.debug("Element non adjacent au chariot.");
 						}
 					} else {
 						log.debug("Clic sur autre chose qu'un chariot...");
-						
-						// Supprimer les flèches sur les rails disponibles :
-						for (Rail r : railsSortie) {
-							VueRail vueR = (VueRail) ViewSelector
-									.getInstance()
-									.getViewForKernelObject(r);
-							vueR.setDisplayingArrow(false);
-						}
-						railsSortie = null;
 					}
+					s.deleteFleches();
 					chariotADeplacer = null;
 					s.setEtat(Etat.NORMAL);
 				} else if (s.getEtat() == Etat.CHOIX_DESTINATION_BAGAGE) {
