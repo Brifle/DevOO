@@ -63,8 +63,8 @@ public class CircuitArchiveTest {
 		RailSaved r6 = new RailSaved(n4, n1);
 		RailSaved r7 = new RailSaved(n4, n2);
 		
-		//ChariotSaved chr1 = new ChariotSaved(r1, 50, 0, n3, 80, 10);
-		ChariotSaved chr1 = new ChariotSaved(n2, 0, 10, n3);
+		ChariotSaved chr1 = new ChariotSaved(n2, 10, n3);
+		ChariotSaved chr2 = new ChariotSaved(t1, 10, n3);
 
 		// Remplissage de l'élément de sauvegarde par les éléments
 		// à sauvegarder (dans leur forme sauvegardable)
@@ -85,6 +85,7 @@ public class CircuitArchiveTest {
 		ca.getTapisRoulants().push(t1);
 		
 		ca.getChariots().push(chr1);
+		ca.getChariots().push(chr2);
 		
 		// Sortie du fichier
 		
