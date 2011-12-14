@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import lombok.Getter;
 
+import org.apache.log4j.PropertyConfigurator;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.action.Separator;
@@ -77,6 +78,7 @@ public class MainWindow extends ApplicationWindow {
 		addToolBar(SWT.FLAT | SWT.WRAP);
 		addMenuBar();
 		addStatusLine();
+		PropertyConfigurator.configure("log4j.properties");
 	}
 
 	/**
