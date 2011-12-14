@@ -10,6 +10,7 @@ import lombok.extern.log4j.Log4j;
 
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.graphics.Point;
 
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.controler.ViewSelector;
@@ -44,9 +45,10 @@ public class TraitementClic extends MouseAdapter {
 	@Override
 	public void mouseUp(MouseEvent mouse) {
 		Simulation s = vueHall.getSimulation();
-		Viewable clickedView = vueHall.getClickedView(mouse.x, mouse.y);
+		Point clickedPoint = new Point(mouse.x - vueHall.getOrigin().x, mouse.y - vueHall.getOrigin().y);
+		Viewable clickedView = vueHall.getClickedView(clickedPoint.x, clickedPoint.y);
 
-		log.debug("Clicked @ x=" + mouse.x + ", y=" + mouse.y);
+		log.debug("Clicked @ x=" + clickedPoint.x + ", y=" + clickedPoint.y);
 
 		if (clickedView == vueHall) {
 			
