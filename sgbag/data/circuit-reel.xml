@@ -1,0 +1,82 @@
+<circuit id="1">
+  <toboggans id="2">
+    <toboggan id="3" x="400" y="300" angle="0"/>
+    <toboggan id="4" x="900" y="300" angle="270"/>
+    <toboggan id="5" x="400" y="700" angle="45"/>
+    <toboggan id="6" x="900" y="700" angle="315"/>
+  </toboggans>
+  <tapisRoulants id="7">
+    <tapis id="8" x="700" y="150" length="100" vitesse="2" distanceEntreBagage="20" angle="90" autoGeneration="false"/>
+    <tapis id="9" x="400" y="500" length="100" vitesse="2" distanceEntreBagage="20" angle="270" autoGeneration="false"/>
+    <tapis id="10" x="700" y="700" length="100" vitesse="2" distanceEntreBagage="20" angle="270" autoGeneration="false"/>
+    <tapis id="11" x="150" y="300" length="100" vitesse="2" distanceEntreBagage="20" angle="0" autoGeneration="false"/>
+  </tapisRoulants>
+  <noeuds id="12">
+    <noeud id="13" x="400" y="150"/>
+    <noeud id="14" x="150" y="500"/>
+    <noeud id="15" x="700" y="350"/>
+    <noeud id="16" x="900" y="500"/>
+  </noeuds>
+  <rails id="17">
+    <rail id="18">
+      <from class="tapis" reference="11"/>
+      <to reference="13"/>
+    </rail>
+    <rail id="19">
+      <from reference="13"/>
+      <to class="tapis" reference="8"/>
+    </rail>
+    <rail id="20">
+      <from class="tapis" reference="8"/>
+      <to class="toboggan" reference="4"/>
+    </rail>
+    <rail id="21">
+      <from class="toboggan" reference="4"/>
+      <to reference="15"/>
+    </rail>
+    <rail id="22">
+      <from class="tapis" reference="11"/>
+      <to class="toboggan" reference="3"/>
+    </rail>
+    <rail id="23">
+      <from class="toboggan" reference="3"/>
+      <to reference="15"/>
+    </rail>
+    <rail id="24">
+      <from reference="15"/>
+      <to reference="16"/>
+    </rail>
+    <rail id="25">
+      <from reference="16"/>
+      <to class="toboggan" reference="6"/>
+    </rail>
+    <rail id="26">
+      <from reference="16"/>
+      <to class="tapis" reference="10"/>
+    </rail>
+    <rail id="27">
+      <from reference="16"/>
+      <to class="tapis" reference="9"/>
+    </rail>
+    <rail id="28">
+      <from class="toboggan" reference="6"/>
+      <to class="tapis" reference="10"/>
+    </rail>
+    <rail id="29">
+      <from class="tapis" reference="10"/>
+      <to class="toboggan" reference="5"/>
+    </rail>
+    <rail id="30">
+      <from class="toboggan" reference="5"/>
+      <to reference="14"/>
+    </rail>
+    <rail id="31">
+      <from class="tapis" reference="9"/>
+      <to reference="14"/>
+    </rail>
+    <rail id="32">
+      <from reference="14"/>
+      <to class="tapis" reference="11"/>
+    </rail>
+  </rails>
+</circuit>
