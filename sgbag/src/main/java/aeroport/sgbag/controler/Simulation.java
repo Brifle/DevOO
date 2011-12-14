@@ -223,7 +223,7 @@ public class Simulation {
 			ArrayList<Chariot> chariots = vueHall.getHall().getChariotList();
 			//On arrête les chariots au prochain noeud
 			for (int i = 0; i < chariots.size(); i++) {
-				if(chariots.get(i).getCheminPrevu().size() > 0 && chariots.get(i).getCheminPrevu().peek() instanceof Noeud) {
+				if(chariots.get(i).getCheminPrevu() != null && chariots.get(i).getCheminPrevu().size() > 0 && chariots.get(i).getCheminPrevu().peek() instanceof Noeud) {
 					//On va arriver sur un noeud
 					LinkedList<ElementCircuit> newChemin = new LinkedList<ElementCircuit>();
 					newChemin.add(chariots.get(i).getCheminPrevu().peek());
