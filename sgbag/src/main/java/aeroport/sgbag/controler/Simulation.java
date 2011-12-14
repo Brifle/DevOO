@@ -145,12 +145,6 @@ public class Simulation {
 		vueTapisRoulant.getTapisRoulant().addBagage(b);
 		b.setParent(vueTapisRoulant.getTapisRoulant());
 
-		// Create the vueBagage :
-		VueBagage v = new VueBagage(vueHall);
-		v.setBagage(b);
-		vueHall.ajouterVue(v, 4);
-		ViewSelector.getInstance().setKernelView(b, v);
-
 		return true;
 	}
 	
@@ -169,12 +163,6 @@ public class Simulation {
 		Bagage b = UtilsCircuit.getUtilsCircuit().generateBagage();
 		vueTapisRoulant.getTapisRoulant().addBagage(b);
 		b.setParent(vueTapisRoulant.getTapisRoulant());
-
-		// Create the vueBagage :
-		VueBagage v = new VueBagage(vueHall);
-		v.setBagage(b);
-		vueHall.ajouterVue(v, 4);
-		ViewSelector.getInstance().setKernelView(b, v);
 
 		return true;
 	}
