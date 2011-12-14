@@ -42,8 +42,8 @@
     </rail>
   </rails>
   <chariots id="19">
-    <chariot id="20" position="50" maxMoveDistance="0" length="80" maxSpeed="10">
-      <on class="rail" reference="18"/>
+    <chariot id="20" position="0" maxMoveDistance="10" length="80" maxSpeed="20">
+      <on class="noeud" reference="9"/>
       <to reference="8"/>
     </chariot>
   </chariots>
