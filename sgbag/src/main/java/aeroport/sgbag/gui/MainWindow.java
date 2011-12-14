@@ -352,6 +352,7 @@ public class MainWindow extends ApplicationWindow {
 			MainWindow window = new MainWindow();
 			window.setBlockOnOpen(true);
 			window.open();
+			window.getSimulation().pause();
 			Display.getCurrent().dispose();
 		} catch (Exception e) {
 			e.printStackTrace();
