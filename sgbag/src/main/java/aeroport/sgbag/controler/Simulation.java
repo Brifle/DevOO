@@ -87,6 +87,7 @@ public class Simulation {
 
 		clock = new Clock(100, hall, vueHall);
 		etat = Etat.NORMAL;
+		mode = Mode.AUTO;
 	}
 
 	public void play() {
