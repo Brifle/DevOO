@@ -8,6 +8,7 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.*;
+import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.controler.ViewSelector;
@@ -71,7 +72,7 @@ public class VueHall extends Canvas implements Viewable {
 				gcBuffer = new GC(buffer);
 
 				// Draw the background
-				gcBuffer.setBackground(event.gc.getBackground());
+				gcBuffer.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 				gcBuffer.fillRectangle(buffer.getBounds());
 
 				// Draw all the views ordered by the layers :

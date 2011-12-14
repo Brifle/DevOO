@@ -67,7 +67,10 @@ public class ConnexionCircuit extends Noeud {
 							log.debug(logstr);
 						}
 
-						moveToNextRail();
+						if(moveToNextRail()){
+							ticksToUpdate = 0;
+						}
+						
 					}
 				} else if (getListeChariot().getFirst().hasBagage()) {
 
@@ -84,17 +87,23 @@ public class ConnexionCircuit extends Noeud {
 						chariot.setDestination(nouvelleDestination);
 					}
 
-					moveToNextRail();
+					if(moveToNextRail()){
+						ticksToUpdate = 0;
+					}
 				} else {
 
 					// Le chariot est arrivé à destination mais n'a pas de
 					// bagage à retirer
 
-					moveToNextRail();
+					if(moveToNextRail()){
+						ticksToUpdate = 0;
+					}
 
 				}
 			} else {
-				moveToNextRail();
+				if(moveToNextRail()){
+					ticksToUpdate = 0;
+				}
 			}
 		} else if (!hasChariot()) {
 			ticksToUpdate = 0;
