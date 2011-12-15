@@ -20,9 +20,13 @@ import aeroport.sgbag.xml.CircuitArchive;
 import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 
 /**
- * Create things like kernel instances and views.
+ * Gère la simulation au sein du prototype.
  * 
- * @author Arnaud Lahache & Stanislas Signoud
+ * La gestion de la simulation consiste à l'exportation de l'IHM de méthodes 
+ * de démarrage, pause, arrêt et de quelques informations concernant le 
+ * contenu de la simulation.
+ * 
+ * @author Arnaud Lahache, Jonàs Bru Monserrat, Mathieu Sabourin, Stanislas Signoud
  * 
  */
 @RequiredArgsConstructor
@@ -68,6 +72,21 @@ public class Simulation {
 	@Setter
 	private PropertiesWidget propertiesWidget;
 
+	/**
+	 * Initialise la simulation.
+	 * 
+	 * Si un fichier xml a été renseigné au sein de la propriété xmlFile, ce fichier
+	 * sera lu, désérialisé et son contenu intégré à la simulation. 
+	 * 
+	 * Un tic d'horloge allégé est simulé pour effectuer la mise en place de la vue.
+	 * 
+	 * Cette méthode doit être exécutée avant l'appel des méthodes play, pause et
+	 * stop pour garantir leur bon fonctionnement.
+	 * 
+	 * @throws MalformedCircuitArchiveException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 */
 	public void init() throws MalformedCircuitArchiveException, FileNotFoundException, IOException {
 
 		if(xmlFile != null){
@@ -77,19 +96,21 @@ public class Simulation {
 		}
 
 		vueHall.setSimulation(this);
+		
 		hall = vueHall.getHall();
 
-		if (hall != null) {
-			hall.update();
-		}
-		vueHall.update();
-		vueHall.draw();
-
+		/* L'horloge est créée dans un état de pause. */
 		clock = new Clock(100, hall, vueHall, true);
 		etat = Etat.NORMAL;
 		mode = Mode.AUTO;
 	}
 
+	/**
+	 * Démarre la simulation.
+	 * 
+	 * Si celle-ci n'a pas été initialisée avec la méthode init(), rien
+	 * n'est effectué.
+	 */
 	public void play() {
 		if (clock != null) {
 			clock.unpause();
@@ -97,12 +118,24 @@ public class Simulation {
 		}
 	}
 
+	/**
+	 * Pause la simulation.
+	 * 
+	 * Si celle-ci n'a pas été initialisée avec la méthode init(), rien
+	 * n'est effectué.
+	 */
 	public void pause() {
 		if (clock != null) {
 			clock.pause();
 		}
 	}
-
+	
+	/**
+	 * Stoppe la simulation.
+	 * 
+	 * Si celle-ci n'a pas été initialisée avec la méthode init(), rien
+	 * n'est effectué.
+	 */
 	public void stop() {
 		if (clock != null) {
 			clock.pause();
@@ -115,11 +148,22 @@ public class Simulation {
 		}
 	}
 	
+	/**
+	 * Modifie l'intervalle de rafraîchissement de la simulation.
+	 * 
+	 * @param refreshInterval Le nouvel interval de rafraîchissement,
+	 * en millisecondes.
+	 */
 	public void setSpeed(int refreshInterval) {
 		clock.setInterval(refreshInterval);
 		log.debug("Set interval to "+refreshInterval+"ms.");
 	}
 
+	/**
+	 * Modifie la sélection, pour sélectionner l'élément _selectedItem.
+	 * 
+	 * @param _selectedElem Nouvel élément sélectionné.
+	 */
 	public void setSelectedElem(VueElem _selectedElem) {
 		if (selectedElem != null)
 			selectedElem.setSelected(false);
@@ -130,6 +174,17 @@ public class Simulation {
 		propertiesWidget.refresh();
 	}
 
+	/**
+	 * Crée un bagage partant de la vue depart à la vue destination.
+	 *  
+	 * @param depart Vue représentant l'élément du circuit duquel
+	 * partira le bagage.
+	 * @param destination Vue représentant l'élément du circuit vers
+	 * lequel se dirigera le bagage.
+	 * @return true si le bagage est créé, faux si la destination n'est
+	 * pas la représentation d'un toboggan ou, pour le départ, la 
+	 * représentation d'un tapis roulant.  
+	 */
 	public boolean createBagage(VueElem depart, VueElem destination) {
 
 		if (!(destination instanceof VueToboggan)
@@ -148,6 +203,17 @@ public class Simulation {
 		return true;
 	}
 	
+	/**
+	 * Crée un bagage, partant de la vue depart.
+	 * 
+	 * La destination du bagage est décidée de manière automatique.
+	 * 
+	 * @param depart Vue représentant l'élément d'où partira le
+	 * bagage. 
+	 * @return false si le bagage n'a pas pu être créé (si l'élément
+	 * de départ n'est pas un tapis roulant, ou si ce tapis roulant
+	 * n'a pas de place pour un nouveau bagage).
+	 */
 	public boolean createBagage(VueElem depart) {
 
 		if (!(depart instanceof VueTapisRoulant)) {
@@ -167,6 +233,11 @@ public class Simulation {
 		return true;
 	}
 
+	/**
+	 * Crée un chariot sur l'élément depart.
+	 * @param depart L'élément surlequel sera créé le chariot.
+	 * @return false si l'élément donné n'est pas un rail.
+	 */
 	public boolean createChariot(VueElem depart) {
 
 		if (!(depart instanceof VueRail)) {
@@ -198,6 +269,11 @@ public class Simulation {
 		return true;
 	}
 
+	/**
+	 * Modifie le mode de la simulation, entre automatique et manuel.
+	 * 
+	 * @param mode Nouveau mode de la simulation.
+	 */
 	public void setMode(Mode mode) {
 		deleteFleches();
 		
@@ -272,10 +348,18 @@ public class Simulation {
 		this.mode = mode;
 	}
 	
+	/**
+	 * Mets à jour les propriétés affichées à l'écran.
+	 */
 	public void refreshProperties(){
 		this.propertiesWidget.refresh();
 	}
 	
+	/**
+	 * Affiche les flèches correspondant aux rails surlesquels peut
+	 * se déplacer le chariot, en mode manuel.
+	 * @param rails Rails surlesquels les flèches seront affichées.
+	 */
 	public void displayFleches(LinkedList<Rail> rails) {
 		railsFleches = rails;
 		for (Rail r : railsFleches) {
@@ -286,6 +370,9 @@ public class Simulation {
 		}
 	}
 	
+	/**
+	 * Supprime les flèches affichées par displayFleches.
+	 */
 	public void deleteFleches() {
 		if(railsFleches == null) return;
 		for (Rail r : railsFleches) {
