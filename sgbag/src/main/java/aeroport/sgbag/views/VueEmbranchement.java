@@ -23,7 +23,7 @@ public class VueEmbranchement extends VueElem {
 	public static int defaultSizeOfNode = 50;
 
 	/**
-	 * Crée une vue d'Embranchement, à l'aide de sa vue de Hall parente.
+	 * Crée une vue d'Embranchement, en le rattachant à sa vue de Hall parente.
 	 * @param parent VueHall parente.
 	 */
 	public VueEmbranchement(VueHall parent) {
