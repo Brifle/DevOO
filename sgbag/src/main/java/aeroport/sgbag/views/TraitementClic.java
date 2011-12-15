@@ -20,8 +20,9 @@ import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 
 /**
- * @author Arnaud Lahache
+ * Gère les clics sur une VueHall.
  * 
+ * @author Arnaud Lahache
  */
 @Log4j
 public class TraitementClic extends MouseAdapter {

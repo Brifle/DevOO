@@ -3,26 +3,28 @@ package aeroport.sgbag.views;
 import org.eclipse.swt.graphics.Point;
 
 /**
- * @author Arnaud Lahache
+ * Affichable à l'écran, lié à un model.
  * 
+ * @author Arnaud Lahache
  */
 public interface Viewable {
 
 	/**
-	 * Updates the view regarding to the kernel object properties.
+	 * Mets à jour la vue, se synchronisant avec les propriétés de l'objet du noyau.
 	 */
 	public void updateView();
 
 	/**
-	 * Draws the object on the screen.
+	 * Dessine l'objet à l'écran.
 	 */
 	public void draw();
 
 	/**
-	 * Returns true if the view is clicked. Note : it does not take in account
-	 * the layer in which the view is contained.
+	 * Indique si la vue est cliquée.
 	 * 
-	 * @return True if the view is clicked.
+	 * Note : Ceci ne prends pas en compte le calque dans lequel la vue est placée.
+	 * 
+	 * @return true si la vue est cliquée.
 	 */
 	public boolean isClicked(Point p);
 
