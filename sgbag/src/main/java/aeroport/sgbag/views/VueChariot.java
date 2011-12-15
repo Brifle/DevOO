@@ -16,6 +16,13 @@ import aeroport.sgbag.kernel.*;
 import aeroport.sgbag.utils.ParticleManager;
 import aeroport.sgbag.utils.Rectangle2D;
 
+/**
+ * Représente un chariot à l'écran.
+ * 
+ * @author Michael Fagno, Mathieu Sabourin, Arnaud Lahache, Thibaut Patel, 
+ * Jonas Bru Monserrat
+ *
+ */
 @NoArgsConstructor
 @Log4j
 public class VueChariot extends VueElem {
@@ -37,6 +44,12 @@ public class VueChariot extends VueElem {
 	private int lastX;
 	private int lastY;
 
+	/**
+	 * Construit une vue de chariot, liée à son canvas parent et à 
+	 * son objet du noyau.
+	 * @param parent Canvas parent.
+	 * @param chariot Objet du noyau associé à la vue.
+	 */
 	public VueChariot(Canvas parent, Chariot chariot) {
 		super((VueHall) parent);
 		this.image = new Image(parent.getDisplay(), "data/img/chariot.png");
@@ -52,6 +65,9 @@ public class VueChariot extends VueElem {
 
 	}
 
+	/**
+	 * @see aeroport.sgbag.views.VueElem#updateView()
+	 */
 	public void updateView() {
 		ElementCircuit parent = chariot.getParent();
 		VueElem vueParent = (VueElem) ViewSelector.getInstance()
