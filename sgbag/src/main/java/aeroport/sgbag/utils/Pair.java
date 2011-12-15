@@ -7,6 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+/**
+ * Template contenant une paire d'objets.
+ * 
+ * @author Thibaut Patel
+ *
+ * @param <X> Classe du premier objet.
+ * @param <Y> Classe du second objet.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
