@@ -6,6 +6,11 @@ import aeroport.sgbag.utils.UtilsCircuit;
 
 import lombok.*;
 
+/**
+ * Modèle représentant les vues des rails.
+ * 
+ * @author Jonàs Bru Monserrat, Arnaud Lahache, Mathieu Sabourin
+ */
 @AllArgsConstructor
 public class Hall extends KernelObject {
 	protected static String kObjName = "Hall";
@@ -28,16 +33,26 @@ public class Hall extends KernelObject {
 	@Setter
 	private boolean isAutomatique = true;
 
+	/**
+	 * Construit un Hall, vide.
+	 */
 	public Hall() {
 		bagagesList = new ArrayList<Bagage>();
 		fileBagageList = new ArrayList<FileBagage>();
 		chariotList = new ArrayList<Chariot>();
 	}
 
+	/**
+	 * Initialise le hall.
+	 */
 	public void init() {
 		UtilsCircuit.getUtilsCircuit().setCircuit(circuit);
 	}
 
+	/**
+	 * Mets à jour le hall, ainsi que ses bagages.
+	 * @return true si la mise à jour de tous les éléments s'est bien déroulée.
+	 */
 	public boolean update() {
 		boolean allUpdated = true;
 		for (int i = 0; i < fileBagageList.size(); i++) {
@@ -51,10 +66,18 @@ public class Hall extends KernelObject {
 		return allUpdated;
 	}
 
+	/**
+	 * Ajoute une file de bagage au hall.
+	 * @param file File de bagage à ajouter.
+	 */
 	public void addFileBagage(FileBagage file) {
 		fileBagageList.add(file);
 	}
 
+	/**
+	 * Enlève la file de bagage du hall.
+	 * @param file File de bagage à enlever.
+	 */
 	public void removeFileBagage(FileBagage file) {
 		fileBagageList.remove(file);
 	}
