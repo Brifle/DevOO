@@ -4,7 +4,11 @@ import java.util.*;
 import lombok.*;
 import lombok.extern.log4j.Log4j;
 
-
+/**
+ * Modèle représentant un circuit.
+ * 
+ * @author Thibaut Patel, Mathieu Sabourin
+ */
 @RequiredArgsConstructor
 @Log4j
 public class Circuit extends KernelObject {
@@ -19,11 +23,14 @@ public class Circuit extends KernelObject {
 	@Setter
 	private Hall parent;
 	
-
+	/**
+	 * Construit un circuit vide.
+	 */
 	public Circuit() {
 		super();
 		elements = new ArrayList<ElementCircuit>();
 	}
+	
 	/**
 	 * Appelle la méthode update de tous les éléments du circuit.
 	 * @return Renvoie true si tous les éléments ont été correctement mis à jour.
