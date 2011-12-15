@@ -1,6 +1,6 @@
 package aeroport.sgbag.gui;
 
-import java.util.LinkedList;
+import lombok.Getter;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;
@@ -12,9 +12,6 @@ import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-
-import lombok.Getter;
-
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Event;
@@ -26,13 +23,11 @@ import aeroport.sgbag.controler.Simulation;
 import aeroport.sgbag.controler.Simulation.Etat;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
-import aeroport.sgbag.kernel.ElementCircuit;
 import aeroport.sgbag.kernel.KernelObject;
 import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
-import aeroport.sgbag.utils.UtilsCircuit;
 import aeroport.sgbag.views.VueBagage;
 import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueEmbranchement;
@@ -40,6 +35,12 @@ import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
 
+/**
+ * Affiche les propriétés de l'élément sélectionné, au sein d'un panneau
+ * affiché dans la MainWindow.
+ * 
+ * @author Jonàs Bru Monserrat
+ */
 public class PropertiesWidget extends Composite {
 
 	@Getter
@@ -48,12 +49,12 @@ public class PropertiesWidget extends Composite {
 	private Composite canvas;
 
 	/**
-	 * Change simulation and refresh.
+	 * Change de simulation, et rafraîchit ses informations.
 	 * 
-	 * You don't need to refresh this widget just after setting its simulation.
+	 * Il est inutile de rafraîchir une nouvelle fois ce widget après
+	 * avoir exécuté cette méthode.
 	 * 
-	 * @param simulation
-	 *            The new simulation.
+	 * @param simulation La nouvelle simulation.
 	 */
 	public void setSimulation(Simulation simulation) {
 		this.simulation = simulation;
@@ -61,6 +62,13 @@ public class PropertiesWidget extends Composite {
 		refresh();
 	}
 
+	/**
+	 * Crée le widget de propriétés.
+	 * 
+	 * @param parent Widget parent.
+	 * @param style Style du widget (comportementhérité de Composite).
+	 * @param simulation Simulation où se trouvent les éléments à décrire.
+	 */
 	public PropertiesWidget(Composite parent, int style, Simulation simulation) {
 		super(parent, style);
 
@@ -71,6 +79,10 @@ public class PropertiesWidget extends Composite {
 		canvas = new Composite(this, SWT.NONE);
 	}
 
+	/**
+	 * Reconstruit le widget, pour prendre en compte les modifications dans l'élément
+	 * sélectionné.
+	 */
 	public void refresh() {
 		if (canvas != null) {
 			canvas.dispose();
@@ -107,6 +119,10 @@ public class PropertiesWidget extends Composite {
 		this.layout();
 	}
 
+	/**
+	 * Affiche les propriétés de l'objet o (partie commune pour tous les objets).
+	 * @param o
+	 */
 	private void setCommonProperties(KernelObject o) {
 		new Label(canvas, SWT.NONE).setText("Type : ");
 		Label l = new Label(canvas, SWT.NONE);
@@ -127,6 +143,9 @@ public class PropertiesWidget extends Composite {
 		setCommonProperties(tr);
 	}
 
+	/**
+	 * Affiche les propriétés du bagage sélectionné.
+	 */
 	private void setVueBagageMode() {
 		Bagage tr = ((VueBagage) this.simulation.getSelectedElem()).getBagage();
 
@@ -142,6 +161,9 @@ public class PropertiesWidget extends Composite {
 		new Label(canvas, SWT.NONE).setText("" + tr.getPosition());
 	}
 
+	/**
+	 * Affiche les propriétés du chariot sélectionné.
+	 */
 	private void setVueChariotMode() {
 		Chariot tr = ((VueChariot) this.simulation.getSelectedElem())
 				.getChariot();
@@ -176,6 +198,9 @@ public class PropertiesWidget extends Composite {
 		}
 	}
 
+	/**
+	 * Affiche les propriétés du rail sélectionné.
+	 */
 	private void setVueRailMode() {
 		Rail tr = ((VueRail) this.simulation.getSelectedElem()).getRail();
 
@@ -207,6 +232,9 @@ public class PropertiesWidget extends Composite {
 
 	}
 
+	/**
+	 * Affiche les propriétés du toboggan sélectionné.
+	 */
 	private void setVueToboganMode() {
 		Toboggan tr = ((VueToboggan) this.simulation.getSelectedElem())
 				.getToboggan();
@@ -246,6 +274,9 @@ public class PropertiesWidget extends Composite {
 		button.setSelection(tr.isAutoDeleteBagages());
 	}
 
+	/**
+	 * Affiche les propriétés du tapis roulant sélectionné.
+	 */
 	private void setVueTapisRoulantViewMode() {
 		TapisRoulant tr = ((VueTapisRoulant) this.simulation.getSelectedElem())
 				.getTapisRoulant();

@@ -5,10 +5,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
- * Kernel class representing a bagage
+ * Modèle représentant un bagage.
  * 
- * @author mathieu
- * 
+ * @author Mathieu Sabourin, Arnaud Lahache
  */
 @NoArgsConstructor
 public class Bagage extends KernelObject {
@@ -30,6 +29,10 @@ public class Bagage extends KernelObject {
 	@Setter
 	private Object parent;
 
+	/**
+	 * Déplace le bagage.
+	 * @param distance Distance de déplacement.
+	 */
 	public void moveBy(Integer distance) {
 		position += distance;
 	}
