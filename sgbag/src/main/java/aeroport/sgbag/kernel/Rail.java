@@ -4,6 +4,11 @@ import java.util.*;
 import lombok.*;
 import lombok.extern.log4j.*;
 
+/**
+ * Modèle représentant un rail.
+ * 
+ * @author Mathieu Sabourin, Thibaut Patel, Arnaud Lahache
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 @Log4j
@@ -22,15 +27,27 @@ public class Rail extends ElementCircuit {
 	@Setter
 	private int length;
 
+	/**
+	 * Construit un rail.
+	 * @param length Taille du rail créé.
+	 */
 	public Rail(int length) {
 		this(length, null);
 	}
 	
+	/**
+	 * Construit un rail.
+	 * @param length Taille du rail créé.
+	 * @param parent Circuit parent du rail.
+	 */
 	public Rail(int length, Circuit parent) {
 		super(parent);
 		this.length = length;
 	}
 
+	/**
+	 * Mets à jour le rail, en déplaçant les chariots qu'il contient.
+	 */
 	public Boolean update() {
 		log.trace("Update du rail " + this);
 
