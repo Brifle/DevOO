@@ -32,8 +32,16 @@ import aeroport.sgbag.views.VueRail;
 import aeroport.sgbag.views.VueTapisRoulant;
 import aeroport.sgbag.views.VueToboggan;
 
+/**
+ * Génère efficacement un circuit.
+ * 
+ * @author Michael Fagno, Mathieu Sabourin, Thibaut Patel
+ */
 public class CircuitGenerator {
 
+	/**
+	 * Structure contenant deux points (utilisé pour faire deux points).
+	 */
 	@AllArgsConstructor
 	private class PointBinder {
 		@Getter
@@ -44,6 +52,10 @@ public class CircuitGenerator {
 		Point p2;
 	}
 
+	/**
+	 * Représente les paramètres nécessaires pour créer une entrée dans le circuit
+	 * (typiquement, un tapis roulant).
+	 */
 	@AllArgsConstructor
 	private class Entry {
 		Point point;
@@ -82,6 +94,10 @@ public class CircuitGenerator {
 	private HashMap<Integer, ElementCircuit> mapOfElems;
 	private LinkedList<Rail> listOfRail;
 
+	/**
+	 * Crée un générateur de circuit.
+	 * @param vh Vue du hall surlequel travaillera le générateur.
+	 */
 	public CircuitGenerator(VueHall vh) {
 		vueHall = vh;
 		listePointsNoeuds = new HashMap<Point, Noeud>();
@@ -99,6 +115,13 @@ public class CircuitGenerator {
 		mapOfElems = new HashMap<Integer, ElementCircuit>();
 	}
 
+	/**
+	 * Crée un segment orienté reliant deux points.
+	 * @param pointEntree Début du segment.
+	 * @param pointSortie Fin du segment.
+	 * @return La vue représentant le rail (segment), généré et ajouté en interne 
+	 * au circuit.
+	 */
 	public VueRail createSegment(Point pointEntree, Point pointSortie) {
 		listOfSegement.add(new PointBinder(pointEntree, pointSortie));
 		VueRail vr = generateSegment(pointEntree, pointSortie);
@@ -106,7 +129,13 @@ public class CircuitGenerator {
 		return vr;
 	}
 
-	public VueRail generateSegment(Point pointEntree, Point pointSortie) {
+	/**
+	 * Génère un segment orienté reliant deux points.
+	 * @param pointEntree Début du segment.
+	 * @param pointSortie Fin du segment.
+	 * @return La vue représentant le rail (segment) généré selon les paramètres.
+	 */
+	private VueRail generateSegment(Point pointEntree, Point pointSortie) {
 		Noeud noeudDebut = listePointsNoeuds.get(pointEntree);
 		Noeud noeudFin = listePointsNoeuds.get(pointSortie);
 
@@ -157,6 +186,11 @@ public class CircuitGenerator {
 		return vueR;
 	}
 
+	/**
+	 * Crée un noeud situé au point donné en paramètres.
+	 * @param point Point aulequel le noeud sera généré. 
+	 * @return La vue représentant le noeud créé.
+	 */
 	private VueEmbranchement createNode(Point point) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		VueEmbranchement vueEmbranchement = null;
@@ -181,6 +215,17 @@ public class CircuitGenerator {
 		return vueEmbranchement;
 	}
 
+	/**
+	 * Crée une entrée (tapis roulant) du circuit.
+	 * @param point Point sur lequel sera créé le tapis.
+	 * @param length Taille du tapis.
+	 * @param vitesse Vitesse du tapis.
+	 * @param distanceEntreBagage Distance entre les bagages situés sur le tapis.
+	 * @param autoGeneration Booléen permettant de définir les bagages doivent
+	 * être autogénérés ou non.
+	 * @return La vue représentant le tapis roulant généré et ajouté au
+	 * sein du générateur.
+	 */
 	public VueTapisRoulant createEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
 		listOfEntrys.add(new Entry(point, length, vitesse, distanceEntreBagage,
@@ -189,8 +234,18 @@ public class CircuitGenerator {
 		return generateEntry(point, length, vitesse, distanceEntreBagage,
 				autoGeneration);
 	}
-
-	public VueTapisRoulant generateEntry(Point point, int length, int vitesse,
+	
+	/**
+	 * Genère une entrée (tapis roulant) du circuit.
+	 * @param point Point sur lequel sera créé le tapis.
+	 * @param length Taille du tapis.
+	 * @param vitesse Vitesse du tapis.
+	 * @param distanceEntreBagage Distance entre les bagages situés sur le tapis.
+	 * @param autoGeneration Booléen permettant de définir les bagages doivent
+	 * être autogénérés ou non.
+	 * @return La vue représentant le tapis roulant simplement généré.
+	 */
+	private VueTapisRoulant generateEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if (noeud == null) {
@@ -221,13 +276,23 @@ public class CircuitGenerator {
 		return vTapis;
 	}
 
+	/**
+	 * Crée une sortie (toboggan) sur le circuit.
+	 * @param point Point où sera créé le toboggan.
+	 * @return La vue représentant le toboggan généré et ajouté au générateur.
+	 */
 	public VueToboggan createExit(Point point) {
 		listOfExits.add(point);
 
 		return generateExit(point);
 	}
 
-	public VueToboggan generateExit(Point point) {
+	/**
+	 * Génère une sortie (toboggan) sur le circuit.
+	 * @param point Point où sera créé le toboggan.
+	 * @return La vue représentant le toboggan simplement généré.
+	 */
+	private VueToboggan generateExit(Point point) {
 		Noeud noeud = listePointsNoeuds.get(point);
 		if (noeud == null) {
 			createNode(point);
@@ -256,6 +321,17 @@ public class CircuitGenerator {
 		return vTobo;
 	}
 
+	/**
+	 * Crée un chariot et l'ajoute au circuit.
+	 * @param noeud Noeud surlequel est posé le chariot.
+	 * @param maxMoveDistance Vitesse du chariot : correspond à la distance
+	 * qu'il peut parcourir au maximum par tic d'horloge.
+	 * @param length Taille du chariot.
+	 * @param destination Nœud de destination du chariot.
+	 * @param bagage Bagage contenu dans le chariot.
+	 * @param cheminPrevu Chemin prévu pour le parcours du chariot.
+	 * @return La vue représentant le chariot créé et ajouté au générateur.
+	 */
 	public VueChariot addChariot(Noeud noeud, int maxMoveDistance, int length,
 			Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
@@ -267,6 +343,18 @@ public class CircuitGenerator {
 		return vc;
 	}
 
+	/**
+	 * Crée un chariot et l'ajoute au circuit.
+	 * @param rail Rail surlequel est posé le chariot.
+	 * @param maxMoveDistance Vitesse du chariot : correspond à la distance
+	 * qu'il peut parcourir au maximum par tic d'horloge.
+	 * @param length Taille du chariot.
+	 * @param position Position du chariot sur le rail.
+	 * @param destination Nœud de destination du chariot.
+	 * @param bagage Bagage contenu dans le chariot.
+	 * @param cheminPrevu Chemin prévu pour le parcours du chariot.
+	 * @return La vue représentant le chariot créé et ajouté au générateur.
+	 */
 	public VueChariot addChariot(Rail rail, int maxMoveDistance, int length,
 			int position, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
@@ -278,6 +366,17 @@ public class CircuitGenerator {
 		return vc;
 	}
 
+	/**
+	 * Genère un chariot et l'ajoute au circuit.
+	 * @param noeud Noeud surlequel est posé le chariot.
+	 * @param maxMoveDistance Vitesse du chariot : correspond à la distance
+	 * qu'il peut parcourir au maximum par tic d'horloge.
+	 * @param length Taille du chariot.
+	 * @param destination Nœud de destination du chariot.
+	 * @param bagage Bagage contenu dans le chariot.
+	 * @param cheminPrevu Chemin prévu pour le parcours du chariot.
+	 * @return La vue représentant le chariot créé et ajouté au générateur.
+	 */
 	private VueChariot generateChariot(Noeud noeud, int maxMoveDistance,
 			int length, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
@@ -297,6 +396,18 @@ public class CircuitGenerator {
 		return vueChariot;
 	}
 
+	/**
+	 * Génère un chariot et l'ajoute au circuit.
+	 * @param rail Rail surlequel est posé le chariot.
+	 * @param maxMoveDistance Vitesse du chariot : correspond à la distance
+	 * qu'il peut parcourir au maximum par tic d'horloge.
+	 * @param length Taille du chariot.
+	 * @param position Position du chariot sur le rail.
+	 * @param destination Nœud de destination du chariot.
+	 * @param bagage Bagage contenu dans le chariot.
+	 * @param cheminPrevu Chemin prévu pour le parcours du chariot.
+	 * @return La vue représentant le chariot créé et ajouté au générateur.
+	 */
 	private VueChariot generateChariot(Rail rail, int maxMoveDistance,
 			int length, int position, Noeud destination, Bagage bagage,
 			LinkedList<ElementCircuit> cheminPrevu) {
@@ -321,6 +432,12 @@ public class CircuitGenerator {
 		return vueChariot;
 	}
 
+	/**
+	 * Remplace le nœud actuel situé sur un point, par un autre nœud
+	 * passé en paramètre.
+	 * @param point Point associé au nœud à remplacé.
+	 * @param noeud Nouveau nœux, remplaçant celui pointé.
+	 */
 	private void replaceNode(Point point, Noeud noeud) {
 
 		Noeud ancienNoeud = listePointsNoeuds.get(point);
@@ -351,42 +468,5 @@ public class CircuitGenerator {
 		// Mise à jour du ViewSelector
 		ViewSelector.getInstance().removeKeyValue(ancienNoeud);
 		ViewSelector.getInstance().setKernelView(noeud, vue);
-	}
-
-	// dirty dirty dirty
-	public void generateAll(VueHall vueHall) {
-		this.vueHall = vueHall;
-		listePointsNoeuds = new HashMap<Point, Noeud>();
-		mapOfElems = new HashMap<Integer, ElementCircuit>();
-		listOfRail = new LinkedList<Rail>();
-		circuit = new Circuit();
-		hall = new Hall();
-		hall.setCircuit(circuit);
-		vueHall.setHall(hall);
-
-		for (PointBinder pb : listOfSegement) {
-			Rail r = generateSegment(pb.getP1(), pb.getP2()).getRail();
-			listOfRail.add(r);
-		}
-		for (Entry e : listOfEntrys) {
-			generateEntry(e.point, e.length, e.vitesse, e.distanceEntreBagage,
-					e.autoGeneration);
-		}
-		for (Point p : listOfExits) {
-			generateExit(p);
-		}
-		for (Chariot c : listOfChariot) {
-			int id = mapOfChariot.get(c);
-			ElementCircuit e = mapOfElems.get(id);
-
-			if (e instanceof Rail) {
-				generateChariot((Rail) e, c.getMaxMoveDistance(),
-						c.getLength(), c.getPosition(), c.getDestination(),
-						c.getBagage(), c.getCheminPrevu());
-			} else {
-				generateChariot((Noeud) e, c.getMaxMoveDistance(), c.getLength(),
-						c.getDestination(), c.getBagage(), c.getCheminPrevu());
-			}
-		}
 	}
 }
