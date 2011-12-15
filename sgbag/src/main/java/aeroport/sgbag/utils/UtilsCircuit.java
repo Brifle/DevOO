@@ -14,6 +14,12 @@ import aeroport.sgbag.kernel.Toboggan;
 
 import lombok.extern.log4j.Log4j;
 
+/**
+ * Utilitaires et algorithmes divers agissant sur le circuit.
+ * 
+ * @author Jonàs Bru Monserrat
+ *
+ */
 @Log4j
 public class UtilsCircuit {
 
@@ -27,6 +33,11 @@ public class UtilsCircuit {
 	private UtilsCircuit() {
 	}
 
+	/**
+	 * Retourne une instance de la classe d'utilitaire et d'algorithmes
+	 * diverses de circuits.
+	 * @return Instance d'UtilsCircuit.
+	 */
 	public static UtilsCircuit getUtilsCircuit() {
 		if (instance == null) {
 			instance = new UtilsCircuit();
@@ -35,6 +46,10 @@ public class UtilsCircuit {
 		return instance;
 	}
 
+	/**
+	 * Scanne les éléments du circuits pour obtenir tous les toboggans et
+	 * tous les tapis.
+	 */
 	private void searchTapisAndTobogans() {
 		for (ElementCircuit e : circuit.getElements()) {
 			if (e instanceof ConnexionCircuit) {
@@ -49,6 +64,11 @@ public class UtilsCircuit {
 		}
 	}
 
+	/**
+	 * Choisit au hasard un tapis roulant et le retourne.
+	 * @return Un TapisRoulant au hasard, ou null si aucun tapis n'est 
+	 * dans le circuit.
+	 */
 	public TapisRoulant getTapisRoulantRandom() {
 		if (!this.lTapis.isEmpty()) {
 			int random = (int) (Math.random() * this.lTapis.size());
@@ -59,6 +79,11 @@ public class UtilsCircuit {
 		return null;
 	}
 
+	/**
+	 * Choisit au hasard un toboggan et le retourne.
+	 * @return Un Toboggan au hasard, ou null si aucun toboggan n'est
+	 * dans le circuit.
+	 */
 	public Toboggan getRandomExistingTobogan() {
 		if (!this.lTobogan.isEmpty()) {
 			int random = (int) (Math.random() * this.lTobogan.size());
@@ -152,6 +177,9 @@ public class UtilsCircuit {
 		return t;
 	}
 	
+	/**
+	 * Remets à zéro le nombre de chariots attendus par les tapis roulants.
+	 */
 	public void resetTapisRoulantIncomingChariotsNumber(){
 		for (TapisRoulant t : this.lTapis) {
 			t.resetChariotIncomingNumber();

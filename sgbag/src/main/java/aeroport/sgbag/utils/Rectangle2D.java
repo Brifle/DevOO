@@ -6,6 +6,14 @@ import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
 
+/**
+ * Rectangle possédant quatre points.
+ * 
+ * Structure utilitaire utilisée dans des calculs dans plusieurs méthodes
+ * de différentes classes.
+ * 
+ * @author Arnaud Lahache
+ */
 @AllArgsConstructor
 public class Rectangle2D {
 
