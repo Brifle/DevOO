@@ -21,8 +21,9 @@ import aeroport.sgbag.utils.Geom;
 import aeroport.sgbag.utils.Rectangle2D;
 
 /**
- * @author Arnaud Lahache
+ * Représentation d'un élément du circuit.
  * 
+ * @author Arnaud Lahache
  */
 @NoArgsConstructor
 @AllArgsConstructor
@@ -74,18 +75,29 @@ public abstract class VueElem implements Viewable {
 	@Setter
 	protected float opacity = 1.0f;
 	
+	/**
+	 * Construit la représentation d'un élément.
+	 * @param parent
+	 */
 	public VueElem(VueHall parent) {
 		this.parent = parent;
 		offsetY = 0;
 		offsetX = 0;
 	}
 	
+	/**
+	 * Détruit la vue et la retire de tous ses conteneurs.
+	 */
 	public void destroy() {
 		parent.retirerVue(this);
 		ViewSelector.getInstance().removeByView(this);
 		image.dispose();
 	}
 
+	/**
+	 * Obtient le rectangle (quatre points) entourant la vue.
+	 * @return Un rectangle (quatre points), entourant la vue.
+	 */
 	public Rectangle2D getRectangle2D() {
 		Point centre = new Point(x + offsetX, y + offsetY);
 		Point p1 = new Point(x + offsetX - width / 2, y + offsetY - height / 2);
