@@ -18,8 +18,9 @@ import aeroport.sgbag.kernel.Toboggan;
 import aeroport.sgbag.utils.Rectangle2D;
 
 /**
- * @author Arnaud Lahache
- *
+ * Représente un bagage à l'écran.
+ * 
+ * @author Arnaud Lahache, Michael Fagno
  */
 @NoArgsConstructor
 public class VueBagage extends VueElem {
@@ -28,6 +29,10 @@ public class VueBagage extends VueElem {
 	@Setter
 	private Bagage bagage;
 	
+	/**
+	 * Construit une vue de bagage, liée à sa vueHall parente.
+	 * @param parent VueHall à laquelle est accrochée la vue.
+	 */
 	public VueBagage(VueHall parent) {
 		super(parent);
 		this.image = new Image(parent.getDisplay(), "data/img/bagage.png");
