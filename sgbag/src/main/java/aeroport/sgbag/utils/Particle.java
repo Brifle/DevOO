@@ -3,6 +3,11 @@ package aeroport.sgbag.utils;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+/**
+ * Particule utilisée afin de créer des effets tels que les étincelles.
+ * 
+ * @author Thibaut Patel
+ */
 public class Particle {
 	private float x;
 	private float y;
@@ -29,6 +34,15 @@ public class Particle {
 		//No code here
 	}
 
+	/**
+	 * Crée une nouvelle particule, de rayon, de durée de vie et de couleur
+	 * indiquée.
+	 * @param radius Rayon de la particule.
+	 * @param r Valeur du canal Rouge.
+	 * @param g Valeur du canal Vert.
+	 * @param b Valeur du canal Bleu.
+	 * @param life Durée de vie de la particule, en millisecondes.
+	 */
 	public Particle(float radius, float r, float g, float b, int life) {
 		this.x = 0;
 		this.y = 0;
@@ -42,6 +56,15 @@ public class Particle {
 		visible = false;
 	}
 	
+	/**
+	 * Positionne la particule dans l'espace et dans le temps.
+	 * @param x Position x actuelle de la particule.
+	 * @param y Position y actuelle de la particule.
+	 * @param oldx Ancienne position x de la particule.
+	 * @param oldy Ancienne position y de la particule.
+	 * @param ax Décalage aléatoire horizontal.
+	 * @param ay Décalage aléatoire vertical.
+	 */
 	public void initialize(float x, float y, float oldx, float oldy, float ax, float ay) {
 		this.x = x;
 		this.y = y;
@@ -53,6 +76,9 @@ public class Particle {
 		visible = true;
 	}
 	
+	/**
+	 * Mets à jour les coordonnées de la particule.
+	 */
 	public void update() {
 		if(visible) {
 			float tmpx = x;
@@ -68,6 +94,10 @@ public class Particle {
 		}
 	}
 
+	/**
+	 * Dessine la particule.sur le buffer donné en paramètre.
+	 * @param buffer Buffer sur lequel est dessiné la particule.
+	 */
 	public void draw(GC buffer) {
 		
 		if(visible) {
