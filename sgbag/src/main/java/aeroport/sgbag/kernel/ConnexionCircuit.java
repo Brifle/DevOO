@@ -5,6 +5,16 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
+/**
+ * Modèle représentant un noeud sur lequel est posé un tobbogan
+ * ou un tapis.
+ * 
+ * Ce noeud est appelé "connexion circuit", car il réalise une connexion
+ * entre le circuit et d'autres éléments de l'aéroport, non représentés
+ * ou rapidement au sein du prototype.
+ * 
+ * @author Michael Fagno, Arnaud Lahache, Jonas Bru Monserrat.
+ */
 @Log4j
 public class ConnexionCircuit extends Noeud {
 
@@ -12,10 +22,19 @@ public class ConnexionCircuit extends Noeud {
 	@Setter
 	private FileBagage fileBagage;
 
+	/**
+	 * Crée une connexion de circuit.
+	 * @param f File de bagage associée à cette connexion.
+	 */
 	public ConnexionCircuit(FileBagage f) {
 		this(f, null);
 	}
 
+	/**
+	 * Crée une connexion de circuit.
+	 * @param f File de bagage associée à cette connexion.
+	 * @param parent Circuit sur lequel est créé la connexion.
+	 */
 	public ConnexionCircuit(FileBagage f, Circuit parent) {
 		super(parent);
 		this.fileBagage = f;
@@ -23,6 +42,11 @@ public class ConnexionCircuit extends Noeud {
 			f.setConnexionCircuit(this);
 	}
 
+	/**
+	 * Mets à jour la connexion circuit.
+	 * 
+	 * Ceci est effectué à chaque tic d'horloge.
+	 */
 	public Boolean update() {
 		log.trace("Update de la ConnexionCircuit " + this);
 		if (hasChariot() && ++ticksToUpdate >= tickThresholdToUpdate) {
