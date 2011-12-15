@@ -39,10 +39,10 @@ import aeroport.sgbag.views.VueHall;
 import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 
 /**
- * SGBag GUI root window.
+ * Interface graphique liée à l'affichage de la simulation.
  * 
- * @author Stanislas Signoud <signez@stanisoft.net>
- * 
+ * @author Stanislas Signoud, Arnaud Lahache, Jonàs Bru Monserrat,
+ * 		   Mathieu Sabourin 
  */
 public class MainWindow extends ApplicationWindow {
 	private Action actionQuitter;
@@ -55,7 +55,7 @@ public class MainWindow extends ApplicationWindow {
 
 	private VueHall vueHall;
 
-	// TODO: Remove this (used only in unit tests)
+	// (This getter is only used in unit tests)
 	@Getter
 	private Simulation simulation;
 
@@ -65,7 +65,7 @@ public class MainWindow extends ApplicationWindow {
 	private Scale sclVitesse;
 
 	/**
-	 * Create the application window.
+	 * Crée la fenêtre principale.
 	 */
 	public MainWindow() {
 		super(null);
@@ -77,7 +77,7 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Create contents of the application window.
+	 * Crée les contenus de la fenêtre principale.
 	 * 
 	 * @param parent
 	 */
@@ -157,10 +157,9 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Create the actions.
+	 * Crée les actions attachées aux éléments de la classe principale.
 	 */
 	private void createActions() {
-		// Create the actions
 		{
 			actionQuitter = new Action("Quitter") {
 				@Override
@@ -297,9 +296,9 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Create the menu manager.
+	 * Crée le gestionnaire de menu.
 	 * 
-	 * @return the menu manager
+	 * @return Le gestionnaire de menu.
 	 */
 	@Override
 	protected MenuManager createMenuManager() {
@@ -317,9 +316,9 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Create the toolbar manager.
+	 * Crée le gestionnaire de barre d'outils.
 	 * 
-	 * @return the toolbar manager
+	 * @return Le gestionnaire de barre d'outils.
 	 */
 	@Override
 	protected ToolBarManager createToolBarManager(int style) {
@@ -333,9 +332,9 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Create the status line manager.
+	 * Crée le gestionnaire de barre d'état.
 	 * 
-	 * @return the status line manager
+	 * @return Le gestionnaire de barre d'état.
 	 */
 	@Override
 	protected StatusLineManager createStatusLineManager() {
@@ -344,9 +343,9 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Launch the application.
+	 * Lance l'application SGBag - Prototype.
 	 * 
-	 * @param args
+	 * @param args Arguments (inutilisés).
 	 */
 	public static void main(String args[]) {
 		try {
@@ -361,9 +360,9 @@ public class MainWindow extends ApplicationWindow {
 	}
 
 	/**
-	 * Configure the shell.
+	 * Configure la fenêtre d'affichage (shell).
 	 * 
-	 * @param newShell
+	 * @param Le shell, configuré.
 	 */
 	@Override
 	protected void configureShell(Shell shell) {
@@ -372,6 +371,13 @@ public class MainWindow extends ApplicationWindow {
 		shell.setMinimumSize(600, 500);
 	}
 
+	/**
+	 * Mets à jour la vitesse de la simulation, en se basant sur la
+	 * jauge sclVitesse.
+	 * 
+	 * @return L'intervalle de temps utilisé lors de la modification
+	 * de la vitesse. 
+	 */
 	private int setSpeedFromScale() {
 		int newInterval = (sclVitesse.getMaximum() + 1)
 				- sclVitesse.getSelection();
