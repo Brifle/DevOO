@@ -2,6 +2,11 @@ package aeroport.sgbag.kernel;
 
 import lombok.*;
 
+/**
+ * Modèle représentant un toboggan.
+ * 
+ * @author Jonàs Bru Monserrat, Thibaut Patel.
+ */
 @AllArgsConstructor
 @NoArgsConstructor
 public class Toboggan extends FileBagage {
@@ -18,6 +23,10 @@ public class Toboggan extends FileBagage {
 	@Setter
 	private boolean autoDeleteBagages = true;
 
+	/**
+	 * Mets à jour le contenu du toboggan, supprimant les bagages
+	 * qui y tombent au bout de quelques tics d'horloges.
+	 */
 	public boolean update() {
 		if (autoDeleteBagages && !this.listBagages.isEmpty()) {
 			if (remainingNbTics > 0) {
