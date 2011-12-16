@@ -12,12 +12,23 @@ import lombok.Setter;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.utils.Geom;
 
+/**
+ * Représentation d'un tapis roulant à l'écran.
+ * 
+ * @author Jonàs Bru Monserrat, Michael Fagno
+ */
 public class VueTapisRoulant extends VueElem {
 
 	@Getter
 	@Setter
 	private TapisRoulant tapisRoulant;
 
+	/**
+	 * Crée un tapis roulant, en le rattachant à son canvas parent et à
+	 * son objet du noyau tapisRoulant.
+	 * @param parent Canvas parent (VueHall).
+	 * @param tapisRoulant Objet du noyau TapisRoulant.
+	 */
 	public VueTapisRoulant(Canvas parent, TapisRoulant tapisRoulant) {
 		super((VueHall) parent);
 		
@@ -31,6 +42,9 @@ public class VueTapisRoulant extends VueElem {
 
 	}
 
+	/**
+	 * @see aeroport.sgbag.views.VueElem#updateView()
+	 */
 	@Override
 	public void updateView() {
 		offsetX = (int) (-Math.cos(this.angle/180*Math.PI) * this.width/2);
