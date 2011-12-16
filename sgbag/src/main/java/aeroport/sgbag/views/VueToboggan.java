@@ -9,6 +9,11 @@ import org.eclipse.swt.widgets.Canvas;
 
 import aeroport.sgbag.kernel.Toboggan;
 
+/**
+ * Représentation d'un toboggan à l'écran.
+ * 
+ * @author Jonàs Bru Monserrat, Michael Fagno
+ */
 public class VueToboggan extends VueElem {
 
 	@Getter
