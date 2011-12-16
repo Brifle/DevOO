@@ -32,6 +32,20 @@ import com.thoughtworks.xstream.annotations.XStreamAsAttribute;
 import com.thoughtworks.xstream.annotations.XStreamOmitField;
 import com.thoughtworks.xstream.mapper.CannotResolveClassException;
 
+/**
+ * Archive le contenu d'un circuit au sein d'un fichier.
+ * 
+ * Cette classe permet de déserialiser ou de sérialiser un circuit dans
+ * un formalisme particulier, réalisé pour être "human-readable".
+ * 
+ * Chaque classe "xxxSaved" correspond à un élément du circuit dans sa 
+ * forme exportée au sein du fichier. Les différentes annotations XStream
+ * sont utilisées pour permettre une réutilisabilité accrue de cette classe
+ * et pour adapter facilement son fonctionnement aux évolutions éventuelles
+ * des besoins de ce fichier de sauvegarde.
+ * 
+ * @author Stanislas Signoud
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @XStreamAlias("circuit")
