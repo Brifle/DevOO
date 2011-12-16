@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Image;
-import org.eclipse.swt.graphics.Rectangle;
 
 import aeroport.sgbag.kernel.Noeud;
 

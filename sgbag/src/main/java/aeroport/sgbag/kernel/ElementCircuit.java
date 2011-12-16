@@ -1,7 +1,9 @@
 package aeroport.sgbag.kernel;
 
-import java.util.*;
-import lombok.*;
+import java.util.LinkedList;
+
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Modèle représentant un élément du circuit.

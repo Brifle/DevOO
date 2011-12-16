@@ -3,8 +3,6 @@
  */
 package aeroport.sgbag.views;
 
-import java.util.LinkedList;
-
 import lombok.Getter;
 import lombok.extern.log4j.Log4j;
 
@@ -13,11 +11,9 @@ import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.graphics.Point;
 
 import aeroport.sgbag.controler.Simulation;
-import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.controler.Simulation.Etat;
 import aeroport.sgbag.controler.Simulation.Mode;
 import aeroport.sgbag.kernel.Noeud;
-import aeroport.sgbag.kernel.Rail;
 
 /**
  * Gère les clics sur une VueHall.

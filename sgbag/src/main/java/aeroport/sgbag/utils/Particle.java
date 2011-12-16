@@ -30,6 +30,7 @@ public class Particle {
 
 	private boolean visible;
 	
+	@SuppressWarnings("unused")
 	private Particle() {
 		//No code here
 	}

@@ -13,7 +13,6 @@ import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.graphics.Transform;
 
 import aeroport.sgbag.kernel.Rail;
-import aeroport.sgbag.utils.Rectangle2D;
 
 /**
  * Représentation d'un rail à l'écran.

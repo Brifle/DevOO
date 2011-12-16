@@ -1,8 +1,11 @@
 package aeroport.sgbag.controler;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import org.eclipse.swt.SWTException;
 
-import lombok.*;
 import aeroport.sgbag.kernel.Hall;
 import aeroport.sgbag.views.VueHall;
 

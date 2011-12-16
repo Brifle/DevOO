@@ -11,14 +11,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
 
 import aeroport.sgbag.kernel.ElementCircuit;
 import aeroport.sgbag.kernel.Noeud;
-import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.utils.CircuitGenerator;
 import aeroport.sgbag.views.VueChariot;
 import aeroport.sgbag.views.VueHall;

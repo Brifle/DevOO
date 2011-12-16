@@ -1,14 +1,26 @@
 package aeroport.sgbag.views;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.TreeMap;
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j;
+
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.*;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Event;
+import org.eclipse.swt.widgets.Listener;
+import org.eclipse.swt.widgets.ScrollBar;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import aeroport.sgbag.controler.Simulation;
@@ -16,11 +28,6 @@ import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Hall;
 import aeroport.sgbag.utils.ParticleManager;
-
-import java.util.*;
-
-import lombok.*;
-import lombok.extern.log4j.Log4j;
 
 @Log4j
 public class VueHall extends Canvas implements Viewable {

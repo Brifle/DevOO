@@ -3,15 +3,12 @@ package aeroport.sgbag.utils;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Random;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import org.eclipse.swt.graphics.Point;
-import org.w3c.dom.ls.LSInput;
 
 import aeroport.sgbag.controler.ViewSelector;
 import aeroport.sgbag.kernel.Bagage;
@@ -52,19 +49,6 @@ public class CircuitGenerator {
 		Point p2;
 	}
 
-	/**
-	 * Représente les paramètres nécessaires pour créer une entrée dans le circuit
-	 * (typiquement, un tapis roulant).
-	 */
-	@AllArgsConstructor
-	private class Entry {
-		Point point;
-		int length;
-		int vitesse;
-		int distanceEntreBagage;
-		Boolean autoGeneration;
-	}
-
 	@Getter
 	@Setter
 	private VueHall vueHall;
@@ -83,7 +67,7 @@ public class CircuitGenerator {
 	private List<PointBinder> listOfSegement;
 	@Getter
 	@Setter
-	private List<Entry> listOfEntrys;
+	private List<Point> listOfEntrys;
 	@Getter
 	@Setter
 	private List<Point> listOfExits;
@@ -107,7 +91,7 @@ public class CircuitGenerator {
 		circuit.setParent(hall);
 		vueHall.setHall(hall);
 		listOfSegement = new LinkedList<CircuitGenerator.PointBinder>();
-		listOfEntrys = new LinkedList<CircuitGenerator.Entry>();
+		listOfEntrys = new LinkedList<Point>();
 		listOfExits = new LinkedList<Point>();
 		listOfRail = new LinkedList<Rail>();
 		listOfChariot = new LinkedList<Chariot>();
@@ -228,8 +212,7 @@ public class CircuitGenerator {
 	 */
 	public VueTapisRoulant createEntry(Point point, int length, int vitesse,
 			int distanceEntreBagage, Boolean autoGeneration) {
-		listOfEntrys.add(new Entry(point, length, vitesse, distanceEntreBagage,
-				autoGeneration));
+		listOfEntrys.add(point);
 
 		return generateEntry(point, length, vitesse, distanceEntreBagage,
 				autoGeneration);

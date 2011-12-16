@@ -1,10 +1,11 @@
 package aeroport.sgbag.kernel;
 
-import java.util.*;
+import java.util.ArrayList;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import aeroport.sgbag.utils.UtilsCircuit;
-
-import lombok.*;
 
 /**
  * Modèle représentant les vues des rails.

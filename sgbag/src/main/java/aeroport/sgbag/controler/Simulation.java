@@ -6,16 +6,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.swt.graphics.Point;
-
-import lombok.*;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 import aeroport.sgbag.gui.PropertiesWidget;
-import aeroport.sgbag.kernel.*;
-import aeroport.sgbag.utils.CircuitGenerator;
+import aeroport.sgbag.kernel.Bagage;
+import aeroport.sgbag.kernel.Chariot;
+import aeroport.sgbag.kernel.ElementCircuit;
+import aeroport.sgbag.kernel.FileBagage;
+import aeroport.sgbag.kernel.Hall;
+import aeroport.sgbag.kernel.Noeud;
+import aeroport.sgbag.kernel.Rail;
+import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.utils.UtilsCircuit;
-import aeroport.sgbag.views.*;
+import aeroport.sgbag.views.VueChariot;
+import aeroport.sgbag.views.VueElem;
+import aeroport.sgbag.views.VueHall;
+import aeroport.sgbag.views.VueRail;
+import aeroport.sgbag.views.VueTapisRoulant;
+import aeroport.sgbag.views.VueToboggan;
 import aeroport.sgbag.xml.CircuitArchive;
 import aeroport.sgbag.xml.MalformedCircuitArchiveException;
 

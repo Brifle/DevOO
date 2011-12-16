@@ -1,8 +1,12 @@
 package aeroport.sgbag.kernel;
 
-import java.util.*;
-import lombok.*;
-import lombok.extern.log4j.*;
+import java.util.LinkedList;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+import lombok.extern.log4j.Log4j;
 
 /**
  * Modèle représentant un chariot.

@@ -1,9 +1,9 @@
 package aeroport.sgbag.kernel;
 
-import aeroport.sgbag.utils.UtilsCircuit;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import aeroport.sgbag.utils.UtilsCircuit;
 
 /**
  * Modèle représentant un noeud sur lequel est posé un tobbogan

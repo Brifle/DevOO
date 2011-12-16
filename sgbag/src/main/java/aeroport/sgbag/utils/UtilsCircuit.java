@@ -2,6 +2,7 @@ package aeroport.sgbag.utils;
 
 import java.util.ArrayList;
 
+import lombok.extern.log4j.Log4j;
 import aeroport.sgbag.kernel.Bagage;
 import aeroport.sgbag.kernel.Chariot;
 import aeroport.sgbag.kernel.Circuit;
@@ -11,8 +12,6 @@ import aeroport.sgbag.kernel.FileBagage;
 import aeroport.sgbag.kernel.Noeud;
 import aeroport.sgbag.kernel.TapisRoulant;
 import aeroport.sgbag.kernel.Toboggan;
-
-import lombok.extern.log4j.Log4j;
 
 /**
  * Utilitaires et algorithmes divers agissant sur le circuit.

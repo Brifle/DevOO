@@ -1,7 +1,13 @@
 package aeroport.sgbag.kernel;
 
-import java.util.*;
-import lombok.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.extern.log4j.Log4j;
 
 /**

@@ -1,11 +1,11 @@
 package aeroport.sgbag.kernel;
 
-import aeroport.sgbag.utils.UtilsCircuit;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j;
+import aeroport.sgbag.utils.UtilsCircuit;
 
 /**
  * Modèle représentant un tapis roulant.
