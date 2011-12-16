@@ -16,6 +16,8 @@ import aeroport.sgbag.kernel.Rail;
 import aeroport.sgbag.utils.Rectangle2D;
 
 /**
+ * Représentation d'un rail à l'écran.
+ * 
  * @author Arnaud Lahache
  * 
  */
@@ -32,6 +34,10 @@ public class VueRail extends VueElem {
 
 	private Image imageFleche;
 
+	/**
+	 * Crée un rail, en le rattachant à sa VueHall parente.
+	 * @param parent VueHall parente.
+	 */
 	public VueRail(VueHall parent) {
 		super(parent);
 		this.image = new Image(parent.getDisplay(), "data/img/rail.png");
@@ -51,6 +57,9 @@ public class VueRail extends VueElem {
 		this.width = (int) (rail.getLength() * RATIO);
 	}
 
+	/**
+	 * @see aeroport.sgbag.views.VueElem#draw()
+	 */
 	@Override
 	public void draw() {
 		super.draw();
